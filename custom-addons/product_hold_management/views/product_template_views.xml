@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_variant_form_view_inherit_hold" model="ir.ui.view">
+        <field name="name">product.product.form.inherit.hold</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//form/sheet" position="before">
+                <widget name="web_ribbon" title="ON HOLD" bg_color="bg-danger" invisible="not is_held" class="o_ribbon_center"/>
+            </xpath> -->
+            
+            <xpath expr="//field[@name='image_1920']" position="before">
+                <widget name="web_ribbon" title="ON HOLD" bg_color="bg-danger" invisible="not is_held"/>
+            </xpath>
+            
+            <xpath expr="//form/sheet/div[@name='button_box']/button[1]" position="before">
+                <field name="is_held" invisible="1"/>
+                <button name="action_hold_product"
+                    type="object"
+                    class="oe_stat_button" 
+                    icon="fa-pause"
+                    invisible="is_held"
+                    groups="product_hold_management.group_product_hold_manager">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Hold</span>
+                        <span class="o_stat_text">Variant</span>
+                    </div>
+                </button>
+                <button name="action_release_product" 
+                    type="object" 
+                    class="oe_stat_button" 
+                    icon="fa-play"
+                    invisible="not is_held"
+                    groups="product_hold_management.group_product_hold_manager">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Release</span>
+                        <span class="o_stat_text">Variant</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <notebook position="inside">
+                <page string="Hold Information" name="hold_info" invisible="not is_held" groups="base.group_user">
+                    <group>
+                        <group string="Hold Details">
+                            <field name="hold_reason" readonly="1"/>
+                            <field name="hold_date" readonly="1"/>
+                            <field name="held_by" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="product_variant_kanban_view_inherit_hold" model="ir.ui.view">
+        <field name="name">product.product.kanban.inherit.hold</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="is_held"/>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_kanban_global_click')]" position="attributes">
+                <attribute name="class" add="o_product_kanban" separator=" "/>
+            </xpath>
+            <xpath expr="//div[hasclass('o_kanban_image')]" position="inside">
+                <div t-if="record.is_held.raw_value" class="o_hold_label">
+                    <span>ON HOLD</span>
+                    <!-- <small t-if="record.held_by.raw_value">by <field name="held_by"/></small> -->
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_hold_product_reason_form" model="ir.ui.view">
+        <field name="name">product.product.hold.reason.form</field>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <form string="Hold Product">
+                <group>
+                    <field name="hold_reason" required="1"/>
+                </group>
+                <footer>
+                    <button name="action_confirm_hold" string="Hold" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_variant_search_view_inherit_hold" model="ir.ui.view">
+        <field name="name">product.product.search.inherit.hold</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_search_form_view"/>
+        <field name="arch" type="xml">
+            <filter name="filter_to_sell" position="after">
+                <filter string="On Hold" name="on_hold" domain="[('is_held', '=', True)]"/>
+            </filter>
+        </field>
+    </record>
+</odoo> 
+

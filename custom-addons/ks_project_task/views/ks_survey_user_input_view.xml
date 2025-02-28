@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <record id="survey_user_input_form_inherit" model="ir.ui.view">
+            <field name="name">ks_survey_user_input_form</field>
+            <field name="model">survey.user_input</field>
+            <field name="inherit_id" ref="survey.survey_user_input_view_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <!-- Purusharth code start from here -->
+                <xpath expr="//field[@name='access_token']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='deadline']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='test_entry']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='email']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='access_token']" position="after">
+                    <field name="name_of_person_supported"/>
+                    <field name="employee_id"/>
+                    <field name="ma_number"/>
+                </xpath>
+                <xpath expr="//field[@name='test_entry']" position="after">
+                    <field name="survey_evv" invisible="True"/>
+                    <field name="mci_number" invisible="True"/>
+                    <field name="start_date_time" invisible="survey_evv == False"/>
+                    <field name="end_date_time" invisible="survey_evv == False"/>
+                    <field name="project_manager"/>
+                    <field name="child_line_location"/>
+                    <field name="approved_date"/>
+                    <field name="ks_billable" widget="boolean_toggle"/>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="cancel_btn" type="object" string="Cancel" class="oe_highlight"
+                            invisible="state != 'approved'"/>
+                    <button name="approve_btn" type="object" string="Approved" class="oe_highlight"
+                            groups="survey.group_survey_manager" invisible="state != 'done'"/>
+                    <button name="to_approve_btn" type="object" string="Submit" class="oe_highlight"
+                            invisible="state != 'in_progress'"/>
+                    <button name="reset_to_approve" type="object" string="Reset" class="oe_highlight"
+                            invisible="state != 'cancel'"/>
+                    <button name="submit_button" type="object" string="Done" class="oe_highlight"
+                            invisible="state != 'new'"/>
+                </xpath>
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="new,in_progress,done,approved"/>
+                </xpath>
+                <xpath expr="//button[@name='action_resend']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="before">
+                    <widget name="web_ribbon" bg_color="bg-danger" title="Canceled" invisible="state != 'cancel'"/>
+                    <widget name="web_ribbon" bg_color="bg-success" title="Approved" invisible="state != 'approved'"/>
+                </xpath>
+                <xpath expr="//sheet" position="after">
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </xpath>
+                <xpath expr="//button[@name='action_print_answers']" position="replace">
+                    <button 
+                        name="action_print_answers" 
+                        string="Review" 
+                        type="object" 
+                        class="oe_highlight" 
+                        invisible="[('state', '!=', 'done')]"/>
+
+                    <button name="send_message" string="Need correction" type="object" class="oe_highlight"
+                            invisible="state != 'done'"/>
+                </xpath>
+                <!-- Purusharth code end here -->
+            </field>
+        </record>
+
+
+        <record id="survey_user_input_search_inherit" model="ir.ui.view">
+            <field name="name">ks_survey_user_input_search</field>
+            <field name="model">survey.user_input</field>
+            <field name="inherit_id" ref="survey.survey_user_input_view_search"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='new']" position="replace">
+                    <filter string="Draft" name="draft" domain="[('state', '=', 'new')]"/>
+                </xpath>
+                <xpath expr="//filter[@name='in_progress']" position="replace">
+                    <filter string="To Submit" name="to_submit" domain="[('state', '=', 'in_progress')]"/>
+                </xpath>
+                <xpath expr="//filter[@name='completed']" position="replace">
+                    <filter name="to_approve" string="To Approve" domain="[('state', '=', 'done')]"/>
+                </xpath>
+                <xpath expr="//filter[@name='to_approve']" position="before">
+                    <filter name="completed" string="Approved" domain="[('state', '=', 'approved')]"/>
+                </xpath>
+                <xpath expr="//filter[@name='draft']" position="after">
+                    <filter name="cancel" string="Cancel" domain="[('state', '=', 'cancel')]"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.actions.server" id="action_update_send_sms">
+            <field name="name">Send SMS Data</field>
+            <field name="model_id" ref="survey.model_survey_user_input"/>
+            <field name="binding_model_id" ref="survey.model_survey_user_input"/>
+            <field name="binding_view_types">form</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = records.ks_send_message()
+            </field>
+        </record>
+    </data>
+</odoo>

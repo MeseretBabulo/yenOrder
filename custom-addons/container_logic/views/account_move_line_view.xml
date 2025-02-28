@@ -1,0 +1,46 @@
+<odoo>
+
+
+    <record id="view_account_move_form_inherit" model="ir.ui.view">
+        <field name="name">account.move.form.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='payment_reference']" position="after">
+                <field name="port_of_loading" string="Port Of Loading" readonly="1" invisible="1" />
+            </xpath>
+            <xpath expr="//field[@name='port_of_loading']" position="after">
+                <field name="port_of_discharge" string="Port Of Discharge" readonly="1"
+                    invisible="1" />
+            </xpath>
+            <xpath expr="//field[@name='port_of_discharge']" position="after">
+                <field name="ico" string="ICO" readonly="1" invisible="1" />
+            </xpath>
+            <xpath expr="//field[@name='ico']" position="after">
+                <field name="cert_no" string="Cert No" readonly="1" invisible="1" />
+            </xpath>
+            <xpath expr="//field[@name='cert_no']" position="after">
+                <field name="total_price_in_words" string="Total Price" readonly="1" invisible="1" />
+            </xpath>
+
+
+            <xpath expr="//tree/field[@name='name']" position="after">
+                <field name="hs_code" />
+            </xpath>
+            <xpath expr="//tree/field[@name='quantity']" position="before">
+                <field name="gross_quantity" string="Gross Quantity" readonly="0" />
+            </xpath>
+            <xpath expr="//tree/field[@name='quantity']" position="attributes">
+                <attribute name="string">Net Quantity</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='product_uom_id']" position="after">
+                <field name="gross_quantity" string="Quantity(LB)" />
+
+            </xpath>
+
+        </field>
+    </record>
+
+
+</odoo>

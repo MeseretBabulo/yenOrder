@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="ks_report_medication_profile_document"
+              inherit_id="via_mar.report_medication_profile_document">
+            <xpath expr="//tbody[@class='sale_tbody']" position="replace">
+                 <tbody class="sale_tbody">
+                            <t t-if="doc.report_date">
+                                <t t-set="last_date_of_month" t-value="doc.report_date + relativedelta(day=31)"/>
+                                <t t-set="first_date_of_month" t-value="doc.report_date + relativedelta(day=1)"/>
+                                <t t-set="line_data"
+                                   t-value="doc.medication_prescription_line_ids.filtered(lambda prescription_line: prescription_line.date_med_started and prescription_line.date_med_started &gt;= first_date_of_month and prescription_line.date_med_started &lt;= last_date_of_month and not prescription_line.discontinued_date or prescription_line.is_prn)"/>
+                            </t>
+                            <t t-else="">
+                                <t t-set="line_data" t-value="doc.medication_prescription_line_ids"/>
+                            </t>
+                            <t t-foreach="doc.medication_prescription_line_ids" t-as="line">
+                                <tr>
+                                    <td name="td_name">
+                                        <span t-field="line.medication_id.name"/>
+                                    </td>
+                                    <td name="td_name">
+                                        <span t-field="line.med_code"/>
+                                    </td>
+                                    <td name="td_name" t-if="display_date_med_started">
+                                        <span t-field="line.date_med_started"/>
+                                    </td>
+                                    <td name="td_name" t-if="display_date_med_end">
+                                        <span t-field="line.date_med_end"/>
+                                    </td>
+                                    <td name="td_name" t-if="display_prescribed_time">
+                                        <span t-field="line.prescribed_time"/>
+                                    </td>
+                                    <td name="td_name">
+                                        <span t-field="line.admin_frequency_id.name"/>
+                                    </td>
+                                    <td name="td_name" t-if="display_strength">
+                                        <span t-field="line.strength"/>
+                                    </td>
+                                    <td name="td_name" t-if="display_dosage_form">
+                                        <span t-field="line.dosage_form"/>
+                                    </td>
+                                    <td name="td_name" t-if="display_duration_of_prescription">
+                                        <span t-field="line.duration_of_prescription"/>
+                                    </td>
+                                    <td name="td_name" t-if="display_special_precautions">
+                                        <span t-field="line.special_precautions"/>
+                                    </td>
+                                    <td name="td_name" class="text-right">
+                                        <span t-field="line.quantity"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+            </xpath>
+        </template>
+    </data>
+</odoo>

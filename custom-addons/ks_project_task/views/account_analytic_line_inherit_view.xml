@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="project_task_timesheet_page_add_field" model="ir.ui.view">
+            <field name="name">project.task.timesheet.page.add.field</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@id='timesheets_tab']//field[@name='timesheet_ids']/tree/field[@name='unit_amount']" position="before">
+                    <field name="check_in_time" />
+                    <field name="check_out_time"/>
+                    <field name="actual_hrs" widget="timesheet_uom"/>
+                    <field name="paid_hrs" widget="timesheet_uom"/>
+                    <field name="visit_id" optional="show"/>
+                    <field name="visit_character_id" optional="show"/>
+                    <field name="child_line_location" optional="show"/>
+                    <field name="comment" optional="show"/>
+                </xpath>
+                <xpath expr="//notebook/page[@id='timesheets_tab']//field[@name='timesheet_ids']/tree/field[@name='unit_amount']" position="attributes">
+                    <attribute name="string">Billed Hours</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_analytic_line_tree_inherit" model="ir.ui.view">
+        <field name="name">view.account.analytic.line.tree.inherit</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="unit_amount" position="before">
+                <field name="actual_hrs" widget="timesheet_uom"/>
+                <field name="paid_hrs" widget="timesheet_uom"/>
+                <field name="visit_id" invisible="1"/>
+                <field name="visit_character_id"/>
+            </field>
+            <xpath expr="//field[@name='unit_amount']" position="attributes">
+                <attribute name="string">Billed Hours</attribute>
+            </xpath>
+        </field>
+    </record>
+    </data>
+</odoo>

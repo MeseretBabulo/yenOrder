@@ -1,0 +1,63 @@
+{
+    'name': 'KS Project Task',
+    'summary': """
+        To Create Project form Wizard.
+    """,
+    'version': '17.0.1.2.0',
+    'category': 'Tools',
+    "images": [],
+    'author': '',
+    'website': '',
+    'license': 'OPL-1',
+    'live_test_url': '',
+    'depends': ['base', 'documents_project', 'via_crm', 'project', 'survey', 'bista_timesheet_attendance',
+                'hr_timesheet', 'via_sales_enhancement', 'product', 'sales_team', 'contacts', 'via_mar_extension', 'website'
+                , 'documents', 'planning', 'industry_fsm', 'mail', 'bista_timesheet_attendance', 'sandata_integration_extension'],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/security.xml',
+        'data/ks_data.xml',
+        'data/verification_email.xml',
+        'data/ks_survey_mail.xml',
+        'wizard/project_task_wizard.xml',
+        'wizard/create_survey_wizard_view.xml',
+        'wizard/res_partner_archive_wizard.xml',
+        'views/survey_email_conf.xml',
+        'views/link_project_survey_view.xml',
+        'views/res_partner_inherit.xml',
+        'views/ks_project_inherit_view.xml',
+        'views/ks_survey_user_input_view.xml',
+        'views/ks_survey_inheirt_view.xml',
+        'views/survey_user_input_line_inherit_view.xml',
+        'views/res_company_view.xml',
+        'views/account_analytic_line_inherit_view.xml',
+        'views/planning_slot_inherit_view.xml',
+        'views/sms_template_view.xml',
+        'views/sms_composer_inherit_view.xml',
+        'views/ir_cron_program_type.xml',
+        'views/planning_slot_template_inherit_view.xml',
+        'views/ks_product_template.xml',
+        'views/ks_hr_employee_view.xml',
+        'views/ks_logger_view.xml',
+        'views/res_partner_leaving_reason_view.xml',
+        # 'views/ks_hr_job_view.xml',
+        'views/ks_progress_notes_view.xml',
+        'views/ks_document_folder_inherit_view.xml',
+        'views/ks_project_task_view.xml',
+        'views/ks_mail_activity_type_view.xml',
+        'report/report.xml',
+        'report/generate_answer_report.xml',
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'ks_project_task/static/src/js/kanban_button.js',
+
+        ],
+        'web.assets_qweb': [
+            'ks_project_task/static/src/xml/kanban_button.xml',
+        ],
+    },
+    'installable': True,
+    'application': True,
+
+}

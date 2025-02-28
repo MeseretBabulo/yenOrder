@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_via_res_county,access_via_res_county_user,model_via_res_county,base.group_user,1,1,1,1
+access_lead_import,access_lead_import_user,model_lead_import,base.group_user,1,1,1,1
+via_crm.access_via_isp,access_via_isp,via_crm.model_via_isp,base.group_user,1,1,1,1

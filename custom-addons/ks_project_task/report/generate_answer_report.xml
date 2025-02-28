@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="answer_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="oe_structure">
+                        <style>
+                            h1 {
+                                text-align: center;
+                            }
+                            .report-content {
+                                margin: 20px;
+                            }
+                            .report-content h2 {
+<!--                                text-align: center;-->
+                            }
+                            .report-content div {
+                                margin: 10px 0;
+                            }
+<!--                            .report-content .label {-->
+<!--                                font-weight: bold;-->
+<!--                                color: #5b5b5b;-->
+<!--                            }-->
+                        </style>
+                        <div class="report-content">
+                            <h2 style="text-align: center;">Clinician Report</h2>
+                            <br/>
+                            <br/>
+                            <div>
+                                <b>Individual Name:</b> <span style="margin-left:190px;"><t t-esc="o.survey_id.individual_name"/>, <t t-esc="o.survey_id.ma_number"/></span>
+                            </div>
+                            <div>
+                                <b>Date Range:</b><span style="margin-left:230px;"><t t-esc="o.start_date"/> - <t t-esc="o.end_date"/></span>
+                            </div>
+                            <br/>
+                            <div>
+                                <b>Status:</b><span style="margin-left:270px;">Approved (Dynamic)</span>
+                            </div>
+                            <div>
+                                <b>Time Zone:</b><span style="margin-left:240px;">US/Eastern</span>
+                            </div>
+                            <div>
+                                <b>ISP Program:</b><span style="margin-left:225px;"><t t-esc="o.survey_id.ISP_program_name"/></span>
+                            </div>
+                            <div>
+                                <b>Scoring Method:</b><span style="margin-left:200px;"><t t-esc="o.survey_id.scoring_method"/></span>
+                            </div>
+                            <br/>
+                            <div>
+                                <b>Schedule and Frequency<br/>Comment:</b><span style="margin-left:245px;"><t t-esc="o.survey_id.schedule_frequency_comment"/></span>
+                            </div>
+                            <br/>
+                            <div>
+                                <b>Goal/Service:</b><span style="margin-left:220px;"><t t-esc="o.survey_id.goal_service"/></span>
+                            </div>
+                            <br/>
+                            <div>
+                                <b>Criteria for Completion:</b><span style="margin-left:145px;"><t t-esc="o.survey_id.criteria_for_completion"/></span>
+                            </div>
+<!--                            <br/>-->
+                            <t t-foreach="o.survey_id.user_input_ids" t-as="answer">
+                                <t t-if="answer.state == 'approved'">
+                                    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                                        <tbody style="border: 1px solid #000; padding: 8px;">
+<!--                                            <tr style="border: 1px solid #000;">-->
+                                            <tr>
+                                                <td>
+                                                    <b>Date:</b>
+                                                    <t t-if="answer.create_date">
+                                                        <span t-field="answer.create_date"/>
+                                                    </t>
+                                                </td>
+                                                <td>
+                                                    <b>Begin Time:</b>
+                                                    <t t-if="answer.start_date_time">
+                                                        <span t-field="answer.start_date_time"/>
+                                                    </t>
+                                                </td>
+                                                <td>
+                                                    <b>End Time:</b>
+                                                    <t t-if="answer.end_date_time">
+                                                        <span t-field="answer.end_date_time"/>
+                                                    </t>
+                                                </td>
+                                                <td>
+                                                    <b>Duration (hh:mm):</b>
+<!--                                                    <t t-if="">-->
+                                                    <span>duration</span>
+<!--                                                        <span t-field="answer.duration"/>-->
+<!--                                                    </t>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b>Location:</b>
+                                                    <t t-if="answer.child_line_location">
+                                                        <span t-field="answer.child_line_location"/>
+                                                    </t>
+                                                </td>
+                                                <td>
+                                                    <b>Service Provider:</b>
+                                                    <t t-if="answer.name_of_person_supported">
+                                                        <span t-field="answer.name_of_person_supported"/>
+                                                    </t>
+                                                </td>
+                                            </tr>
+<!--                                            </tr>-->
+                                            <tr>
+                                                <td style="border: 1px solid #000; padding: 8px;"><b>Task</b></td>
+                                                <td style="border: 1px solid #000; padding: 8px;"><b>Score</b></td>
+                                                <td style="border: 1px solid #000; padding: 8px;" colspan="2"><b>Scoring Comments</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border: 1px solid #000; padding: 8px;">
+<!--                                                    <t t-if="">-->
+                                                    <span>task</span>
+<!--                                                        <span t-field="answer.task"/>-->
+<!--                                                    </t>-->
+                                                </td>
+                                                <td style="border: 1px solid #000; padding: 8px;">
+<!--                                                    <t t-if="">-->
+                                                    <span>score</span>
+<!--                                                        <span t-field=""/>-->
+<!--                                                    </t>-->
+                                                </td>
+                                                <td style="border: 1px solid #000; padding: 8px;" colspan="2">
+<!--                                                    <t t-if="">-->
+                                                    <span>scoring comments</span>
+<!--                                                        <span t-field=""/>-->
+<!--                                                    </t>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border: 1px solid #000; padding: 8px;" colspan="4">
+                                                    <b>Comment:</b>
+<!--                                                    <t t-if="answer.comment">-->
+                                                    <span>comment</span>
+<!--                                                        <span t-field="answer.comment"/>-->
+<!--                                                    </t>-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </t>
+                            </t>
+                            <t t-if="o.is_generate">
+                                <h2>Progress Towards Outcome</h2>
+                                <div>
+                                    <t t-if="o.progress_towards_outcome">
+                                        <span t-field="o.progress_towards_outcome"/>
+                                    </t>
+                                </div>
+                                <h2>Comments/Recommendations</h2>
+                                <div>
+                                    <t t-if="o.comments_recommendations">
+                                        <span t-field="o.comments_recommendations"/>
+                                    </t>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

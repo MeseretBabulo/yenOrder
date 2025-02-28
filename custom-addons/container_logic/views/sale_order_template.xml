@@ -1,0 +1,50 @@
+<odoo>
+
+        <record id="view_sales_order_template_cost_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.template.cost.form.variant</field>
+        <field name="model">sale.order.template</field>
+        <field name="inherit_id" ref="sale_management.sale_order_template_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='number_of_days']" position="attributes">
+                <attribute name = "invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='number_of_days']" position="attributes">
+                <attribute name = "invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@id='number_of_days']" position="attributes">
+                <attribute name = "style">display:none</attribute>
+            </xpath>
+            <xpath expr="//group[@name='sale_info']//label" position="attributes">
+                <attribute name = "invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mail_template_id']" position="attributes">
+                <attribute name = "invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+                <attribute name = "invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='require_signature']" position="attributes">
+                <attribute name = "invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='require_payment']" position="attributes">
+                <attribute name = "invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='order_lines']" position="attributes">
+                <attribute name = "invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='terms_and_conditions']" position="attributes">
+                <attribute name = "invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='pdf_quote']" position="attributes">
+                <attribute name = "invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='optional_products']" position="attributes">
+                <attribute name="string">Expense Tracking</attribute>
+            </xpath>
+            <xpath expr="//page[@name='optional_products']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

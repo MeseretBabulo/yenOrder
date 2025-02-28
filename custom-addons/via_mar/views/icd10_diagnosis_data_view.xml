@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_icd10_diagnosis_data_form" model="ir.ui.view">
+        <field name="name">view.icd10_diagnosis.data.form</field>
+        <field name="model">icd10.diagnosis.data</field>
+        <field name="arch" type="xml">
+            <form string="ICD10 Diagnosis Data">
+                <sheet>
+                    <group name="icd10_diagnosis_data">
+                        <group name="group_1">
+                            <field name="code" readonly="1" force_save="1"/>
+                        </group>
+                        <group name="group_2">
+                            <!-- <field name="is_billable" readonly="1" force_save="1"/> -->
+                            <field name="description" readonly="1" force_save="1"/>
+                            <field name="is_imported" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_icd10_diagnosis_data_form_mar_data_access" model="ir.ui.view">
+        <field name="name">view.icd10.diagnosis.data.form.mar.data.access</field>
+        <field name="model">icd10.diagnosis.data</field>
+        <field name="inherit_id" ref="via_mar.view_icd10_diagnosis_data_form"/>
+        <!-- <field name="groups_id" eval="[(4,ref('via_mar.group_mar_drug_data'))]"/> -->
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group/group[@name='group_1']/field[@name='code']" position="attributes">
+                <attribute name="readonly">False</attribute>
+                <attribute name="required">True</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/group/group[@name='group_2']/field[@name='description']" position="attributes">
+                <attribute name="readonly">False</attribute>
+                <attribute name="required">True</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_icd10_diagnosis_data_tree" model="ir.ui.view">
+        <field name="name">view.icd10.diagnosis.data.tree</field>
+        <field name="model">icd10.diagnosis.data</field>
+        <field name="arch" type="xml">
+            <tree string="ICD10 Diagnosis Data">
+                <field name="code"/>
+                <!-- <field name="is_billable"/> -->
+                <field name="description"/>
+                <field name="is_imported" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_icd10_diagnosis_data_search" model="ir.ui.view">
+        <field name="name">view.icd10.diagnosis.data.search</field>
+        <field name="model">icd10.diagnosis.data</field>
+        <field name="arch" type="xml">
+            <search string="Search Diagnosis">
+                <field name="code" string="Diagnosis"/>
+                <field name="description" string="Description"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_icd10_diagnosis_data" model="ir.actions.act_window">
+        <field name="name">ICD10 Diagnosis Data</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">icd10.diagnosis.data</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_icd10_diagnosis_data_tree"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+via_survey_monitoring.access_via_monitoring_question,access_via_monitoring_question,via_survey_monitoring.model_via_monitoring_question,base.group_user,1,1,1,1
+via_survey_monitoring.access_questions_answers,access_questions_answers,via_survey_monitoring.model_questions_answers,base.group_user,1,1,1,1
+via_survey_monitoring.access_via_monitoring,access_via_monitoring,via_survey_monitoring.model_via_monitoring,base.group_user,1,1,1,1
+via_survey_monitoring.access_via_monitoring_template,access_via_monitoring_template,via_survey_monitoring.model_via_monitoring_template,base.group_user,1,1,1,1
+via_survey_monitoring.access_survey_label,access_survey_label,via_survey_monitoring.model_survey_label,base.group_user,1,1,1,1

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_sale_order_form_inherit_approval" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.approval</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <button name="action_confirm" position="before">
+
+                    <field name="sales_approval_status" invisible="1"/>
+                    <field name="is_current_user_approver" invisible="1"/>
+                    <button name="action_request_approval"
+                        string="Request Approval"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'draft' or sales_approval_status == 'False'" />
+                    <button name="action_approve"
+                        string="Approve"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'waiting_approval' or not is_current_user_approver" />
+                    <!-- invisible="['|', 
+                                        (state != 'waiting_approval'),
+                                        (current_approver_id != uid)]"/> -->
+                    <button name="action_reject"
+                        string="Reject"
+                        type="object"
+                        invisible="['|', 
+                                        (state != 'waiting_approval')]" />
+                </button>
+
+
+                
+
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,waiting_approval,sent,sale"
+                        invisible="sales_approval_status == 'False'" />
+                </xpath>
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,sent,sale"
+                        invisible="sales_approval_status == 'True'" />
+                </xpath>
+
+
+                <xpath expr="//button[@name='action_quotation_send'][1]" position="attributes">
+                    <attribute name="invisible">state != 'draft' or sales_approval_status == 'True'</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
+                    <attribute name="invisible"> state != 'draft' or sales_approval_status == 'True' </attribute>
+                </xpath>
+
+                <group name="sale_info" position="inside">
+                    <field name="current_approver_id"
+                        invisible="state != 'waiting_approval'" />
+                </group>
+
+                <notebook position="inside">
+                    <page string="Approval History" name="approval_history" create="false"
+                        edit="false" delete="false"
+                        invisible="approval_history_ids == False">
+                        <field name="approval_history_ids" readonly="1">
+                            <tree>
+                                <field name="sequence" column_invisible="1" />
+                                <field name="approver_id" />
+                                <field name="state" />
+                                <field name="approval_date" />
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+        <record id="view_sales_approval_steps_tree" model="ir.ui.view">
+            <field name="name">sales.approval.steps.tree</field>
+            <field name="model">sales_approval.sales_approval_steps</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="company" string="Sector" />
+                    <field name="employee_line_ids" column_invisible="1"  widget="many2many_tags" string="Approvers" />
+                    <field name="state" />
+                    <field name="sequence" column_invisible="1" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sales_approval_steps_form" model="ir.ui.view">
+            <field name="name">sales_approval.sales_approval_steps.form</field>
+            <field name="model">sales_approval.sales_approval_steps</field>
+            <field name="arch" type="xml">
+                <form string="Sales Approvers">
+                    <header>
+                        <button name="action_activate" string="Activate" type="object"
+                            invisible="state in ['active']"
+                            class="oe_highlight" />
+                        <button name="action_deactivate" string="Deactivate" type="object"
+                            invisible="state in ['inactive']"
+                            class="oe_highlight" />
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <group name="main_fields">
+                            <group name="sale_main_fields">
+                                <field name="company" string="Sector" />
+                                <field name="sequence" invisible="1" />
+                                <field name="active" invisible = "1" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="employee" string="Approvers">
+                                <field name="employee_line_ids" readonly = "state == active">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle" />
+                                        <field name="users_id" string="Users" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="sales_setting_extend" model="ir.ui.view">
+            <field name="name">sales_approval_setting</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="sale.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//setting[@id='proforma_configuration']" position="after">
+                    <setting id="sales_approval"
+                        help="Determine the amount of person that will approve a sale.">
+                        <field name="sales_approval" />
+                    </setting>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_sales_approval" model="ir.actions.act_window">
+            <field name="name">Sales Approval</field>
+            <field name="res_model">sales_approval.sales_approval_steps</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_custom_sales_submenu"
+            name="Sales Approval"
+            parent="sale.menu_sale_config"
+            groups="sales_approval_settings.group_sales_approval_menu"
+            action="action_sales_approval"
+            sequence="21" />
+    </data>
+</odoo>

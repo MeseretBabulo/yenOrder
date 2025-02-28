@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+    <t t-extend="LeadMiningRequest.generate_leads_button">
+        <t t-jquery="button.o_button_generate_leads" t-operation="replace"/>
+    </t>
+</templates>

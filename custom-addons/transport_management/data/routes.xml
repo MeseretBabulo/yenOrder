@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Predefined Location Combinations -->
+<record id="location_djibouti" model="location.combination">
+    <field name="country">Djibouti</field>
+    <field name="state">Djibouti</field>
+</record>
+
+<record id="location_dire_dawa" model="location.combination">
+    <field name="country">Ethiopia</field>
+    <field name="state">Dire Dawa</field>
+</record>
+
+<record id="location_addis_ababa" model="location.combination">
+    <field name="country">Ethiopia</field>
+    <field name="state">Addis Ababa</field>
+</record>
+
+</odoo>

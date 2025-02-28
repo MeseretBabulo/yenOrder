@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_project_task_delay_time" model="ir.ui.view">
+        <field name="name">res.config.settings.project.task.delay.time</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="52"/>
+        <field name="inherit_id" ref="project.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//div[hasclass('app_settings_block')]/div[@id='tasks_management']/div[@id='project_stages']" position="after"> -->
+           <xpath expr="//form" position="inside">
+
+            <div class="col-12 col-lg-6 o_setting_box" id="delay_time_setting">
+                <div class="o_setting_left_pane">
+                </div>
+                <div class="o_setting_right_pane">
+                    <label for="delay_time"/>
+                    <div class="text-muted">
+                        Enter the task delay time.
+                    </div>
+                    <field name="delay_time" widget="float_time"/><span> <strong>(HH:MM Format)</strong></span>
+                </div>
+            </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

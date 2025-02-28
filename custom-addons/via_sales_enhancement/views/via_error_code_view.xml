@@ -1,0 +1,59 @@
+<odoo>
+
+    <record id="action_via_error_code" model="ir.actions.act_window">
+        <field name="name">Error Code</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">via.error.code</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="via_error_code_form_view" model="ir.ui.view">
+        <field name="name">via.error.code.form.view</field>
+        <field name="model">via.error.code</field>
+        <field name="arch" type="xml">
+            <form string="VIA Error Code">
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="description" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="via_error_code_form_view_inherit_error_group" model="ir.ui.view">
+        <field name="name">via.error.code.form.view.inherit.error.group</field>
+        <field name="model">via.error.code</field>
+        <field name="inherit_id" ref="via_sales_enhancement.via_error_code_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group/field[@name='name']" position="attributes">
+                <attribute name="readonly">False</attribute>
+                <attribute name="required">True</attribute>
+                <attribute name="groups">via_sales_enhancement.group_error_code</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/group/field[@name='description']" position="attributes">
+                <attribute name="readonly">False</attribute>
+                <attribute name="required">True</attribute>
+                <attribute name="groups">via_sales_enhancement.group_error_code</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+
+    <record id="via_error_code_tree_view" model="ir.ui.view">
+        <field name="name">via.error.code.tree.view</field>
+        <field name="model">via.error.code</field>
+        <field name="arch" type="xml">
+            <tree string="VIA Error Code">
+                <field name="name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem action="action_via_error_code" id="menu_via_error_code" name="Error Code" parent="project.menu_project_config" sequence="26"/>
+
+</odoo>

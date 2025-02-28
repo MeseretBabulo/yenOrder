@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="residential_external_layout_standard">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+
+            <t t-if="not company">
+                <!-- Multicompany -->
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+            </t>
+
+            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <div class="row">
+                    <div class="col-6 mb4">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 90px;" alt="Logo"/>
+                    </div>
+                    <div class="col-6 text-right" style="margin-top:22px;" name="moto"><b>Values into Action PA, Inc . (MPI 101203922)</b></div>
+                </div>
+            </div>
+
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}"
+                 t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-out="0"/>
+            </div>
+
+            <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout" style="margin:0 !important; padding:0!important;">
+                <div class="text-center" style="border-top: 1px solid black;">
+                    <div class="row" style="margin:0 !important; padding:0!important;">
+                        <div class="col-2">
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                                 style="max-height: 70px;width: 180px;" alt="Logo"/>
+                        </div>
+                        <div class="col-8">
+                            <span class="p">Generated from Odoo 'Clinician Report for ISP Program' by <t t-esc="current_user"/> Value into Action PA, Inc
+                                (MPI 101203922) on
+                                <t t-esc="current_time.strftime('%m/%d/%Y %I:%M %p')"/>
+                            </span>
+                        </div>
+                        <div class="col-2">
+                            <strong class="pull-right" style="font-weight:800">
+                                Page
+                                <span class="page"/>
+                                of
+                                <span class="topage"/>
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="report_residential_forms_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="via_mar.residential_external_layout_standard">
+                        <div class="page">
+                            <style>
+                                #custom {
+                                    border: 1px solid black
+                                    border-collapse: collapse;
+                                    border-spacing : 0px;
+                                    border-top-spacing : 0px;
+                                }
+                                #custom td, #custom th {
+                                    border: 1px solid black
+                                }
+                                #custom tr: {
+                                    border: 1px solid black
+                                }
+                                #custom th {
+                                    style="border: 1px solid black"
+                                }
+
+                                .table-bordered th, .table-bordered td {
+                                    border: 1px solid black !important;
+                                }
+                                .fire_drill_table_header tr:not(.no_set_width) th:first-child, .fire_drill_table_header tr:not(.no_set_width) td:first-child{
+                                    width: 15%
+                                }
+                                .fire_drill_table tr:not(.no_set_width) th:first-child, .fire_drill_table tr:not(.no_set_width) td:first-child{
+                                    width: 45%
+                                }
+                                .rm-top-border th, .rm-top-border td{
+                                    border:  0 !important;
+                                }
+                                .fire_drill_table_header .rm_bottom_border, .fire_drill_table_header tr.rm_bottom_border td{
+                                    border-bottom:  0 !important;
+                                }
+
+                                .fire_drill_table_header .add-right-left-border td:first-child{
+                                    border-left:  1px solid black !important;
+                                }
+                                .fire_drill_table_header .add-right-left-border td:last-child{
+                                    border-right:  1px solid black !important;
+                                }
+                                .fire_drill_table_header .add-top-border{
+                                    border-top:  1px solid black !important;
+                                }
+                                h3 { color: black; font-family:Arial, sans-serif; font-style: normal; font-weight: bold;
+                                text-decoration: none; font-size: 10pt; }
+                                h1 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: bold;
+                                text-decoration: none; font-size: 12pt; }
+                                .s2 { color: black; font-family:Arial, sans-serif; font-style: normal; font-weight: normal;
+                                text-decoration: none; font-size: 10pt; }
+                                .s3 { color: black; font-family:Arial, sans-serif; font-style: normal;
+                                font-weight: normal; text-decoration: none; font-size: 11pt; }
+                                .s4 { color: black; font-family:Arial, sans-serif; font-style: normal;
+                                font-weight: bold; text-decoration: none; font-size: 11pt; }
+                            </style>
+                            <br/>
+
+                            <div style="background-color:#D3D3D3">
+                                <h2 class="text-center" style="color:black">Clinician Report</h2>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-7">
+                                    <table class="table table-sm table-borderless">
+                                        <tr>
+                                            <td class="s4">Report Description:</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="s4">Individual Name:</td>
+                                            <td><t t-esc="doc.person_support_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="s4">Date Range:</td>
+                                            <td><t t-esc="doc.date_from"/> - <t t-esc="doc.date_to"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div style="background-color:gray">
+                                <h4 class="text-center" style="color:white;font-weight: bold;">Fire Drill</h4>
+                            </div>
+
+                            <p style="page-break-after: always;"/>
+
+                            <div class="">
+                                <t t-if="get_drill_records">
+                                    <t t-foreach="get_drill_records" t-as="drill_record">
+                                        <table class="table table-sm table-bordered fire_drill_table_header" style="padding:0;margin:0">
+                                            <tr class="rm-top-border add-right-left-border add-top-border no_set_width" style="border-top: 1px solid black !important">
+                                                <td class="s4">Date</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.completed_datetime.date()"/> </td>
+                                            </tr>
+                                            <tr class="rm-top-border add-right-left-border no_set_width rm_bottom_border">
+                                                <td class="s4">Location:</td>
+                                                <td colspan="2" class="s3">
+                                                    <t t-esc="doc.person_support_id.street"/> <t t-esc="doc.person_support_id.street2"/> <t t-esc="doc.person_support_id.state_id and doc.person_support_id.state_id.name"/> <t t-esc="doc.person_support_id.country_id and doc.person_support_id.country_id.name"/> <t t-esc="doc.person_support_id.zip"/>
+                                                </td>
+                                                <td class="s4" colspan="3">
+                                                    <span class="s4 text-right">Service Provider:</span>
+                                                    <span class="s3">
+                                                        <t t-esc="drill_record.service_provider_id.name"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table class="table table-sm table-bordered fire_drill_table">
+                                            <tr>
+                                                <th class="s4">Task</th>
+                                                <th class="s4" colspan="5">Comments</th>
+                                            </tr>
+                                            <tr>
+                                                <td class="s3">List DATE &amp; TIME</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.completed_datetime"/></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Was the fire drill completed during asleep hours? Note: Asleep hours are from 11pm to 7am</td>
+                                                <td class="s3" colspan="5">
+                                                    <t t-if="drill_record.is_sleep_hours == 'yes'">
+                                                        Yes
+                                                    </t>
+                                                    <t t-else="">
+                                                        No
+                                                    </t>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Hypothetical Fire Location</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.hypothetical_fire_location"/></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Exit Used:</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.exit_used"/></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">List Participants:</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.participants"/></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Evacuation Time:</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.evacuation_time"/></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">List Designated Meeting Place</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.designated_meeting_place"/> </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Did everyone evacuate to the designated meeting place within 2.5 minutes?</td>
+                                                <td class="s3" colspan="5">
+                                                    <t t-if="drill_record.evacuate_desig_meeting_place == 'yes'">
+                                                        Yes
+                                                    </t>
+                                                    <t t-else="">
+                                                        No
+                                                    </t>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Where was the person supported when the alarm sounded?</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.place_of_alarm_sound"/> </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Describe any assistance needed to evacuate.</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.assistance_to_evacuate"/> </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Describe any issues encountered. Enter "None" if no issues were encountered</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.issue_encountered"/> </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">List all smoke detectors by their location within the home</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.smoke_detector"/> </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Were all smoke detectors tested?</td>
+                                                <td class="s3" colspan="5">
+                                                    <t t-if="drill_record.smoke_detector_tested == 'yes'">
+                                                        Yes
+                                                    </t>
+                                                    <t t-else="">
+                                                        No
+                                                    </t>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">List any smoke detectors that were not working &amp; the follow-up required</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.smoke_detector_followup"/> </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Enter each fire extinguishers location and date of last servicing</td>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.fire_extinguishers_and_lst_service_date"/> </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Are all fire extinguishers currently showing "full" or active working status?</td>
+                                                <td class="s3" colspan="5">
+                                                    <t t-if="drill_record.active_working_status == 'yes'">
+                                                        Yes
+                                                    </t>
+                                                    <t t-else="">
+                                                        No
+                                                    </t>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Does this person's home have any other fire safety equipment?</td>
+                                                <td class="s3" colspan="5">
+                                                    <t t-if="drill_record.fire_safety_equipment == 'yes'">
+                                                        Yes
+                                                    </t>
+                                                    <t t-else="">
+                                                        No
+                                                    </t>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="s3">Is the bathtub/shower water temperature below 120 degrees?</td>
+                                                <td class="s3" colspan="4">
+                                                    <t t-if="drill_record.water_degree == 'yes'">
+                                                        Yes
+                                                    </t>
+                                                    <t t-else="">
+                                                        No
+                                                    </t>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="s3">Comment:</th>
+                                                <td class="s3" colspan="5"><t t-esc="drill_record.comment"/></td>
+                                            </tr>
+                                        </table>
+                                        <p style="page-break-after: always;"/>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

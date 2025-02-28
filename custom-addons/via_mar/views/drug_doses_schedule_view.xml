@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_manual_drug_doses_schedule_form" model="ir.ui.view">
+        <field name="name">view.drug.doses.schedule.form</field>
+        <field name="model">drug.doses.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Drug Doses Schedule" context="{'from_prn_drug_schedule': True}">
+                <sheet>
+                    <group name="drug_doses_schedule_data">
+                        <group name="group_1">
+                            <field name="active" invisible="1"/>
+                            <field name="patient_id" context="{'from_prn_drug_schedule': True}"
+                                   required="1"  readonly="0" force_save="1"/>
+                            <field name="medication_id" required="1" readonly="0" force_save="1"/>
+                            <field name="drug_dose_id" invisible="1"/>
+                            <field name="team_id" invisible="0" required="1"/>
+                            <field name="user_id" invisible="1"/>
+                            <field name="user_id" invisible="1"/>
+<!--                            <field name="medical_officer_id" attrs="{'invisible': [('is_dose_added', '=', False)]}" readonly="1" force_save="1"/>-->
+                        </group>
+                        <group name="group_2">
+                            <field name="start_date" context="{'from_prn_drug_schedule': True}" string="Date" required="1" readonly="1" force_save="1"/>
+<!--                             <field name="am_pm" string="AM/PM" readonly="0" force_save="1"/>-->
+                            <field name="end_date" invisible="1" readonly="1" force_save="1" required="1"/>
+<!--                            <field name="administered_time" attrs="{'invisible': [('is_dose_added', '=', False)]}" readonly="0" force_save="1"  groups="via_mar.group_mar_admin"/>-->
+                            <field name="is_dose_added" invisible="1"/>
+                            <field name="instructions" readonly="1" force_save="1"/>
+                            <!-- <field name="dose" readonly="1" force_save="1"/> -->
+                            <field name="strength" readonly="0" force_save="1"/>
+                            <field name="prn_reason"/>
+                            <field name="comment"/>
+                            <button name="add_dose_line" invisible="is_dose_added == True" type="object" string="Dose Administered" class="oe_highlight"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_drug_doses_schedule_form" model="ir.ui.view">
+        <field name="name">view.drug.doses.schedule.form</field>
+        <field name="model">drug.doses.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Drug Doses Schedule">
+                <sheet>
+                    <group name="drug_doses_schedule_data">
+                        <group name="group_1">
+                            <field name="active" invisible="1"/>
+                            <field name="medication_id" readonly="1" force_save="1"/>
+                            <field name="patient_id" readonly="1" force_save="1"/>
+                            <field name="drug_dose_id" invisible="1"/>
+                            <field name="team_id" invisible="1"/>
+                            <field name="user_id" invisible="1"/>
+                            <field name="medical_officer_id" invisible="is_dose_added == False" readonly="0" force_save="1" groups="via_mar.group_mar_admin"/>
+                        </group>
+                        <group name="group_2">
+                            <field name="start_date" string="Date" readonly="1" force_save="1"/>
+                            <!-- <field name="am_pm" string="AM/PM" readonly="1" force_save="1"/> -->
+                            <field name="end_date" invisible="1"/>
+                            <field name="administered_time" invisible="is_dose_added == False" readonly="0" force_save="1"  groups="via_mar.group_mar_admin"/>
+                            <field name="is_dose_added" invisible="1"/>
+                            <field name="instructions" readonly="1" force_save="1"/>
+                            <!-- <field name="dose" readonly="1" force_save="1"/> -->
+                            <field name="strength" readonly="1" force_save="1"/>
+                            <field name="comment"/>
+                            <field name="initials_id"/>
+                            <button name="add_dose_line" invisible="is_dose_added == True" type="object" string="Dose Administered" class="oe_highlight"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_drug_doses_schedule_tree" model="ir.ui.view">
+        <field name="name">view.drug.doses.schedule.tree</field>
+        <field name="model">drug.doses.schedule</field>
+        <field name="arch" type="xml">
+            <tree string="Drug Doses Schedule">
+                <field name="active" invisible="1"/>
+                <field name="medication_id"/>
+                <field name="patient_id"/>
+                <!-- <field name="dose"/> -->
+                <field name="strength"/>
+                <field name="team_id" invisible="1"/>
+                <field name="start_date" string="Date"/>
+                <field name="end_date" invisible="1"/>
+                <field name="user_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_drug_doses_schedule_search" model="ir.ui.view">
+        <field name="name">view.drug.doses.schedule.search</field>
+        <field name="model">drug.doses.schedule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="patient_id"/>
+                <field name="medication_id"/>
+                <field name="medical_officer_id"/>
+            </search>
+        </field>
+    </record>
+ 
+    <record id="view_drug_doses_schedule_calendar" model="ir.ui.view">
+        <field name="name">view.drug.doses.schedule.calendar</field>
+        <field name="model">drug.doses.schedule</field>
+        <field name="arch" type="xml">
+            <calendar 
+                string="Drug Doses" 
+                date_start="start_date"
+                date_stop="end_date" 
+                color="color" 
+                form_view_id="%(view_manual_drug_doses_schedule_form)d"
+                event_open_popup="true" 
+                mode="week">
+                <field name="patient_id" avatar_field="avatar_128"/>
+                <field name="medication_id"/>
+                <field name="active" invisible="1"/>
+                <field name="medical_officer_id" invisible="not is_dose_added" readonly="1" force_save="1"/>
+                <field name="start_date" string="Date"/>
+                <field name="administered_time" 
+                    invisible="administered_time == '' or not is_dose_added" 
+                    readonly="1" 
+                    force_save="1" 
+                    string="Administered Time"/>
+                <field name="team_id" invisible="1"/>
+                <field name="user_id" invisible="1"/>
+                <field name="strength" readonly="1" force_save="1"/>
+                <field name="instructions" readonly="1" force_save="1"/>
+                <field name="comment"/>
+                <field name="initials_id"/>
+                <field name="end_date" invisible="1"/>
+                <field name="is_dose_added" invisible="1"/>
+            </calendar>
+        </field>
+    </record>
+
+ 
+    <record id="action_drug_doses_schedule" model="ir.actions.act_window">
+        <field name="name">MAR</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">drug.doses.schedule</field>
+        <field name="view_mode">tree,form,calendar</field>
+        <field name="view_id" ref="view_drug_doses_schedule_calendar"/>
+        <field name="search_view_id" ref="view_drug_doses_schedule_search"/>
+    </record>
+
+    <record id="action_manual_schedule_drug_doses" model="ir.actions.act_window">
+        <field name="name">Schedule Drug Doses</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">drug.doses.schedule</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="via_mar.view_manual_drug_doses_schedule_form"/>
+        <field name="target">new</field>
+    </record>
+    <menuitem id="menu_medical_administration_drug_schedule_root" name="MAR" web_icon="via_mar,static/description/drug_schedule.png" sequence="67"/>
+    <menuitem id="menu_drug_doses_schedule" name="MAR" parent="via_mar.menu_medical_administration_drug_schedule_root" groups="via_mar.group_mar_admin,via_mar.group_mar_user" action="action_drug_doses_schedule" sequence="3"/>
+
+
+</odoo>

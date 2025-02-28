@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+via_sales_enhancement.access_via_service_note,access_via_service_note,via_sales_enhancement.model_via_service_note,base.group_user,1,1,0,0
+via_sales_enhancement.access_via_error_code,access_via_error_code,via_sales_enhancement.model_via_error_code,base.group_user,1,1,1,1
+via_sales_enhancement.access_via_service_note_survey,access_via_service_note_survey,via_sales_enhancement.model_via_service_note_survey,base.group_user,1,1,1,1

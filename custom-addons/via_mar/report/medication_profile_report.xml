@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_medication_profile_document">
+            <t t-call="web.external_layout">
+                <style>
+                    .table-bordered th, .table-bordered td {
+                        border: 1px solid black !important;
+                    }
+                </style>
+                <div class="page">
+                    <div class="oe_structure"/>
+
+<!--                    <div class="row">-->
+<!--                        <div class="col-12 text-center">-->
+<!--                            <h5>-->
+<!--                                <span>Medication Profile Record -<t t-esc="doc.report_date.strftime('%B')"/>,-->
+<!--                                    <t t-esc="doc.report_date.year"/>-->
+<!--                                </span>-->
+<!--                            </h5>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <br/>-->
+                    <div class="row mt32 mb32" id="informations">
+                        <div t-if="doc.resident_partner_id" class="col-auto col-4 mw-100 mb-2">
+                            <strong>Resident's Name:</strong>
+                            <p class="m-0" t-field="doc.resident_partner_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        </div>
+
+                        <div t-if="doc.physician_id" class="col-auto col-4 mw-100 mb-2">
+                            <strong>Physician:</strong>
+                            <p class="m-0" t-field="doc.physician_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        </div>
+
+                        <div t-if="doc.approved_by_user_id" class="col-auto col-4 mw-100 mb-2">
+                            <strong>Approved By:</strong>
+                            <p class="m-0" t-field="doc.approved_by_user_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        </div>
+                    </div>
+                    <div class="row mt32 mb32" id="informations_mar">
+                        <div t-if="doc.id_number" class="col-auto col-4 mw-100 mb-2">
+                            <strong>ID Number:</strong>
+                            <p class="m-0" t-field="doc.id_number"/>
+                        </div>
+                        <div t-if="doc.date_of_birth" class="col-auto col-4 mw-100 mb-2">
+                            <strong>Date of Birth:</strong>
+                            <p class="m-0" t-field="doc.date_of_birth" t-options='{"widget": "date"}'/>
+                        </div>
+
+                        <div t-if="doc.general_diagnoses" class="col-auto col-4 mw-100 mb-2">
+                            <strong>Diagnoses:</strong>
+                            <p class="m-0" t-field="doc.general_diagnoses"/>
+                        </div>
+                    </div>
+
+                    <div class="row mt32 mb32" id="informations_mar_drug_allergy">
+                        <div t-if="doc.allergies" class="col-auto col-4 mw-100 mb-2">
+                            <strong>Allergies:</strong>
+                            <p class="m-0" t-field="doc.allergies"/>
+                        </div>
+<!--                        <div t-if="doc.allergies_status" class="col-auto col-4 mw-100 mb-2">-->
+<!--                            <strong>Allergy Status:</strong>-->
+<!--                            <p class="m-0" t-field="doc.allergies_status"/>-->
+<!--                        </div>-->
+
+<!--                        <div t-if="doc.drug_allergy_status" class="col-auto col-4 mw-100 mb-2">-->
+<!--                            <strong>Drug Allergy Status:</strong>-->
+<!--                            <p class="m-0" t-field="doc.drug_allergy_status"/>-->
+<!--                        </div>-->
+                    </div>
+
+                    <!-- Is there a discount on at least one line? -->
+                    <t t-set="display_date_med_started" t-value="any(l.date_med_started for l in doc.medication_prescription_line_ids)"/>
+                    <t t-set="display_date_med_end" t-value="any(l.date_med_end for l in doc.medication_prescription_line_ids)"/>
+                    <t t-set="display_strength" t-value="any(l.strength for l in doc.medication_prescription_line_ids)"/>
+                    <t t-set="display_dosage_form" t-value="any(l.dosage_form for l in doc.medication_prescription_line_ids)"/>
+                    <t t-set="display_duration_of_prescription" t-value="any(l.duration_of_prescription for l in doc.medication_prescription_line_ids)"/>
+                    <t t-set="display_special_precautions" t-value="any(l.special_precautions for l in doc.medication_prescription_line_ids)"/>
+                    <t t-set="display_prescribed_time" t-value="any(l.prescribed_time for l in doc.medication_prescription_line_ids)"/>
+                    <br/>
+
+                    <t t-set="medical_diagnosis_data" t-value="doc.get_medical_diagnosis_initials(doc.medication_prescription_line_ids)"/>
+<!--style="font-size: 10pt;"-->
+                    <table class="table table-sm table-bordered table-striped o_main_table" >
+                        <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+                        <thead style="display: table-row-group">
+                            <tr>
+                                <th name="th_description" class="text-left">Name of Medication</th>
+                                <th name="th_description" class="text-left">Medicine Code</th>
+                                <th name="th_description" t-if="display_date_med_started" class="text-left">Date Med Started</th>
+                                <th name="th_description" t-if="display_date_med_end" class="text-left">Date Med End</th>
+                                <th name="th_description" t-if="display_prescribed_time" class="text-left">Prescribed Time</th>
+                                <th name="th_description" class="text-left">Frequency of Admin</th>
+                                <th name="th_description" t-if="display_strength" class="text-left">Strength</th>
+                                <th name="th_description" t-if="display_dosage_form" class="text-left">Dosage Form</th>
+                                <th name="th_description" t-if="display_duration_of_prescription" class="text-left">Duration of Prescription</th>
+                                <th name="th_description" t-if="display_special_precautions" class="text-left">Special Precautions</th>
+                                <th name="th_priceunit" class="text-right">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+                            <t t-set="last_date_of_month" t-value="doc.report_date + relativedelta(day=31)"/>
+                            <t t-set="first_date_of_month" t-value="doc.report_date + relativedelta(day=1)"/>
+                            <t t-set="line_data" t-value="doc.medication_prescription_line_ids.filtered(lambda prescription_line: prescription_line.date_med_started and prescription_line.date_med_started &gt;= first_date_of_month and prescription_line.date_med_started &lt;= last_date_of_month and not prescription_line.discontinued_date or prescription_line.is_prn)"/>
+
+                            <t t-foreach="doc.medication_prescription_line_ids" t-as="line">
+                                <tr>
+                                    <td name="td_name"><span t-field="line.medication_id.name"/></td>
+                                    <td name="td_name"><span t-field="line.med_code"/></td>
+                                    <td name="td_name" t-if="display_date_med_started"><span t-field="line.date_med_started"/></td>
+                                    <td name="td_name" t-if="display_date_med_end"><span t-field="line.date_med_end"/></td>
+                                    <td name="td_name" t-if="display_prescribed_time"><span t-field="line.prescribed_time"/></td>
+                                    <td name="td_name"><span t-field="line.admin_frequency_id.name"/></td>
+                                    <td name="td_name" t-if="display_strength"><span t-field="line.strength"/></td>
+                                    <td name="td_name" t-if="display_dosage_form"><span t-field="line.dosage_form"/></td>
+                                    <td name="td_name" t-if="display_duration_of_prescription"><span t-field="line.duration_of_prescription"/></td>
+                                    <td name="td_name" t-if="display_special_precautions"><span t-field="line.special_precautions"/></td>
+                                    <td name="td_name" class="text-right"><span t-field="line.quantity"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <t t-if="medical_diagnosis_data.get('medical_diagnosis')">
+                        <br/>
+                        <h6><storng style="font-weight:bold">Medical Diagnosis</storng></h6>
+                        <br/>
+                        <table class="table table-sm o_main_table table-bordered table-striped">
+                            <thead>
+                                <tr class="thead_table">
+                                    <th class="s3 text-center">Diagnosis Coding Type</th>
+                                    <th class="s3 text-center">Diagnosis Code</th>
+                                    <th class="s3 text-center">Description</th>
+                                    <th class="s3 text-center">DSM-5</th>
+                                    <th class="s3 text-center">Billable</th>
+                                    <th class="s3 text-center">Diagnosis Date</th>
+                                    <th class="s3 text-center">Diagnosed By</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-foreach="medical_diagnosis_data.get('medical_diagnosis')" t-as="medical_diagnosis_line">
+                                    <tr class="blank_td_table">
+                                        <td><p><t t-esc="medical_diagnosis_line.get('coding_type')"/></p></td>
+                                        <td><p><t t-esc="medical_diagnosis_line.get('code')"/></p></td>
+                                        <td><p><t t-esc="medical_diagnosis_line.get('description')"/></p></td>
+                                        <td><p><t t-esc="medical_diagnosis_line.get('dsm')"/></p></td>
+                                        <td><p><t t-esc="medical_diagnosis_line.get('billable')"/></p></td>
+                                        <td><p><br/></p></td>
+                                        <td><p><br/></p></td>
+                                    </tr>
+                                </t>
+                                <t t-if="not medical_diagnosis_data.get('medical_diagnosis')">
+                                    <tr class="blank_td_table">
+                                        <td><p><br/></p></td>
+                                        <td><p><br/></p></td>
+                                        <td><p><br/></p></td>
+                                        <td><p><br/></p></td>
+                                        <td><p><br/></p></td>
+                                        <td><p><br/></p></td>
+                                        <td><p><br/></p></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <div class="oe_structure"/>
+
+                    </t>
+
+                    <p style="font-weight: bold">Guide Lines</p>
+                    <p t-if="doc.dietary_guidelines_note">
+                        <span t-field="doc.dietary_guidelines_note"/>
+                    </p>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_medication_profile_docs">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="via_mar.report_medication_profile_document" t-lang="request.env.user.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

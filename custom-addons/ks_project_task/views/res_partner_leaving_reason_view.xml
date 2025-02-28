@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_partner_leaving_reason_form_view" model="ir.ui.view">
+            <field name="name">res.partner.leaving.reason.form</field>
+            <field name="model">res.partner.leaving.reason</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="res_partner_leaving_reason_action" model="ir.actions.act_window">
+            <field name="name">res.partner.leaving.reason.action</field>
+            <field name="res_model">res.partner.leaving.reason</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <menuitem name="Leaving Reason" id="leaving_reason_menu_item" parent="contacts.res_partner_menu_config"
+                  action="res_partner_leaving_reason_action"/>
+
+    </data>
+</odoo>

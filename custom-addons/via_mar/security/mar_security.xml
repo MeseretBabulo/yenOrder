@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record model="ir.module.category" id="module_category_mar_access">
+            <field name="name">MAR</field>
+            <field name="description">MAR</field>
+            <field name="sequence">45</field>
+        </record>
+
+        <record id="group_mar_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="via_mar.module_category_mar_access"/>
+        </record>
+
+        <record id="group_mar_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="implied_ids" eval="[(4, ref('via_mar.group_mar_user'))]"/>
+            <field name="category_id" ref="via_mar.module_category_mar_access"/>
+        </record>
+
+        <record id="group_mar_drug_data" model="res.groups">
+            <field name="name">MAR Drug Data</field>
+        </record>
+
+    </data>
+</odoo>

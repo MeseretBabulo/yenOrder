@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_schedule_drug_doses_form" model="ir.ui.view">
+        <field name="name">view.schedule.drug.doses.form</field>
+        <field name="model">schedule.drug.doses</field>
+        <field name="arch" type="xml">
+            <form string="Schedule Drug Doses">
+                <sheet>
+                    <group name="main_group">
+                        <group name="drug_schedule_1">
+                            <field name="start_date" required="1"/>
+                            <field name="team_id" options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                            <div invisible="end_date != False" class="o_row">
+                                <br/>
+                                <span style="color: red;font-weight: bold;">
+                                    If End date is not define then it will create the records for the next 2 years.
+                                </span>
+                            </div>
+                        </group>
+                        <group name="drug_schedule_2">
+                            <field name="end_date" invisible="is_recurrence == True"/>
+                            <!-- <label for="dose" string="Dose"/>
+                            <div class="o_row">
+                                <field name="dose" readonly="1" force_save="1"/> -->
+                                <!--  <span><strong> UOM </strong></span>-->
+                                <!-- <field name="dose_unit_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" required="1"/>
+                            </div> -->
+                            <field name="med_presc_id" invisible="1"/>
+                            <field name="is_recurrence"/>
+                            <field name="repeat_show_dow" invisible="1"/>
+                            <field name="repeat_show_day" invisible="1"/>
+                            <field name="repeat_show_week" invisible="1"/>
+                            <field name="repeat_show_month" invisible="1"/>
+                        </group>
+                        <group name="recurrence" string="Recurrence" invisible="is_recurrence == False">
+                            <label for="repeat_interval" />
+                            <div class="o_col">
+                                <div class="o_row">
+                                    <field name="repeat_interval" required="is_recurrence == True" />
+                                    <field name="repeat_unit" required="is_recurrence == True" />
+                                </div>
+                                <widget name="week_days" invisible="repeat_show_dow == False"/>
+                            </div>
+
+                            <label for="repeat_on_month" string="Repeat On" invisible="repeat_unit not in ['month', 'year']" />
+                            <div class="o_row">
+                                <field name="repeat_on_month" invisible="repeat_unit != 'month'" required="(repeat_unit == 'month'), (is_recurrence == True)" />
+                                <field name="repeat_on_year" invisible="repeat_unit != 'year'" required="(repeat_unit == 'year'), (is_recurrence == True)" />
+
+                                <field name="repeat_day" invisible="repeat_show_day == False" required="(repeat_show_day == True), (is_recurrence == True)" />
+                                <field name="repeat_week" invisible="repeat_show_week == False" required="(repeat_show_week == True), (is_recurrence == True)" />
+                                <field name="repeat_weekday" invisible="repeat_show_week == False" required="(repeat_show_week == True), (is_recurrence == True)" />
+                                <span invisible="(repeat_show_week == False), (repeat_show_month == False)">of</span>
+                                <field name="repeat_month" invisible="repeat_show_month == False" required="(repeat_show_month == True), (is_recurrence == True)" />
+                            </div>
+
+                            <label for="repeat_type" />
+                            <div class="o_row">
+                                <field name="repeat_type" required="is_recurrence == True" />
+                                <field name="end_date" invisible="repeat_type != 'until'" />
+                                <field name="repeat_number" invisible="repeat_type != 'after'" required="(repeat_type == 'after'), (is_recurrence ==  True)" />
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="drug_doses_timing_lines" string="Drug Doses Timing Lines">
+                            <field name="dose_schedule_ids">
+                                <tree editable="bottom">
+                                    <field name="drug_schedule_id" invisible="1"/>
+                                    <field name="drug_time" widget="float_time" required="1"/>
+                                    <field name="am_pm" required="1"/>
+                                </tree>
+                            </field>
+                        </page>
+<!--                        <page name="drug_doses_recurrence" string="Recurrence" attrs="{'invisible': [('is_recurrence', '=', False)]}">-->
+
+<!--                        </page>-->
+                        <page name="instructions_page" string="Instructions">
+                            <group name="Instructions" string="instructions">
+                                <field name="instructions" nolabel="1" placeholder="Doses Instructions details . . . ."/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button string="Schedule" name="schedule_medicine_dose" type="object" class='btn-primary'/> 
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_schedule_drug_doses" model="ir.actions.act_window">
+        <field name="name">Schedule Drug Doses</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">schedule.drug.doses</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="via_mar.view_schedule_drug_doses_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

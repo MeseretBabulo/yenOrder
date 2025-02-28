@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="via_monitoring_template_form_view" model="ir.ui.view">
+            <field name="name">via.monitoring.template.form</field>
+            <field name="model">via.monitoring.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet string="Monitoring Template">
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="question_and_page_ids" string="Questions">
+                                <field name="question_and_page_ids" options="{'edit_form_mode': True}" nolabel="1"
+                                       widget="question_page_one2many" mode="tree,kanban">
+                                    <tree decoration-bf="is_page" editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="title"/>
+                                        <field name="question_type"/>
+                                        <field name="ans_score" invisible="1"/>
+                                        <field name="is_page" invisible="1"/>
+                                        <field name="display_type" invisible="1"/>
+                                        <control>
+                                            <create name="add_section_control" string="Add a section" context="{'default_is_page': True}"/>
+                                            <create name="add_question_control" string="Add a question"/>
+                                            <create name="add_note_control" string="Add a note" context="{'default_is_page': True, 'default_display_type': 'line_note'}"/>
+                                        </control>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Description">
+                                <field name="description" nolabel="1"></field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="via_monitoring_template_tree_view" model="ir.ui.view">
+            <field name="name">via.monitoring.template.tree</field>
+            <field name="model">via.monitoring.template</field>
+            <field name="arch" type="xml">
+                <tree string="Monitoring Template">
+                    <field name="id"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_via_monitoring_template" model="ir.actions.act_window">
+            <field name="name">Monitoring Template</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">via.monitoring.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem action="action_via_monitoring_template"
+                  id="menu_monitoring_template"
+                  name="Monitoring Template"
+                  parent="contacts.res_partner_menu_config"
+                  groups="via_survey_monitoring.group_mmt_admin"
+                  sequence="28"/>
+    </data>
+</odoo>

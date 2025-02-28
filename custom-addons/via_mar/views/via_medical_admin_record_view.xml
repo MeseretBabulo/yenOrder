@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_medical_administration_record_form" model="ir.ui.view">
+    <field name="name">view.medical.administration.record.form</field>
+    <field name="model">medical.admin.record</field>
+    <field name="arch" type="xml">
+        <form string="MAR">
+            <header>
+                <button name="action_approve" invisible="state != 'draft' or not is_approver" string="Approve" class="oe_highlight" type="object"/>
+                <button name="set_to_draft" invisible="state not in ('approved', 'inactive') or not is_approver" string="Set to Draft" class="oe_highlight" type="object"/>
+                <button name="set_to_done" invisible="state != 'approved' or not is_approver" string="Done" class="oe_highlight" type="object"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,approved,inactive"/>
+            </header>
+            <sheet>
+                <group name="via_mar">
+                    <group name="group_1">
+                        <field name="resident_partner_id" readonly="state != 'draft'" domain="[('partner_type', '=', 'person_support')]" options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                        <field name="id_number" readonly="state != 'draft'"/>
+                        <field name="date_of_birth" options="{'datepicker': {'maxDate':None}}" readonly="state != 'draft'"/>
+                        <field name="company_id" force_save="1" readonly="1"/>
+                        <field name="report_date"/>
+                    </group>
+                    <group name="group_2">
+                        <field name="approved_by_user_id" readonly="1" force_save="1"/>
+                        <field name="physician_id" domain="[('partner_type', '=', 'physician')]" readonly="state != 'draft'" options="{'no_create_edit': True, 'no_create': True}"/>
+                        <field name="is_approver" invisible="1"/>
+                        <field name="allergies" readonly="state != 'draft'"/>
+                        <field name="general_diagnoses" readonly="state != 'draft'"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page name="medication_prescription_lines" string="Medical Prescription Lines">
+                        <field name="medication_prescription_line_ids" readonly="state != 'draft'" context="{'default_patient_id': resident_partner_id}">
+                            <form>
+                                <group name="main_prescription">
+                                    <group name="presc_1">
+                                        <field name="medication_id" options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                                        <field name="patient_id" invisible="1"/>
+                                        <field name="physician_id" domain="[('partner_type', '=', 'physician')]" options="{'no_create_edit': True, 'no_create': True}"/>
+                                        <field name="schedule_wiz_id" invisible="1"/>
+                                        <field name="med_code" required="1"/>
+                                        <field name="date_med_started" required="not is_prn"/>
+                                        <field name="date_med_end"/>
+                                        <field name="diagnosis"/>
+                                        <field name="strength"/>
+                                        <label for="dosage_form" string="Dosage Form"/>
+                                        <div class="o_row">
+                                            <field name="dosage_form"/>
+                                            <field name="other_dosage_form" invisible="dosage_form != 'other'" required="dosage_form == 'other'"/>
+                                        </div>
+                                    </group>
+                                    <group name="presc_2">
+                                        <field name="quantity"/>
+                                        <label for="route_of_admin" string="Route Of Admin"/>
+                                        <div class="o_row">
+                                            <field name="route_of_admin"/>
+                                            <field name="other_admin_route" invisible="route_of_admin != 'other'" required="route_of_admin == 'other'"/>
+                                        </div>
+                                        <field name="admin_frequency_id" required="1" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}"/>
+                                        <field name="prescribed_admin_times" invisible="1" required="1"/>
+                                        <field name="prescribed_time" required="not is_prn"/>
+                                        <field name="special_precautions"/>
+                                        <field name="is_prn"/>
+                                    </group>
+                                    <label for="dose_instructions"/>
+                                    <field name="dose_instructions" placeholder="Instructions"/>
+                                </group>
+                                <!-- Notebook sections remain the same but with updated invisible/required syntax -->
+                                <notebook>
+                                    <!-- ... rest of the notebook content ... -->
+                                </notebook>
+                            </form>
+                            <tree>
+                                <field name="mar_id" invisible="1"/>
+                                <field name="is_dose_added" invisible="1"/>
+                                <field name="is_prn" invisible="1"/>
+                                <field name="is_dose_schedule" invisible="1"/>
+                                <field name="medication_id" options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                                <!-- ... other tree fields ... -->
+                                <button name="open_wizard_drug_doses_schedule" type="object" class="oe_highlight"
+                                        string="Schedule Dose"
+                                        invisible="parent.state != 'approved' or is_dose_added or is_dose_schedule or is_prn"/>
+                                <button name="discontinue_action" string="Discontinue" class="oe_highlight"
+                                        invisible="parent.state == 'inactive' or is_prn" type="object"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="mar_dietary_guidelines_notes" string="Dietary Guidelines">
+                        <group name="group_4">
+                            <field name="dietary_guidelines_note" readonly="state != 'draft'" placeholder="Dietary Guidelines Notes . . . ." nolabel="1"/>
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids"/>
+                <field name="activity_ids"/>
+                <field name="message_ids"/>
+            </div>
+        </form>
+    </field>
+    </record>
+
+    <record id="view_medical_administration_record_tree" model="ir.ui.view">
+        <field name="name">view.medical.administration.record.tree</field>
+        <field name="model">medical.admin.record</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="resident_partner_id"/>
+                <field name="id_number"/>
+                <field name="date_of_birth"/>
+                <field name="physician_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+    <record id="view_medical_administration_record_search" model="ir.ui.view">
+        <field name="name">view_medical_administration_record_search</field>
+        <field name="model">medical.admin.record</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="resident_partner_id"/>
+                <field name="physician_id"/>
+                <field name="state"/>
+                <group string="Group By">
+                    <filter name="group_by_resident_partner_id" string="Resident's Name" context="{'group_by': 'resident_partner_id'}"/>
+                    <filter name="group_by_physician_id" string="Physician" context="{'group_by': 'physician_id'}"/>
+                    <filter name="group_by_state" string="State" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_medical_administration_record" model="ir.actions.act_window">
+        <field name="name">Medication Profile</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.admin.record</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_medical_administration_record_tree"/>
+    </record>
+
+    <record id="view_prescription_line_form" model="ir.ui.view">
+        <field name="name">view.medical.prescription.line.form</field>
+        <field name="model">medical.prescription.line</field>
+        <field name="arch" type="xml">
+            <form string="Prescription Line">
+                <sheet>
+                    <group name="main_med_prescription">
+                        <group name="med_presc_1">
+                            <field name="medication_id" options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                            <field name="med_code" required="1"/>
+                            <field name="patient_id" invisible="1" context="{'default_patient_id': parent.resident_partner_id}"/>
+                            <field name="mar_id" options="{'no_create_edit': True, 'no_create': True}" required="1" context="{'from_gantt': True}"/>
+                            <label for="date_med_started" string="Medication Dates"/>
+                            <div class="o_row">
+                                <field name="date_med_started"/>
+                                <span> to </span>
+                                <field name="date_med_end"/>
+                            </div>
+                            <field name="diagnosis"/>
+                            <field name="strength"/>
+                            <field name="dosage_form"/>
+                            <field name="other_dosage_form"/>
+                        </group>
+                        <group name="med_presc_2">
+                            <!-- <field name="dose"/> -->
+                            <field name="route_of_admin"/>
+                            <field name="other_admin_route"/>
+                            <field name="admin_frequency_id" options="{'no_create_edit': True, 'no_create': True}"/>
+                            <field name="prescribed_admin_times"/>
+                            <field name="prescribed_time"/>
+                            <field name="duration_of_prescription"/>
+                            <field name="special_precautions"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="med_doses_lines" string="Medical Doses Lines">
+                            <br/><br/><h3>Medication Doses Details</h3>
+                            <field readonly="1" force_save="1" name="medical_doses_line_ids">
+                                <tree>
+                                    <field name="med_presc_id" invisible="1"/>
+                                    <field name="medical_office_id" options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                                    <field name="title" required="1"/>
+                                    <field name="initials" required="1"/>
+                                    <field name="comment" invisible="1"/>
+                                    <field name="medication_date" required="1" force_save="1"/>
+                                    <field name="medication_day" readonly="1" force_save="1"/>
+                                    <field name="day_time" readonly="1" force_save="1"/>
+                                    <field name="dose_time"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_medical_prescription_line_tree" model="ir.ui.view">
+        <field name="name">view.medical.prescription.line.tree</field>
+        <field name="model">medical.prescription.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="patient_id"/>
+                <field name="medication_id"/>
+                <field name="med_code"/>
+                <field name="date_med_started"/>
+                <field name="date_med_end" invisible="1"/>
+                <field name="diagnosis"/>
+                <field name="strength"/>
+                <field name="dosage_form"/>
+                <field name="other_dosage_form"/>
+                <!-- <field name="dose"/> -->
+                <field name="route_of_admin" optional="hide"/>
+                <field name="other_admin_route" optional="hide"/>
+                <field name="admin_frequency_id" optional="hide"/>
+                <field name="prescribed_admin_times" optional="hide"/>
+                <field name="duration_of_prescription" optional="hide"/>
+                <field name="special_precautions" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_medical_prescription_line_user_tree" model="ir.ui.view">
+        <field name="name">view.medical.prescription.line.tree.user</field>
+        <field name="model">medical.prescription.line</field>
+        <field name="arch" type="xml">
+            <tree create="0">
+                <field name="patient_id"/>
+                <field name="medication_id"/>
+                <field name="med_code"/>
+                <field name="date_med_started"/>
+                <field name="date_med_end"/>
+                <field name="diagnosis"/>
+                <field name="strength"/>
+                <field name="dosage_form"/>
+                <field name="other_dosage_form"/>
+                <!-- <field name="dose"/> -->
+                <field name="is_dose_added" invisible="1"/>
+                <field name="route_of_admin" optional="hide"/>
+                <field name="other_admin_route" optional="hide"/>
+                <field name="admin_frequency_id" optional="hide"/>
+                <field name="prescribed_admin_times" optional="hide"/>
+                <field name="duration_of_prescription" optional="hide"/>
+                <field name="special_precautions" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_medical_prescription_line_search" model="ir.ui.view">
+        <field name="name">view.medical.prescription.line.search</field>
+        <field name="model">medical.prescription.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="patient_id"/>
+                <field name="medication_id"/>
+                <field name="med_code"/>
+                <field name="date_med_started"/>
+                <field name="date_med_end" invisible="1"/>
+                <field name="dosage_form"/>
+                <!-- <field name="dose"/> -->
+                <group string="Group By">
+                    <filter name="group_by_patient_id" string="Resident's Name" context="{'group_by': 'patient_id'}"/>
+                    <filter name="group_by_medication_id" string="Medication" context="{'group_by': 'medication_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_medical_prescription_line_tree_import" model="ir.ui.view">
+        <field name="name">view.medical.prescription.line.tree.import</field>
+        <field name="model">medical.prescription.line</field>
+        <field name="arch" type="xml">
+            <tree create="1" edit="1" delete="0">
+                <field name="medication_id"/>
+                <field name="med_code"/>
+                <field name="date_med_started"/>
+                <field name="date_med_end"/>
+                <field name="quantity"/>
+                <field name="strength"/>
+                <field name="dosage_form"/>
+                <field name="route_of_admin"/>
+                <field name="other_admin_route"/>
+                <field name="admin_frequency_id"/>
+                <field name="prescribed_time"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_medical_prescription_line_gantt" model="ir.ui.view">
+        <field name="name">view.medical.prescription.line.gantt</field>
+        <field name="model">medical.prescription.line</field>
+        <field name="arch" type="xml">
+            <gantt
+                form_view_id="%(view_prescription_line_form)d"
+                date_start="date_med_started"
+                date_stop="date_med_end"
+                default_group_by="patient_id"
+                default_scale="week"
+                color="color"
+                plan="false"
+                string="Schedule"
+                total_row="True"
+                scales="day,week,month,year"
+                precision="{'day': 'hour:full', 'week': 'day:full', 'month': 'day:full', 'year': 'day:full'}"
+                display_unavailability="1"
+                sample="1">
+
+                <field name="patient_id"/>
+                <field name="medication_id"/>
+                <field name="med_code"/>
+                <field name="date_med_started"/>
+                <field name="date_med_end"/>
+                <field name="dosage_form"/>
+                <!-- <field name="dose"/> -->
+                <templates>
+                    <div t-name="gantt-popover">
+                        <div class="row no-gutters">
+                           <div class="col">
+                               <ul class="pl-1 mb-0">
+                                   <li>
+                                       <strong>Start Date:</strong>
+                                       <t t-esc="userTimezoneStartDate.format('L LT')"/>
+                                   </li>
+                                   <li>
+                                       <strong>Stop Date:</strong>
+                                       <t t-esc="userTimezoneStopDate.format('L LT')"/>
+                                   </li>
+                                   <li>
+                                       <strong>Medicine Code:</strong>
+                                       <t t-esc="med_code"/>
+                                   </li>
+                               </ul>
+                           </div>
+                       </div>
+                   </div>
+                </templates>
+            </gantt>
+        </field>
+    </record>
+
+    <record id="view_frequency_of_admin_form" model="ir.ui.view">
+        <field name="name">view.frequency.of.admin.form</field>
+        <field name="model">frequency.of.admin</field>
+        <field name="arch" type="xml">
+            <form string="Frequency of Admin">
+                <sheet>
+                    <group name="frequency_of_admin_data">
+                        <group name="group_1">
+                            <field name="name" required="1"/>
+                        </group>
+                        <group name="group_2">
+                            <field name="frequency_count" required="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_frequency_of_admin_tree" model="ir.ui.view">
+        <field name="name">view.frequency.of.admin.tree</field>
+        <field name="model">frequency.of.admin</field>
+        <field name="arch" type="xml">
+            <tree string="Frequency of Admin">
+                <field name="name"/>
+                <field name="frequency_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_via_diagnosis_details_form" model="ir.ui.view">
+        <field name="name">view.via.diagnosis.details.form</field>
+        <field name="model">via.diagnosis.details</field>
+        <field name="arch" type="xml">
+            <form string="Frequency of Admin">
+                <group name="diagnosis_main">
+                    <group name="diagnosis_1">
+                        <field name="diagnosis_id" options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                        <field name="partner_id" options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                    </group>
+                    <group name="diagnosis_2">
+                        <field name="diagnosis_description" required="1" />
+                        <field name="description" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+     <record id="view_via_diagnosis_details_tree" model="ir.ui.view">
+        <field name="name">view.via.diagnosis.details.tree</field>
+        <field name="model">via.diagnosis.details</field>
+        <field name="arch" type="xml">
+            <tree delete="0" create="0" edit="0">
+                <field name="diagnosis_id" options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                <field name="mci_number" required="1"/>
+                <field name="partner_id" options="{'no_create_edit': True, 'no_create': True}" required="0"/>
+                <field name="diagnosis_description" required="1"/>
+                <field name="description" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_via_diagnosis_details_tree_inherit_editable" model="ir.ui.view">
+        <field name="name">view.via.diagnosis.details.tree.inherit.editable</field>
+        <field name="model">via.diagnosis.details</field>
+        <field name="inherit_id" ref="via_mar.view_via_diagnosis_details_tree"/>
+        <!-- <field name="groups_id" eval="[(4, ref('via_mar.group_mar_admin'))]" /> -->
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="editable">top</attribute>
+                <attribute name="delete">1</attribute>
+                <attribute name="create">1</attribute>
+                <attribute name="edit">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_via_diagnosis_details_search" model="ir.ui.view">
+        <field name="name">view.via.diagnosis.details.search</field>
+        <field name="model">via.diagnosis.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" string="Person Supported"/>
+                <field name="diagnosis_id" string="Diagnosis"/>
+                <group string="Group By">
+                    <filter name="group_partner_id" string="Partner Supported" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_by_diagnosis_id" string="Diagnosis" context="{'group_by': 'diagnosis_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_via_medical_prescription_line_detail_import" model="ir.actions.act_window">
+        <field name="name">Prescription Details</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.prescription.line</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="via_mar.view_medical_prescription_line_tree_import"/>
+    </record>
+    <menuitem id="menu_prescription_details_import" action="action_via_medical_prescription_line_detail_import" groups="via_mar.group_mar_admin" name="Prescription Details" parent="via_mar.menu_drug_data_main" sequence="6"/>
+
+    <record id="action_via_diagnosis_details" model="ir.actions.act_window">
+        <field name="name">Diagnosis Details</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">via.diagnosis.details</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="via_mar.view_via_diagnosis_details_tree"/>
+    </record>
+
+    <menuitem id="menu_diagnosis_details" action="action_via_diagnosis_details" groups="via_mar.group_mar_admin" name="Diagnosis Details" parent="via_mar.menu_drug_data_main" sequence="5"/>
+
+    <record id="action_frequency_of_admin" model="ir.actions.act_window">
+        <field name="name">Frequency Of Admin</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">frequency.of.admin</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_frequency_of_admin_tree"/>
+    </record>
+     <record id="action_medical_prescription_lines" model="ir.actions.act_window">
+        <field name="name">Prescription Lines</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.prescription.line</field>
+        <field name="view_mode">gantt,tree,form</field>
+        <field name="view_id" ref="view_medical_prescription_line_tree"/>
+        <field name="search_view_id" ref="view_medical_prescription_line_search"/>
+    </record>
+
+    <record id="action_medical_prescription_lines_user" model="ir.actions.act_window">
+        <field name="name">Medical Prescription Lines</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.prescription.line</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_medical_prescription_line_user_tree"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_medical_prescription_line_user_tree')})]"/>
+        <field name="search_view_id" ref="view_medical_prescription_line_search"/>
+    </record>
+ 
+    <menuitem id="menu_medical_administration_record" name="MAR" parent="via_mar.menu_medical_administration_record_main" groups="via_mar.group_mar_admin" action="action_medical_administration_record" sequence="1"/>
+
+</odoo>

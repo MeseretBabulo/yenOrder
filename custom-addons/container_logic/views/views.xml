@@ -1,0 +1,68 @@
+<odoo>
+
+    <record id="sales_container_setting_extend" model="ir.ui.view">
+        <field name="name">container_measurement_logic_setting</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='proforma_configuration']" position="after">
+                <setting id="container_measurement_logic"
+                    help="Determine the use of containers and weights for the containers">
+                    <field name="container_measurement_logic" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="action_report_saleorder" model="ir.actions.report">
+        <field name="name">Container Report</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">container_logic.report_container_document</field>
+        <field name="report_file">container_logic.report_container_document</field>
+        <field name="print_report_name"> 'Container For Sale Report - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_sale_order" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="view_sale_order_container_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.container.line.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="enable_container_calculations" invisible="state != 'draft'" />
+            </xpath>
+            <notebook position="inside">
+                <page string="Containers Tracking" name="containers" create="false" edit="false"
+                    delete="false" invisible="not enable_container_calculations">
+                    <button name="compute_product_ids" type="object"
+                        string="Compute Container Cost" />
+                    <field name="container_line_ids">
+                        <tree editable="bottom">
+                            <field name="product_ids" column_invisible="1" />
+                            <field name="name" string="Container Type" />
+                            <field name="product_id" string="Product" />
+                            <field name="size" string="Size (feet)" optional="show" />
+                            <field name="load_capacity" string="Load Capacity (cubic meter)"
+                                optional="show" />
+                            <field name="weight" string="Weight (Kg)" optional="show" />
+                            <field name="product_weight" string="Product Weight (Kg)"
+                                optional="show" />
+                            <field name="packaging_uom" string="Packaging UoM" optional="show" />
+                            <field name="package_quantity" string="Package Quantity" readonly="1"
+                                optional="show" />
+
+                            <field name="costs" string="Costs" />
+                            <field name="seal_no" string="Seal No" />
+                            <field name="cont_no" string="Cntr No" />
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Documents -->
+    <record id="document_view_search_inherit_add_fields" model="ir.ui.view">
+        <field name="name">document.view.search.inherit.add.fields</field>
+        <field name="model">documents.document</field>
+        <field name="inherit_id" ref="documents.document_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_id']" position="after">
+                <field name="team_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="document_view_form_inherit_add_fields" model="ir.ui.view">
+        <field name="name">document.view.form.inherit.add.fields</field>
+        <field name="model">documents.document</field>
+        <field name="inherit_id" ref="documents.document_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="team_id" options="{'no_create_edit': True, 'no_quick_create': True, 'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_document_kanban_inherit_add_fields" model="ir.ui.view">
+        <field name="name">view.document.kanban.inherit.add.fields</field>
+        <field name="model">documents.document</field>
+        <field name="inherit_id" ref="documents.document_view_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lock_uid']" position="before">
+                <field name="team_id"/>
+            </xpath>
+            <xpath expr="//div[hasclass('o_kanban_record_body')]" position="inside">
+                <t t-if="record.team_id.value"> <br/>
+                  <span> <field name="team_id"/> </span>
+                </t>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

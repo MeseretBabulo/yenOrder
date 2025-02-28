@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <data>
+        <!-- Action for Other Location Wizard -->
+        <record id="action_other_location_wizard" model="ir.actions.act_window">
+            <field name="name">Other Location</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">other.location.wizard</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <!-- Form View for Other Location Wizard -->
+        <record id="other_location_wizard_form_view" model="ir.ui.view">
+            <field name="name">other.location.wizard.form.view</field>
+            <field name="model">other.location.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Other Location">
+                    <sheet>
+                        <group>
+                            <field name="other_location"/>
+                            <field name="comment"/>
+                        </group>
+                        <group invisible="[('other_location', '!=', True)]">
+                            <field name="child_locations"/>
+                            <field name="partner_id" invisible="1"/>
+                            <field name="so_line" widget="many2one"/>
+                            <field name="sale_line_id"/>
+                            <field name="task_id"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Save" name="save_other_location" type="object" class='btn-primary'/>
+                        <button string="Discard" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+
+</odoo>

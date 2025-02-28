@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Standard Vehicle Typess -->
+    <record id="vehicle_type_truck" model="vehicle.type">
+        <field name="name">Truck</field>
+    </record>
+    <record id="vehicle_type_trailer" model="vehicle.type">
+        <field name="name">Trailer</field>
+    </record>
+    <record id="vehicle_type_van" model="vehicle.type">
+        <field name="name">Van</field>
+    </record>
+    <record id="vehicle_type_pickup" model="vehicle.type">
+        <field name="name">Pickup</field>
+    </record>
+    <record id="vehicle_type_container" model="vehicle.type">
+        <field name="name">Container Truck</field>
+    </record>
+
+</odoo>

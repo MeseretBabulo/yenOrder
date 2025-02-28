@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+   <t t-extend="KanbanView.buttons" t-name="ks_project_task.buttons">
+       <t t-jquery="button" t-operation="after">
+               <button t-if="widget.modelName == 'project.task'"
+                   class="btn btn-primary open_wizard_action_kanban oe_highlight"
+                   type="button">Create Appointment</button>
+       </t>
+   </t>
+</templates>

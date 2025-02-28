@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+
+    <record id="seq_payroll_content" model="ir.sequence">
+        <field name="name">Payroll Content</field>
+        <field name="code">payroll.header</field>
+        <field name="prefix">Pcon</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+   </data>
+
+</odoo>

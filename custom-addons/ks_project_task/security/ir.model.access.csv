@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_create_project_task_wizard,create.project.task.wizard,model_create_project_task_wizard,,1,1,1,1
+access_create_survey_wizard,create.survey.wizard,model_create_survey_wizard,,1,1,1,1
+access_link_project_survey,link.project.survey,model_link_project_survey,,1,1,1,1
+access_sms_template,sms.template.custom,model_sms_template_custom,,1,1,1,1
+access_modifier_one,ks_project_task.modifiers_one.custom,model_ks_project_task_modifiers_one,,1,1,1,1
+access_modifier_two,ks_project_task.modifiers_two.custom,model_ks_project_task_modifiers_two,,1,1,1,1
+access_modifier_three,ks_project_task.modifiers_three.custom,model_ks_project_task_modifiers_three,,1,1,1,1
+access_modifier_four,ks_project_task.modifiers_four.custom,model_ks_project_task_modifiers_four,,1,1,1,1
+access_specialist,ks_project_task.specialist,model_ks_project_task_specialist,,1,1,1,1
+access_procedure_code,ks_project_task.procedure_code.custom,model_ks_project_task_procedure_code,,1,1,1,1
+access_ks_logger,ks_project_task.ks_logger.custom,model_ks_project_task_ks_logger,,1,1,1,1
+access_res_partner_archive_wizard_user,ks_project_task.res.partner.archive.wizard,model_res_partner_archive_wizard,,1,1,1,1
+access_res_partner_leaving_reason,ks_project_task.res.partner.leaving.reason,model_res_partner_leaving_reason,,1,1,1,1
+access_progress_notes,ks_project_task.progress.notes,model_progress_notes,,1,1,1,1

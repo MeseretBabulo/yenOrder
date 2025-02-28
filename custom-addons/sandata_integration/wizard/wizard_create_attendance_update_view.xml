@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Create Attendance Wizard form view -->
+    <data>
+        <record id="wizard_create_attendance_update_form_view" model="ir.ui.view">
+            <field name="name">Create Attendance Wizard update Form</field>
+            <field name="model">wizard.create.attendance.update</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="task_id" invisible='1'/>
+                            <field name="exception_acknowledgement"/>
+                            <field 
+                                name="exception_id" 
+                                invisible='not exception_acknowledgement'/>
+                            <field 
+                                name="client_verified_times"
+                                invisible='not update_visit'/>
+                            <field 
+                                name="client_signature"
+                                invisible='not update_visit'/>
+                        </group>
+                        <group>
+                            <field name="update_visit"/>
+                            <field 
+                                name="visit_id"
+                                invisible='not update_visit' 
+                                required='1'/>
+                            <field 
+                                name="reasoncode"
+                                invisible='not update_visit' 
+                                required='1' 
+                                placeholder='30'/>
+                            <field 
+                                name="resolution_code"
+                                invisible='not update_visit' 
+                                required='1' 
+                                placeholder='1'/>
+                            <field 
+                                name="reason_memo"
+                                invisible='not update_visit' 
+                                required='1' 
+                                placeholder='Employee Mobile Issue'/>
+                            <field 
+                                name="adj_in_date"
+                                invisible='not update_visit'/>
+                            <field 
+                                name="adj_out_date"
+                                invisible='not update_visit'/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string='Confirm' 
+                                name='action_create_attendance' 
+                                class='oe_highlight' 
+                                type='object'/>
+                        <button string='Cancel' 
+                                special='cancel' 
+                                type='object'/>
+                    </footer>
+                </form>
+            </field>
+        </record>  
+    </data>
+</odoo>

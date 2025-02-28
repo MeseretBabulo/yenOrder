@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <data>
+        <!-- Action for Sandata Configuration -->
+        <record id="action_sandata_configuration" model="ir.actions.act_window">
+            <field name="name">Sandata Configuration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sandata.configuration</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Tree View for Sandata Configuration -->
+        <record id="sandata_tree_view" model="ir.ui.view">
+            <field name="name">sandata.tree.view</field>
+            <field name="model">sandata.configuration</field>
+            <field name="arch" type="xml">
+                <tree string="SanData Configuration">
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="authorize_account"/>
+                    <field name="authorize_provider"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View for Sandata Configuration -->
+        <record id="sandata_form_view" model="ir.ui.view">
+            <field name="name">sandata.form.view</field>
+            <field name="model">sandata.configuration</field>
+            <field name="arch" type="xml">
+                <form string="SanData Configuration">
+                    <!-- Header with buttons -->
+                    <header>
+                        <button 
+                            string="Test &amp; Confirm" 
+                            type="object" 
+                            name="button_confirm_login" 
+                            invisible="[('state', '!=', 'draft')]"/>
+
+                        <button 
+                            string="Reset Confirmation" 
+                            type="object" 
+                            name="set_draft" 
+                            invisible="[('state', '!=', 'done')]"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+
+                    <!-- Main form content -->
+                    <sheet>
+                        <!-- Ribbons for modes -->
+                        <widget name="web_ribbon" title="Disabled" bg_color="bg-danger"/>
+                        <widget name="web_ribbon" title="Test Mode" bg_color="bg-warning"/>
+                        <widget name="web_ribbon" title="Live Mode" bg_color="bg-success"/>
+
+                        <!-- Title with Name field -->
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="Name" readonly="[('state', '=', 'done')]"/></h1>
+                        </div>
+
+                        <!-- Sandata Mode Group -->
+                        <group>
+                            <group name="sandata_mode">
+                                <field name="mode" widget="radio"/>
+                                <field 
+                                    name="company_id"
+                                    readonly="[('state', '=', 'done')]"
+                                    groups="base.group_multi_company"
+                                    options='{"no_open": True}'/>
+                            </group>
+                        </group>
+
+                        <!-- Notebook with pages -->
+                        <notebook>
+                            <!-- Credentials Page -->
+                            <page string="Credentials" name='sandata_credentials'>
+                                <group name='sandata'>
+                                    <group>
+                                        <field 
+                                            name='authorize_account' 
+                                     
+                                            />
+                                        <field 
+                                            name='authorize_provider' 
+                                 
+                                            />
+                                        <field 
+                                            name='authorize_user_id' 
+                                            />
+                                        <field 
+                                            name='authorize_pass' 
+                                            password='True' 
+                                            force_save='1' 
+                                            />
+                                    </group>
+                                </group>
+                            </page>
+
+                            <!-- Configuration Page -->
+                            <page string='Configuration' name='sandata_configuration'>
+                                <group name='sandata_config'>
+                                    <!-- Test URLs -->
+                                    <group>
+                                        <field 
+                                            name='test_employee_url' 
+                                            required="[('mode', '=', 'test')]"
+                                            />
+                                        <field 
+                                            name='test_client_url' 
+                                            required="[('mode', '=', 'test')]"
+                                            />
+                                        <field 
+                                            name='test_visit_url' 
+                                            required="[('mode', '=', 'test')]"
+                                            />
+                                        <!-- Production URLs -->
+                                        <field 
+                                            name='prod_employee_url' 
+                                            required="[('mode', '=', 'enabled')]"
+                                            />
+                                        <field 
+                                            name='prod_client_url'  
+                                            required="[('mode', '=', 'enabled')]"
+                                            />
+                                        <field  
+                                            name='prod_visit_url'  
+                                            required="[('mode', '=', 'enabled')]"
+                                            />
+                                    </group>
+
+                                    <!-- Additional URLs -->
+                                    <group>
+                                        <field 
+                                            name='test_get_employee_url'  
+                                             invisible="[('mode','in',['enabled','disabled'])]"
+                                             required="[ ('mode','=', 	'test') ]"/>
+                                        <field 
+                                            	name='test_get_client_url'
+                                            	invisible="{&quot;mode&quot;: [&quot;enabled&quot;, &quot;disabled&quot;]}"
+                                            	readonly="{&quot;state&quot;: [&quot;done&quot;]}"
+                                            	required="{&quot;mode&quot;: [&quot;test&quot;]}"/>
+                                        ...
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Menu Items -->
+        <!-- Main Menu Item -->
+        <menuitem
+            id='sandata_menu_technical'
+            parent='base.menu_custom'
+            sequence='2'
+            name='SanData Configuration'/>
+
+        <!-- Submenu Item for Sandata Configuration -->
+        <menuitem
+            action='action_sandata_configuration'
+            id='menu_sandata_config'
+            parent='sandata_integration.sandata_menu_technical'
+            sequence='25'
+            name='Sandata Configuration'/>
+    </data>
+
+</odoo>  

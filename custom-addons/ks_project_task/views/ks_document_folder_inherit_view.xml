@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="documents_folder_view_form_inherit" model="ir.ui.view">
+            <field name="name">documents.folder.inherit</field>
+            <field name="model">documents.folder</field>
+            <field name="inherit_id" ref="documents.folder_view_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="medical_docs"/>
+                    <field name="folder_type"/>
+                </xpath>
+            </field>
+        </record>
+<!--        creating menu respect to folder type-->
+        <record id="ks_res_admin_folder_action_d" model="ir.actions.act_window">
+            <field name="name">Res Admin Documents</field>
+            <field name="res_model">documents.document</field>
+            <field name="view_mode">kanban,tree</field>
+            <field name="domain">[('folder_id.folder_type', '=', 'res_admin')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Upload <span class="font-weight-normal">a file or</span> drag
+                    <span class="font-weight-normal">it here.</span>
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Res-Admin" id="ks_res_admin_folder" action="ks_res_admin_folder_action_d" parent="documents.menu_root" sequence="1"/>
+    </data>
+</odoo>

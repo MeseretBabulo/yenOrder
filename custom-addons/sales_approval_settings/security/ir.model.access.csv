@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sales_approval_steps,sales_approval_sales_approval_steps,model_sales_approval_sales_approval_steps,base.group_user,1,1,1,1
+access_employee_line,employee.line,model_employee_line,,1,1,1,1
+access_sale_approval_history,sale.approval.history,model_sale_approval_history,,1,1,1,1
+

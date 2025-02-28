@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_import_lead_wizard" model="ir.ui.view">
+            <field name="name">Import Lead Data</field>
+            <field name="model">lead.import</field>
+            <field name="arch" type="xml">
+                <form string="Import Lead">
+                    <group>
+                        <group colspan="2" col="4">
+                            <field name="file_name" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="file_to_import" required="True" filename="file_name" style="width: 200px;"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_import" string="Import" type="object"
+                                class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="form_import_lead_data" model="ir.actions.act_window">
+            <field name="name">Import Lead</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">lead.import</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem
+            id="menu_crm_lead_import"
+            name="Import Lead Via Excel"
+            action="form_import_lead_data"
+            parent="crm.menu_crm_config_lead"
+            sequence="10"/>
+    </data>
+</openerp>

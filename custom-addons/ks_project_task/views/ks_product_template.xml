@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="product_template_form_view_inherit" model="ir.ui.view">
+            <field name="name">product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='general_information']//group[@name='group_standard_price']//field[@name='company_id']" position="after">
+                    <field name="procedure_code"/>
+                    <field name="modifier_1"/>
+                    <field name="modifier_2" invisible="modifier_1 == False"/>
+                    <field name="modifier_3" invisible="modifier_2 == False"/>
+                    <field name="modifier_4" invisible="modifier_3 == False"/>
+                    <field name="reasoncode"/>
+                    <field name="call_type"/>
+                    <field name="mobile_login"/>
+                    <field name="resolution_code"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

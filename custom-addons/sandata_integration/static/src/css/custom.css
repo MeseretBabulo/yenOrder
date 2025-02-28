@@ -1,0 +1,12 @@
+.crm_isp_data table thead tr th[data-name="product_id"], .crm_isp_data  table tbody tr td[name="product_id"]{
+    width: 200px !important;
+}
+
+.service_note_wizard_tree table thead tr th[data-name="survey_answer"], .service_note_wizard_tree table tbody tr td[name="survey_answer"]{
+    width: 100px !important;
+}
+
+.service_note_wizard_tree table thead tr th[data-name="note"], .service_note_wizard_tree table tbody tr td[name="note"]{
+    width: 120px !important;
+}
+

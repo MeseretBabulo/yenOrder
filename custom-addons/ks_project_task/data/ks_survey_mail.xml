@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="ks_incomplete_surveys_emails" model="ir.cron">
+            <field name="name">Incomplete Survey Email</field>
+            <field name="model_id" ref="model_survey_user_input"/>
+            <field name="state">code</field>
+            <field name="code">model.ks_incomplete_survey_emails_data()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name='interval_number'>1</field>
+            <field name='interval_type'>days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+    </data>
+</odoo>

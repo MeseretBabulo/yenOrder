@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="ks_logger_form_view" model="ir.ui.view">
+            <field name="name">ks_project_task.ks_logger.form</field>
+            <field name="model">ks_project_task.ks_logger</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="date"/>
+                            <field name="update_data"/>
+                            <field name="response"/>
+                            <field name="data_file"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="ks_logger_tree_view" model="ir.ui.view">
+            <field name="name">ks_project_task.ks_logger.tree</field>
+            <field name="model">ks_project_task.ks_logger</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="update_data"/>
+                    <field name="response"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="ks_logger_action" model="ir.actions.act_window">
+            <field name="name">Logger API Info</field>
+            <field name="res_model">ks_project_task.ks_logger</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Ks Logger" id="ks_logger_menu_item" parent="project.menu_project_report"
+                  action="ks_logger_action"/>
+
+    </data>
+</odoo>

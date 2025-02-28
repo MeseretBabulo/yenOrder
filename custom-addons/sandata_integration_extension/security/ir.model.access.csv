@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sandata_integration_extension.access_other_location_wizard,access_other_location_wizard,sandata_integration_extension.model_other_location_wizard,,1,1,1,1

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_via_service_note_wizard" model="ir.actions.act_window">
+        <field name="name">Service Note Line Wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">via.service.note.wizard</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <record id="via_service_note_wizard_form_view" model="ir.ui.view">
+        <field name="name">via.service.note.wizard.form.view</field>
+        <field name="model">via.service.note.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Service Note Line Wizard">
+                <sheet>
+                    <group>
+                        <field name="service_note_survey_ids" nolabel="1">
+                            <tree create="0" editable="bottom" class="service_note_wizard_tree" string="Service Note Line">
+                                <field name="outcome_phrase" string="Description" style="white-space: normal;word-break: break-word;" readonly="1" force_save="1"/>
+                                <field name="survey_id" invisible="1"/>
+                                <field name="isp_id" invisible="1"/>
+                                <field name="survey_answer"/>
+                                <field name="service_delivery_date"/>
+                                <field name="start_time" widget="float_time"/>
+                                <field name="end_time" widget="float_time"/>
+                                <field name="note" string="Comments" readonly="0" force_save="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Save" name="save_note" type="object" class='btn-primary'/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

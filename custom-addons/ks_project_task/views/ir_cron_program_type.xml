@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="program_type_field_cron" model="ir.cron">
+            <field name="name">program_type_field</field>
+            <field eval="False" name="active"/>
+            <field name="model_id" ref="model_ks_project_task_automate_program_type"/>
+            <field name="state">code</field>
+            <field name="code">model.automate_program_type()</field>
+            <field name='interval_number'>1</field>
+            <field name='interval_type'>days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

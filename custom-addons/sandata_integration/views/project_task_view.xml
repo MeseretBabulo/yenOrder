@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_task_form2_inherited_inherits_add_buttons_inherit" model="ir.ui.view">
+        <field name="name">view.task.form2.inherited.inherits.add.button.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="bista_timesheet_attendance.view_task_form2_inherited_inherits_add_buttons"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='attendance_tab']" position="inside">
+                <button 
+                    name='open_create_attendance_wizard' 
+                    class='oe_highlight' 
+                    string='Create Attendance' 
+                    type='object' 
+                    groups='sandata_integration.group_create_attendance'/>
+            </xpath>
+            <xpath expr="//page[@name='attendance_tab']//field[@name='attendance_line_ids']/tree" position="inside">
+                <field name='is_manual' invisible='1'/>
+                <field name='is_checkout_done' invisible='1'/>
+                <button 
+                    name='open_check_out_attendance_wizard' 
+                    class='oe_highlight' 
+                    string='Check-Out' 
+                    type='object' 
+                    groups='sandata_integration.group_create_attendance' 
+                    attrs="{ 'invisible': ['|', ('is_manual', '=', False), ('is_checkout_done', '=', True)] }"/>
+                <button 
+                    name='open_service_note_wizard' 
+                    string='Edit Service Note' 
+                    class='oe_highlight' 
+                    attrs="{ 'invisible': [('parent.is_sn_editable', '=', False)] }"
+                    type='object'/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_task_form2_inherited_inherits_add_note_button" model="ir.ui.view">
+        <field name="name">view.task.form2.inherited.inherits.add.note.button</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@id='timesheets_tab']//field[@name='timesheet_ids']" position="attributes">
+                <attribute name='context'>{ 'default_project_id': project_id, 'default_name': '', 'default_is_manual': True }</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[@id='timesheets_tab']//field[@name='timesheet_ids']/tree" position="inside">
+                <field name='is_service_note' optional='hide'/>
+                <field name='is_manual' optional='hide'/>
+                <field name='via_company_type' force_save='1' invisible='1'/>
+                <button 
+                    name='open_service_note' 
+                    class='oe_highlight' 
+                    string='Add Service Note' 
+                    type='object'
+                    attrs="{ 'invisible': ['|', '|', ('is_service_note', '=', True), ('is_manual', '=', False), ('via_company_type', '=', 'nj')] }"/>
+                <button 
+                    name='open_service_note_entry' 
+                    class='oe_highlight' 
+                    string='Edit Service Note' 
+                    type='object'
+                    attrs="{ 'invisible': ['|', '|', ('parent.is_sn_editable', '=', False), ('is_service_note', '=', False), ('via_company_type', '=', 'nj')] }"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="via_service_note_tree_wizard_view" model="ir.ui.view">
+        <field name="name">via.service.note.wizard.open.tree.view</field>
+        <field name="model">via.service.note</field>
+        <field name="arch" type="xml">
+            <tree string="VIA Service Note" editable="bottom">
+                <field name="project_id" readonly="1" invisible="1"/>
+                <field name="task_id" readonly="1" invisible="1"/>
+                <field name="via_attendance_line_id" invisible="1"/>
+                <field name="partner_id" readonly="1"/>
+                <field name="company_id" invisible="1" force_save="1" readonly="1"/>
+                <field name="create_date" string="Date" readonly="1"/>
+                <field name="outcome_phrase" string="Description" readonly="1"/>
+                <field name="reason_for_outcome" invisible="1"/>
+                <field name="outcome_statement" invisible="1"/>
+                <field name="actions_taken" invisible="1"/>
+                <field name="progress_status" invisible="1"/>
+                <field name="survey_answer"/>
+                <field name="note" string="Comments"/>
+                <field name="employee_id" invisible="1"/>
+                <field name="isp_id" invisible="1"/>
+                <field name="user_id" invisible="1"/>
+                <field name="project_manager_id" invisible="1"/>
+                <button name="open_attendance_line" string="Edit Attendance" class="oe_hightlight" type="object"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="via_service_note_tree_wizard_view_service_note_admin" model="ir.ui.view">
+        <field name="name">via.service.note.wizard.open.tree.view</field>
+        <field name="model">via.service.note</field>
+        <field name="inherit_id" ref="sandata_integration.via_service_note_tree_wizard_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='outcome_phrase']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+            <field name="outcome_phrase" groups="via_sales_enhancement.group_service_note_admin"/>
+        </field>
+    </record>
+
+    <record id="via_account_analytic_line_tree_wizard_view" model="ir.ui.view">
+        <field name="name">via.account.analytic.line.tree.wizard.view</field>
+        <field name="model">account.analytic.line</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" string="Timesheet Activities" create="0" delete="0" default_order="date">
+                <field name="date" readonly="1"/>
+                <field name="user_id" invisible="1"/>
+                <field name="employee_id" readonly="1" required="1" widget="many2one_avatar_employee" context="{'active_test': True}"/>
+                <field name="name" readonly="1" required="0"/>
+                <field name="unit_amount" widget="timesheet_uom" decoration-danger="unit_amount &gt; 24"/>
+                <field name="project_id" invisible="1"/>
+                <field name="task_id" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_account_analytic_line_tree_via" model="ir.ui.view">
+        <field name="name">view.account.analytic.line.tree.via</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="unit_amount" position="before">
+                <field name="check_in_time"/>
+                <field name="check_out_time"/>
+                <field name="program_type"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

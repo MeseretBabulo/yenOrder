@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_monitoring_document">
+            <t t-call="web.external_layout">
+                <style>
+                    .table-bordered th, .table-bordered td {
+                        border: 1px solid black !important;
+                    }
+                </style>
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2>
+                                <p class="MsoNormal" align="center" style='margin-bottom:0in;text-align:center'>
+                                    <b>
+                                        <span style='font-size:14.0pt;line-height:107%'>Support Coordinator Monitoring Tool -
+                                            <u>
+                                                <span style='color:#ED7D31'>Monthly</span>
+                                            </u>
+                                        </span>
+                                    </b>
+                                </p>
+                                <p class='MsoNormal' align='center' style='margin-bottom:0in;text-align:center;
+                                line-height:normal'>
+                                    <span style='font-size:12.0pt'>Quarterly and Annual Face-to-Face monitoring visits
+                                        <b>
+                                            <u>require</u>
+                                        </b>
+                                        the
+                                        <u>
+                                            <span style='color:#4472C4'>SC Monitoring Tool - Quarterly/Annual.</span>
+                                        </u>
+                                    </span>
+                                </p>
+                            </h2>
+                        </div>
+<!--                        <div class="col-lg-12">-->
+<!--                            <h2>-->
+<!--                                <span>Quarterly and Annual Face-to-Face monitoring visits require the SC Monitoring Tool - Quarterly/Annual.</span>-->
+<!--                            </h2>-->
+<!--                        </div>-->
+
+                    </div>
+
+                    <p class='MsoNormal' style='margin-bottom:0.5in'>
+                        <span style='font-size:6.0pt;line-height:107%;color:#ED7D31'/>
+                    </p>
+
+                    <div class="row">
+                        <table class='table table-sm table-bordered table-striped o_main_table' style=''>
+                            <t t-foreach="doc.question_answer_ids" t-as="question_answer_id">
+								<t t-if="question_answer_id.display_type == 'line_section'">
+									<tr>
+										<td colspan='7' valign='top'
+											style='border:solid windowtext 1.0pt;background:#BDD6EE;'>
+											<p class='MsoNormal' style='margin-bottom:0in;line-height:normal'>
+												<b>
+													<span style='font-size:12.0pt;color:black'>
+														<t t-esc="question_answer_id.name"/>
+													</span>
+												</b>
+											</p>
+										</td>
+									</tr>
+								</t>
+								<t t-elif="question_answer_id.display_type == 'line_note'">
+                                    <tr>
+										<td colspan='7' valign='top'
+											style='border:solid windowtext 1.0pt;'>
+											<p class='MsoNormal' style='margin-bottom:0in;line-height:normal'>
+												<b>
+													<span style='font-size:12.0pt;color:#ED7D31'>
+														<t t-esc="question_answer_id.name"/>
+													</span>
+												</b>
+											</p>
+										</td>
+									</tr>
+								</t>
+								<t t-else="">
+									<tr>
+										<td>
+											<p style='font-size:12.0pt;line-height:normal'>
+												<t t-esc="question_answer_id.question_id.title"/>
+											</p>
+										</td>
+										<t t-if="question_answer_id.answer_char">
+											<td>
+												<p style='font-size:12.0pt;line-height:normal'>
+													<t t-esc="question_answer_id.answer_char"/>
+												</p>
+											</td>
+										</t>
+										<t t-elif="question_answer_id.answer_float">
+											<td>
+												<p style='font-size:12.0pt;line-height:normal'>
+													<t t-esc="question_answer_id.answer_float"/>
+												</p>
+											</td>
+										</t>
+										<t t-elif="question_answer_id.answer_date">
+											<td>
+												<p style='font-size:12.0pt;line-height:normal'>
+													<t t-esc="question_answer_id.answer_date"/>
+												</p>
+											</td>
+										</t>
+										<t t-elif="question_answer_id.answer_sel">
+											<td>
+												<p style='font-size:12.0pt;line-height:normal'>
+													<t t-esc="question_answer_id.answer_sel.value"/>
+												</p>
+											</td>
+										</t>
+										<t t-elif="question_answer_id.answer_textbox">
+											<td>
+												<p style='font-size:12.0pt;line-height:normal'>
+													<span t-field="question_answer_id.answer_textbox"/>
+												</p>
+											</td>
+										</t>
+										<t t-else="">
+											<td>
+												<p style='font-size:12.0pt;line-height:normal'>
+												</p>
+											</td>
+										</t>
+									</tr>
+								</t>
+							</t>
+
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_monitoring_docs">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="via_survey_monitoring.report_monitoring_document" t-lang="request.env.user.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

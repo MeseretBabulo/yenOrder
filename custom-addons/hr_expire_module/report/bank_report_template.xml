@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_bank_payroll">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="data">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style>
+                        .report-header {
+                            padding: 0,0 px;
+                            margin: 0px;
+                        }
+                        .report-date-ref {
+                            margin-bottom: 20px;
+                        }
+                        .report-date-ref span {
+                            display: block;
+                            margin-bottom: 5px;
+                            font-size: 14px;
+                            text-align: left;
+                            padding-left: 20px;
+                        }
+                        .letter-header {
+                            margin-bottom: 30px;
+                        }
+                        .letter-header p {
+                            font-size: 14px;
+                            margin-bottom: 15px;
+                            text-align: left;
+                            padding-left: 20px;
+                        }
+                        .report-subject {
+                            text-align: left;
+                            color: #225d87;
+                            font-size: 20px;
+                            font-weight: bold;
+                            margin: 20px 0;
+                            padding-left: 20px;
+                        }
+                        .letter-body {
+                            padding-left: 20px;
+                            margin-bottom: 30px;
+                        }
+                        .table-header th {
+                            background-color: #225d87;
+                            color: white;
+                            font-weight: bold;
+                            padding: 10px;
+                            border: 1px solid #ddd;
+                        }
+                        .table tbody td {
+                            padding: 8px;
+                            border: 1px solid #ddd;
+                        }
+                        .signature-section {
+                            margin-top: 50px;
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 20px;
+                        }
+                        .signature-block {
+                            text-align: center;
+                            margin: 0 20px;
+                        }
+                        .signature-line {
+                            width: 200px;
+                            height: 1px;
+                            background-color: black;
+                            margin: 30px auto 10px auto;
+                        }
+                    </style>
+
+                    <!-- <div class="report-header"> -->
+                        <div class="report-date-ref">
+                            <span><strong>Date:</strong> <t t-esc="docs.print_date"/></span>
+                            <span><strong>Ref:</strong> <t t-esc="docs.ref"/></span>
+                        </div>
+                        <div class="letter-header">
+                            <p><strong>To:</strong> <t t-esc="docs.to.name"/></p>
+                            <div class="report-subject">
+                                <t t-esc="docs.subject"/>
+                            </div>
+                        </div>
+                        <div class="letter-body">
+                            <p><t t-esc="docs.body"/></p>
+                        </div>
+                    <!-- </div> -->
+
+                    <table class="table table-bordered">
+                        <p style="text-align: center; font-weight: bold; margin-bottom: 15px;"><t t-esc="docs.name"/></p>
+                        <thead>
+                            <tr class="table-header">
+                                <th style="width: 30px;">SI.No</th>
+                                <th>Employee Name</th>
+                                <th>Bank Account No.</th>
+                                <th>Net Pay</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="SN" t-value="0"/>
+                            <t t-set="total_amount" t-value="0"/>
+                            <tr t-foreach="data.slip_ids" t-as="o">
+                                <td>
+                                    <t t-set="SN" t-value="SN + 1"/>
+                                    <span t-esc="SN"/>
+                                </td>
+                                <td>
+                                    <span t-esc="o.employee_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-esc="o.employee_id.bank_account_id.acc_number"/>
+                                </td>
+                                <t t-foreach="o.line_ids" t-as="net_amount">
+                                    <t t-if="net_amount.category_id.name=='Net'">
+                                        <td class="text-right">
+                                            <span t-esc="'{0:,.0f}'.format(net_amount.total)"/>
+                                            <t t-set="total_amount" t-value="total_amount+net_amount.total"/>
+                                        </td>
+                                    </t>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align:center">
+                                    <strong>Total</strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong t-esc="'{0:,.0f}'.format(total_amount)"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/>
+                        <span>Prepared by: <t t-esc="docs.perpared.name"/></span>
+                        <span style="margin-left:100px ;">Checked by: <t t-esc="docs.checked.name"/></span>
+                        <span style="margin-left:100px;">Approved by: <t t-esc="docs.approved.name"/></span>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</odoo>

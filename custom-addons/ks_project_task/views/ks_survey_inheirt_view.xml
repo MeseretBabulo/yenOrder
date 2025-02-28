@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="ks_survey_form_inherit" model="ir.ui.view">
+            <field name="name">ks_survey_inherit_form</field>
+            <field name="model">survey.survey</field>
+            <field name="inherit_id" ref="survey.survey_survey_view_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group/group" position="after">
+                    <group>
+                        <field name="schedule_frequency_comment"/>
+                        <field name="goal_service"/>
+                        <field name="criteria_for_completion"/>
+                        <field name="scoring_method"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="survey_template"
+                        readonly="created_from_project == True"
+                        invisible="created_from_project != True"/>
+                    <field name="created_from_project" readonly="1" invisible="1"/>
+                    <field name="ISP_program_name"
+                        readonly="created_from_project == True"
+                        invisible="created_from_project != True"/>
+                    <field name="mpi_number" readonly="1"/>
+                    <field name="individual_name"
+                        readonly="created_from_project == True"
+                        invisible="created_from_project != True"/>
+                    <field name="provider_program"
+                        readonly="created_from_project == True"
+                        invisible="created_from_project != True"/>
+                    <field name="ma_number"
+                        readonly="created_from_project == True"
+                        invisible="created_from_project != True"/>
+                    <field name="isp_start_date"
+                        readonly="created_from_project == True"
+                        invisible="created_from_project != True"/>
+                    <field name="isp_end_date"
+                        readonly="created_from_project == True"
+                        invisible="created_from_project != True"/>
+                    <field name="project_manager"/>
+                    <field name="target_completion_date"/>
+                    <field name="answer_done_count" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='users_login_required']" position="after">
+                    <field name="evv"/>
+                </xpath>
+                <xpath expr="//button[@name='action_survey_user_input_completed']" position="replace">
+                    <button name="action_survey_user_input_completed"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o">
+                        <field string="Answers" name="answer_count" widget="statinfo"/>
+                    </button>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

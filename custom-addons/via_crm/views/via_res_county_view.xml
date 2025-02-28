@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_form_via_res_county" model="ir.ui.view">
+        <field name="name">view.form.via.res.county</field>
+        <field name="model">via.res.county</field>
+        <field name="arch" type="xml">
+            <form string="Res County Form View">
+                <group name="main_group">
+                    <group name="group_1">
+                        <field name="name" require="1"/>
+                        <field name="state_id" options="{'no_create_edit': True, 'no_create': True}"/>
+                    </group>    
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tree_via_res_county" model="ir.ui.view">
+        <field name="name">view.tree.via.res.county</field>
+        <field name="model">via.res.county</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="state_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_via_res_county" model="ir.actions.act_window">
+        <field name="name">County</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">via.res.county</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_via_res_county" name="County" parent="contacts.menu_localisation"
+            action="action_via_res_county" sequence="20"/>
+
+</odoo>

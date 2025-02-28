@@ -1,0 +1,104 @@
+<odoo>
+    <!-- Inherit the Sale Order form view to add Transport Record functionality -->
+    <record id="view_sale_order_form_transport" model="ir.ui.view">
+        <field name="name">sale.order.form.transport</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Add a button to create a transport record -->
+            <button name="action_confirm" position="after">
+                <!-- <button name="action_create_transport_record" string="Create Transport Record" type="object" class="btn-info" /> -->
+                  <button 
+                    name="action_create_transport_record" 
+                    string="Create Transport Record" 
+                    type="object" 
+                    class="btn-info" 
+                    invisible="transport_record or not enable_transport_tracking" groups="transport_management.group_transport_budget_request,transport_management.group_transport_budget_approval"/>
+                    <field name="transport_record" invisible="1" />
+            </button>
+            <xpath expr="//field[@name='payment_term_id']" position="before">
+                <group >
+                    <field name="enable_transport_tracking" string="Enable Transport Tracking"/>
+                </group>
+            </xpath>
+
+
+            <!-- Add a page to display related transport records -->
+            <notebook position="inside">
+                <page string="Transport Records" groups="transport_management.group_transport_budget_request,transport_management.group_transport_budget_approval">
+                    <field name="transport_record_ids" context="{'default_sale_order_id': id}">
+                        <tree>
+                            <field name="name"/>
+                            <field name="transport_provider_id"/>
+                            <field name="driver_id"/>
+                            <field name="vehicle_type"/>
+                            <field name="plate_number"/>
+                            <field name="state"/>
+                        </tree>
+                        <form string="Transport Record">
+                            <header>
+                                <button string="Submit" type="object" name="action_submit" class="btn-primary" invisible="state != 'draft'"  groups="transport_management.group_transport_budget_request"/>
+                                <button string="Approve" type="object" name="action_approve" class="btn-success" invisible="state != 'submitted'"  groups="transport_management.group_transport_budget_approval"/>
+                                <button string="Cancel" type="object" name="action_cancel" class="btn-danger" invisible="state != 'submitted'" groups="transport_management.group_transport_budget_request,transport_management.group_transport_budget_approval"/>
+                                <button string="Set to Draft" type="object" name="action_set_to_draft" class="btn-info" invisible="state != 'cancelled'" groups="transport_management.group_transport_budget_request,transport_management.group_transport_budget_approval"/>
+                                <button string="Create Transport Bill" type="object" name="action_create_transport_bill" class="btn-primary" invisible="state not in ['approved','per_diem_billed']" groups="transport_management.group_transport_budget_request,transport_management.group_transport_budget_approval"/>
+                                <button string="Create Per Diem Bill" type="object" name="action_create_per_diem_bill" class="btn-primary" invisible="state not in ['approved', 'transport_billed']" groups="transport_management.group_transport_budget_request,transport_management.group_transport_budget_approval"/>
+                                <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,cancelled,transport_billed,per_diem_billed,done"/>
+                            </header>
+                            <sheet>
+                                <div class="oe_button_box" name="button_box">
+                                    <button name="action_view_transport_bills" type="object" class="oe_stat_button" icon="fa-truck" modifiers="{'invisible': [['transport_bill_count', '=', 0]]}">
+                                        <field name="transport_bill_count" widget="statinfo" icon="fa-truck"/>
+                                    </button>
+                                    <button name="action_view_per_diem_bills" type="object" class="oe_stat_button" icon="fa-money" modifiers="{'invisible': [['per_diem_bill_count', '=', 0]]}">
+                                        <field name="per_diem_bill_count" widget="statinfo" icon="fa-money"/>
+                                    </button>
+                                </div>
+
+                                <!-- Basic Information -->
+                                <group name="basic_info" string="BASIC INFORMATION">
+                                    <group>
+                                        <field name="name" readonly="1"/>
+                                        <field name="transport_provider_id"/>
+                                        <field name="driver_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="state" readonly="1"/>
+                                        <field name="vehicle_type"/>
+                                        <field name="plate_number"/>
+                                    </group>
+                                </group>
+
+                                <!-- Journey Details -->
+                                <group name="journey_details" string="JOURNEY DETAILS">
+                                    <group>
+                                        <field name="source"/>
+                                        <field name="destination"/>
+                                        <!-- <field name="transport_cost" string="Transportation Unit Price"/> -->
+                                    </group>
+                                    <group>
+                                        <field name="pick_up_date"/>
+                                        <field name="delivery_date"/>
+                                        <!-- <field name="destination_weight" string="Destination Weight (in quintal)"/> -->
+                                    </group>
+                                </group>
+
+                                <!-- Cost Information -->
+                                <group name="cost_info" string="COST AND BILLING INFORMATION">
+                                    <group>
+                                        <field name="driver_per_diem"/>
+                                        <field name="total_cost" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="transport_bill_id" readonly="1" widget="many2one"/>
+                                        <field name="per_diem_bill_id" readonly="1" widget="many2one"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

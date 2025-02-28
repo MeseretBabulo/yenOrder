@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+
+        <record id="view_order_form_inherit_add_monitoring" model="ir.ui.view">
+            <field name="name">view.order.form.inherit.add.monitoring</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/header//button[@name='action_draft']" position="after">
+                    <button name="action_open_monitoring" class="oe_stat_button" type="object" string="Monitoring"/>
+                </xpath>
+                <field name="date_order" position="after">
+                    <field name="monitoring_template_id" options="{'noc_create_edit': True, 'no_create': True}"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

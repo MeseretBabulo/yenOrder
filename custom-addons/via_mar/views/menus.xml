@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <menuitem id="menu_medical_administration_record" name="Medication Profile" parent="via_mar.menu_medical_administration_record_main" groups="via_mar.group_mar_admin" action="action_medical_administration_record" sequence="1"/>
+    <!-- <menuitem id="menu_medical_prescription_line" name="MAR Lines" parent="via_mar.menu_medical_administration_record_main" groups="via_mar.group_mar_admin" action="action_medical_prescription_lines" sequence="2"/> -->
+    <!-- <menuitem id="menu_medical_prescription_line_user" name="MAR Lines" parent="via_mar.menu_medical_administration_record_main" groups="via_mar.group_mar_user" action="action_medical_prescription_lines_user" sequence="2"/> -->
+    <menuitem id="menu_frequency_of_admin" name="Frequency of Admin" parent="via_mar.menu_medical_administration_record_main" groups="via_mar.group_mar_admin" action="action_frequency_of_admin" sequence="4"/>
+    <menuitem id="menu_icd10_diagnosis_data_main" action="action_icd10_diagnosis_data" name="ICD10 Diagnosis Data" parent="via_mar.menu_drug_data_main" sequence="1"/>
+    <menuitem id="menu_open_fda_drug_data" action="action_open_fda_drug_data" groups="via_mar.group_mar_admin" name="Open FDA Drug Data" parent="via_mar.menu_drug_data_main" sequence="3"/>
+    <menuitem id="menu_drug_initials" action="action_drug_initials" groups="via_mar.group_mar_admin" name="Drug Not Administered" parent="via_mar.menu_drug_data_main" sequence="4"/>
+    <menuitem id="menu_drug_doses_schedule" name="MAR" parent="via_mar.menu_medical_administration_drug_schedule_root" groups="via_mar.group_mar_admin,via_mar.group_mar_user" action="action_drug_doses_schedule" sequence="3"/>
+    <menuitem id="menu_wizard_import_open_fda_drug_data_main" action="action_wizard_import_open_fda_drug_data" name="Wizard Open FDA Drug Data" parent="via_mar.menu_drug_data_main" groups="via_mar.group_mar_admin" sequence="4"/>
+    <menuitem id="menu_residential" name="" parent="via_mar.menu_medical_administration_record_main" groups="via_mar.group_mar_admin" action="action_residential_data" sequence="5"/>
+    <menuitem id="menu_residential_seizures_desc" action="action_residential_seizures_desc" name="Description" parent="via_mar.menu_residential_data_main" sequence="1"/>
+    <menuitem id="menu_residential_seizures_behaviour" action="action_residential_seizures_behaviour" name="Behaviour" parent="via_mar.menu_residential_data_main" sequence="2"/>
+    <menuitem id="menu_residential_seizures_staff_action" action="action_residential_seizures_staff_action" name="Staff Action" parent="via_mar.menu_residential_data_main" sequence="3"/>
+</odoo>

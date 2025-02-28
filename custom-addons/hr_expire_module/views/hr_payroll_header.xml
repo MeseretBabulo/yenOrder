@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+    <record model="ir.ui.view" id="view_payroll_content_form">
+         <field name="name">payroll.header.form</field>
+         <field name="model">payroll.header</field>
+         <field name="arch" type="xml">
+            <form string="Test">
+               <sheet>
+
+               <div class="oe_title">
+                    <h1>
+                        <field name="reference_no" readonly="1"/>
+                    </h1>
+                </div>
+               <group>
+                    <group>
+                        <field name="company_id" />
+                        <field name="employee_id"/>
+                        <field name="bank_name" />
+                        <field name="bank_branch"/> </group>
+                    <group>
+                        <field name="company_account" />
+                        <field name="content1"/>
+                        <field name="content2"/>
+                        <field name="isActive" />
+                    </group>
+                  </group>
+               </sheet>
+            </form>
+         </field>
+      </record>
+
+      <record id="view_payroll_content_tree" model="ir.ui.view">
+        <field name="name">payroll.header.tree</field>
+        <field name="model">payroll.header</field>
+        <field name="arch" type="xml">
+            <tree string="Payroll Header Contents">
+                <field name="company_id" />
+                <field name="employee_id" />
+                <field name="bank_name" />
+                <field name="bank_branch" />
+                <field name="isActive" />
+            </tree>
+        </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_payroll_header">
+            <field name="name">Payroll Header Contents</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">payroll.header</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="menu_payroll_header"
+            sequence="70"
+            parent="hr_payroll.menu_hr_payroll_configuration"
+            action="action_payroll_header"/>
+
+        
+        
+    </data>
+</odoo>

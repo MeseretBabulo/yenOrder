@@ -1,0 +1,50 @@
+<odoo>
+
+    <data noupdate="1">
+        <record id="ir_cron_scheduler_download_ndc_drug_file" model="ir.cron">
+           <field name="name">Download NDC Drug File</field>
+           <field name="model_id" ref="model_open_fda_drug_data"/>
+           <field name="state">code</field>
+           <field name="code">model.action_download_ndc_drug_data()</field>
+           <field name="user_id" ref="base.user_root"/>
+           <field name="interval_number">1</field>
+           <field name="interval_type">days</field>
+           <field name="numbercall">-1</field>
+        </record>
+
+        <!-- <record id="ir_cron_drug_dose_scheduler" model="ir.cron">
+           <field name="name">Drug Dose Scheduler</field>
+           <field name="model_id" ref="model_drug_doses_schedule"/>
+           <field name="state">code</field>
+           <field name="code">model.action_drug_dose_schedule()</field>
+           <field name="user_id" ref="base.user_root"/>
+           <field name="interval_number">1</field>
+           <field name="interval_type">days</field>
+           <field name="numbercall">-1</field>
+        </record> -->
+
+        <record id="blood_glucose_notification_template" model="mail.template">
+            <field name="name">Blood Glucose Notification</field>
+            <field name="model_id" ref="via_mar.model_residential_blood_glucose"/>
+            <field name="subject">Blood Glucose Notification</field>
+            <field name="email_to">{{ (object.residential_id.person_support_id.id) }}</field>
+            <field name="partner_to">{{ (object.sudo().residential_id.person_support_id.id) }}</field>
+            <field name="body_html" type="html">
+                <div>
+                    Hello <br/><br/>
+                    Please check the Glucose for the <t t-out="object.sudo().residential_id.name"/><br/><br/>
+
+                    <div style="text-align: center; padding: 16px 0px 16px 0px;">
+                        <a style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" t-att-href="object.get_blood_glucose_data_url()">View</a><br/>
+                    </div>
+
+                    Thank you,<br/><br/>
+                    <t t-out="object.reported_by.name or 'Administrator'"/>
+                </div>
+            </field>
+            <field name="lang">{{ object.reported_by.partner_id.lang or user.lang }}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+
+</odoo>

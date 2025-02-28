@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="via_attendance_line_view" model="ir.ui.view">
+        <field name="name">via.attendance.line.view</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='attendance_line_ids']/tree/field[@name='check_in_time']" position="before">
+                <field name="so_line"/>
+                <field name="child_line_location" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

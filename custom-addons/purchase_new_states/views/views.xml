@@ -1,0 +1,183 @@
+<odoo>
+    <record id="view_purchase_order_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <!-- Add the state field as a statusbar -->
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="state" widget="statusbar"
+                    statusbar_visible="draft,bank_sent,bank_approved,sent,docs_received,submit_documents,purchase,vendor_shipped,custom_clearance,arrived"
+                    invisible="is_direct_purchase" />
+            </xpath>
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="state" widget="statusbar"
+                    statusbar_visible="draft,sent,purchase"
+                    invisible="not is_direct_purchase" />
+            </xpath>
+
+            <!-- Add buttons for custom states -->
+            <xpath expr="//header" position="inside">
+                <!-- <button name="action_send_to_bank" invisible="state != 'draft'" string="Send to
+                Bank"
+                        type="object" class="oe_highlight"/> -->
+                <button name="action_send_to_bank"
+                    invisible="state != 'draft' or is_direct_purchase" string="Send to Bank"
+                    type="object" class="oe_highlight" />
+                
+                <!-- <button name="custom_view_product_line"
+                    invisible="0" string="View Product line"
+                    type="object" class="oe_highlight" />
+                 -->
+                <button name="button_bank_approved_rfq" type="object" string="Bank Approved"
+                    invisible="state != 'bank_sent'" class="btn-primary" />
+                <button name="button_bank_reject_first" type="object" string="Rejected"
+                    invisible="state != 'bank_sent'" class="btn-danger" />
+                <button name="action_rfq_send" type="object" string="PO Sent to Supplier"
+                    invisible="state != 'bank_approved' or is_direct_purchase " class="btn-primary" />
+
+                <button name="action_rfq_send" type="object" string="PO Sent to Supplier"
+                    invisible="(state != 'draft') or (not is_direct_purchase) " class="btn-primary" />
+
+
+                <button name="button_docs_received" type="object"
+                    string="Receive supplier documents"
+                    invisible="state != 'sent' or is_direct_purchase" class="btn-primary" />
+                <button name="button_submit_documents" type="object"
+                    string="Submit Documents to Bank"
+                    invisible="state != 'docs_received'" class="btn-primary" />
+                <button name="button_confirm" type="object" string="Final Bank Approved"
+                    invisible="state != 'submit_documents'" class="btn-success" />
+                <button name="button_bank_reject" type="object" string="Bank Rejected"
+                    invisible="state != 'submit_documents'" class="btn-danger" />
+
+            </xpath>
+
+            <xpath expr="//header/button[@name='action_create_invoice']" position="after">
+                <button name="button_vendor_shipped" type="object" string="Supplier Shipped"
+                    invisible="state != 'purchase' or is_direct_purchase" class="btn-primary" />
+                <button name="button_custom_clearance" type="object" string="Custom Clearance"
+                    invisible="state != 'vendor_shipped'" class="btn-warning" />
+                <button name="button_arrived" type="object" string="Mark as Arrived"
+                    invisible="state != 'custom_clearance'" class="btn-success" />
+            </xpath>
+
+
+            <!-- Add a notebook page for supplier attachments -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Supplier Documents">
+                    <field name="supplier_attachment_ids"
+                        context="{'default_res_model': 'purchase.order', 'default_res_id': active_id}">
+                        <tree>
+                            <field name="name" string="Document Name" />
+                            <field name="create_date" string="Upload Date" />
+                            <field name="datas" string="Attachment" />
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <!-- Add the state field as a statusbar -->
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="is_direct_purchase" readonly="state != 'draft'" invisible ="state != 'draft'" />
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="proforma_invoice" invisible ="is_direct_purchase" />
+                <field name="total_price_in_words" invisible ="1" />
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="purchase_order_view_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <!-- Replace Receive Products button -->
+            <xpath expr="//header/button[@name='action_rfq_send']" position="replace">
+                <button name="action_view_picking"
+                    string="Receive Products" class="oe_highlight" type="object"
+                    invisible="is_shipped or state not in ('arrived') or incoming_picking_count == 0"
+                    data-hotkey="y" groups="stock.group_stock_user" />
+            </xpath>
+            <!-- Replace visibility logic for Confirm Order D -->
+            <!-- <xpath expr="//header/button[@name='action_create_invoice']" position="attributes">
+                <attribute name="invisible">state not in ('arrived') or invoice_status not in ('no',
+                    'invoiced') or not order_line</attribute>
+            </xpath> -->
+            <xpath expr="//header/button[@name='action_create_invoice'][2]" position="replace"/>
+            <!-- Replace visibility logic for Confirm Order D -->
+            <xpath expr="//header/button[@name='button_confirm']" position="attributes">
+                <attribute name="invisible">state not in ('purchase', 'done','arrived')</attribute>
+            </xpath>
+            <!-- Replace visibility logic for Confirm Order D -->
+            <xpath expr="//header/button[@name='print_quotation']" position="attributes">
+                <attribute name="invisible">not is_direct_purchase or state not in ('sent','draft')</attribute>
+            </xpath>
+            <xpath expr="//header/button[@name='print_quotation'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//header/button[@name='action_rfq_send'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//header/button[@name='button_confirm'][@id='bid_confirm']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//header/button[@name='button_confirm'][@id='draft_confirm']"
+                position="attributes">
+                <attribute name="invisible">state not in ('draft','sent') or not is_direct_purchase</attribute>
+            </xpath>
+            <xpath expr="//header/button[@name='button_cancel']" position="attributes">
+                <attribute name="invisible">not is_direct_purchase or state == 'cancel'</attribute>
+            </xpath>
+
+            <!-- Replace visibility logic for Button draft Order D -->
+            <xpath expr="//header/button[@name='button_draft']" position="attributes">
+                <attribute name="invisible">not is_direct_purchase or state !='cancel'</attribute>
+            </xpath>
+            <!-- Replace visibility logic for Button draft Order D -->
+            <!-- <xpath expr="//header/button[@name='confirm_reminder_mail']" position="attributes">
+            <attribute name="invisible">state not in ('done')</attribute>
+        </xpath> -->
+            <xpath expr="//header/button[@name='confirm_reminder_mail']" position="attributes">
+                <attribute name="invisible">1</attribute>
+                <!-- <attribute name="invisible">state not in ('purchase') or not
+                is_direct_purchase</attribute> -->
+            </xpath>
+
+        <!-- Replace Receipt smart action -->
+        <!-- <xpath expr="//div[contains(@class, 'oe_button_box')]//button[@name='action_view_picking']"  position="attributes">
+            <attribute name="invisible">state not in ('arrived')</attribute>
+         </xpath>
+        <xpath expr="//div[contains(@class, 'oe_button_box')]//button[@name='action_view_picking']"  position="attributes">
+            <attribute name="invisible">state not in ('purchase') or not is_direct_purchase</attribute>
+         </xpath> -->
+
+
+        </field>
+    </record>
+
+
+    <record id="view_purchase_uploadwizard_wizard_form" model="ir.ui.view">
+        <field name="name">purchase.uploadwizard.wizard.form</field>
+        <field name="model">purchase.uploadwizard.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Upload Supplier Documents">
+                <sheet>
+                    <field name="attachment_ids">
+                        <tree editable="bottom">
+                            <field name="file_name" />
+                            <field name="file_attachment" />
+                        </tree>
+                    </field>
+                </sheet>
+                <footer>
+                    <button string="Save" type="object" name="action_upload_files"
+                        class="btn-primary" />
+                    <button string="Cancel" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

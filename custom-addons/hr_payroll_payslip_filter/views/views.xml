@@ -1,0 +1,33 @@
+<odoo>
+
+    <record id="view_hr_payslip_by_employees_extend" model="ir.ui.view">
+        <field name="name">hr_payroll_payslip_employees_custom</field>
+        <field name="model">hr.payslip.employees</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_by_employees" />
+        <field name="arch" type="xml">
+            <xpath expr="//form//separator[2]" position="attributes">
+                <attribute name="string">Work Location</attribute>
+            </xpath>
+            <xpath expr="//form//div[2]//p" position="replace">
+                <p>Set a specific work location if you wish to select all the employees from this work location at once.</p>
+            </xpath>
+            <xpath expr="//field[@name='department_id']" position="replace">
+                <field  name = "work_location_id" widget="many2many_tags" options="{'no_create': True}" />
+            </xpath>
+            <xpath expr="//field[@name='employee_ids']" position="replace">
+                <field name="employee_ids" nolabel="1" 
+                       domain="[('work_location_id', '=', work_location_id)]" >
+                    <tree>
+                        <field name="name"/>
+                        <field name="work_email"/>
+                        <field name="department_id"/>
+                        <field name="work_location_id"/>
+                    </tree>
+                </field>
+            </xpath>
+    
+        </field>
+    </record>
+
+
+</odoo>

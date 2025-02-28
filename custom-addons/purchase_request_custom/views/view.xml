@@ -1,0 +1,14 @@
+<!-- <odoo>
+
+    <record id="view_purchase_ord_form_extend" model="ir.ui.view">
+        <field name="name">purchase_request_custom</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_to_approve']" position="after">
+                <button name="button_to_notificaion" string="button_to_notificaion" type="object"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo> -->

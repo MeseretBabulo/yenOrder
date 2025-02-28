@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paperformat_custom_mar_admin_report" model="report.paperformat">
+            <field name="name">Custom Paperformat for MAR Admin Report</field>
+            <field name="default" eval="False"/>
+            <field name="disable_shrinking" eval="False"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">42.00</field>
+            <field name="margin_bottom">17.00</field>
+            <field name="margin_left">7.00</field>
+            <field name="margin_right">7.00</field>
+            <field name="header_spacing">46</field>
+            <field name="header_line" eval="False" />
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="paperformat_custom_residential_report" model="report.paperformat">
+            <field name="name">Custom Paperformat for Residential Report</field>
+            <field name="default" eval="False"/>
+            <field name="disable_shrinking" eval="False"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">25.00</field>
+            <field name="margin_bottom">17.00</field>
+            <field name="margin_left">7.00</field>
+            <field name="margin_right">7.00</field>
+            <field name="header_spacing">27</field>
+            <field name="header_line" eval="True" />
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_report_mar_admin_record" model="ir.actions.report">
+            <field name="name">Medication Administration Record</field>
+            <field name="model">medical.admin.record</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">via_mar.report_medical_admin_record_docs</field>
+            <field name="report_file">via_mar.report_medical_admin_record_docs</field>
+            <field name="print_report_name">'Medication Administration Record'</field>
+            <field name="binding_model_id" ref="model_medical_admin_record"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_mar_medication_profile" model="ir.actions.report">
+            <field name="name">Medication Profile</field>
+            <field name="model">medical.admin.record</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">via_mar.report_medication_profile_docs</field>
+            <field name="report_file">via_mar.report_medication_profile_docs</field>
+            <field name="print_report_name">'Medication Profile'</field>
+            <field name="binding_model_id" ref="model_medical_admin_record"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="via_mar.action_report_mar_admin_record" model="ir.actions.report">
+            <field name="paperformat_id" ref="via_mar.paperformat_custom_mar_admin_report"/>
+        </record>
+
+
+        <record id="action_report_residential" model="ir.actions.report">
+            <field name="name">Residential Report</field>
+            <field name="model">residential.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">via_mar.report_residential_forms_template</field>
+            <field name="report_file">via_mar.report_residentialforms</field>
+            <field name="binding_model_id" ref="model_residential_report"/>
+<!--            <field name="binding_type">report</field>-->
+        </record>
+
+         <record id="via_mar.action_report_residential" model="ir.actions.report">
+            <field name="paperformat_id" ref="via_mar.paperformat_custom_residential_report"/>
+        </record>
+
+    </data>
+</odoo>

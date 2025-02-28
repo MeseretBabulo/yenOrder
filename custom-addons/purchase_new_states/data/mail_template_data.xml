@@ -1,0 +1,67 @@
+<odoo>
+    <record id="email_template_send_to_bank" model="mail.template">
+        <field name="name">Purchase: Send to Bank</field>
+        <field name="model_id" ref="purchase.model_purchase_order" />
+        <field name="subject">Request for LC Approval - Proforma Invoice (Ref {{ object.name or 'n/a' }}) from {{ object.company_id.name }}</field>
+        <field name="partner_to">{{ object.partner_id.id }}</field>
+        <field name="description">Sent manually to bank for proforma approval</field>
+        <field name="body_html" type="html">
+            <div>
+                <p> Dear Bank Representative, <br /><br /> We kindly request your approval for the
+                    Letter of Credit (LC) based on the attached proforma invoice <span
+                        style="font-weight:bold;"
+                        t-out="object.name or ''">P00015</span>
+        <t t-if="object.partner_ref"> with
+                    reference: <strong>{{object.partner_ref or '' }}</strong>. </t>
+        <br /><br />
+                    Please review the attached document and let us know if any additional
+                    information or modifications are required. We appreciate your prompt attention
+                    to this request to ensure a smooth transaction. <br /><br /> Best regards, <t
+                        t-if="not is_html_empty(object.user_id.signature)">
+                        <br />
+                        <br />
+                        <t t-out="object.user_id.signature or ''">--<br />Mitchell Admin</t>
+                    </t>
+                </p>
+            </div>
+        </field>
+        <field name="report_template_ids" eval="[(4, ref('purchase.report_purchase_quotation'))]" />
+        <field name="lang">{{ object.partner_id.lang }}</field>
+        <field name="auto_delete" eval="True" />
+    </record>
+    <record id="email_template_send_to_bank2" model="mail.template">
+        <field name="name">Purchase: Send to Bank</field>
+        <field name="model_id" ref="purchase.model_purchase_order" />
+        <field name="subject">{{ object.company_id.name }} Proforma Invoice (Ref {{ object.name or 'n/a' }})</field>
+        <field name="partner_to">{{ object.partner_id.id }}</field>
+        <field name="description">Sent manually to bank for proforma approval</field>
+        <field name="body_html" type="html">
+            <div>
+                <p> Dear Bank Representative, <br /><br /> Based on the proforma invoice <span
+                        style="font-weight:bold;"
+                        t-out="object.name or ''">P00015</span>
+        <t t-if="object.partner_ref"> with
+                    reference: <strong>{{object.partner_ref or '' }}</strong>. </t>, please find
+                    attached the necessary documents received from the supplier for your review and
+                    processing. The attached files include: <ul>
+                        <li>Certificate of Origin</li>
+                        <li>Packing List</li>
+                        <li>Shipping Manifest</li>
+                        <li>Bill of Lading</li>
+                    </ul>
+        <br /><br /> Kindly confirm
+                    receipt of these documents and let us know if any further information or
+                    clarification is required <t
+                        t-if="not is_html_empty(object.user_id.signature)">
+                        <br />
+                        <br />
+                        <t t-out="object.user_id.signature or ''">--<br />Mitchell Admin</t>
+                    </t>
+                </p>
+            </div>
+        </field>
+        <field name="report_template_ids" eval="[(4, ref('purchase.report_purchase_quotation'))]" />
+        <field name="lang">{{ object.partner_id.lang }}</field>
+        <field name="auto_delete" eval="True" />
+    </record>
+</odoo>
