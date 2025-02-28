@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   dbProd:
-    container_name: dbsuqi
+    # container_name: dbsuqi
     image: postgres
     user: root
     ports:
@@ -17,13 +17,13 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   odooProd:
-    container_name: odoosuqi
+    # container_name: odoosuqi
     image: odoo:17.0
     user: root
     depends_on:
       - dbProd
     ports:
-      - "8069:8069"
+      - "8070:8069"
       - "20021:8072" # live chat
     # networks:
     #  - my-network
