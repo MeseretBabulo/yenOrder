@@ -23,7 +23,7 @@ services:
     depends_on:
       - dbProd
     ports:
-      - "8069:8069"
+      - "8070:8069"
       - "20021:8072" # live chat
     # networks:
     #  - my-network
