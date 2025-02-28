@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_task_timesheet_add_attribute" model="ir.ui.view">
+        <field name="name">view.task.form2.inherited.inherits.add.button</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id"
+            ref="bista_timesheet_attendance.view_task_form2_inherited_inherits_add_buttons" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='attendance_tab']" position="inside">
+                <field name="is_pa_company" invisible="1" />
+            </xpath>
+            <xpath expr="//page[@name='attendance_tab']" position="attributes">
+                <attribute name="invisible">is_pa_company == False</attribute>
+            </xpath>
+
+            <field name="partner_id" position="attributes">
+                <attribute name="string">Person Supported</attribute>
+            </field>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="physician_ids" invisible="1" />
+                <field name="physician_id" options="{'no_create_edit': True, 'no_create': True}" />
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.menu" id="project.menu_project_management">
+        <field name="sequence" eval="1" />
+    </record>
+
+    <record id="project_project_view_person_supported" model="ir.ui.view">
+        <field name="name">project.project.form.person.supported</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="attributes">
+                <attribute name="string">Person Supported</attribute>
+            </field>
+            <field name="partner_id" position="after">
+                <field name="program_type" />
+            </field>
+        </field>
+    </record>
+
+    <record id="project.action_view_all_task" model="ir.actions.act_window">
+        <field name="view_mode">gantt,kanban,tree,form,calendar,pivot,graph,activity,map</field>
+    </record>
+
+    <record id="project_project_calendar_view_start_date" model="ir.ui.view">
+        <field name="name">project.project.calendar.change.date</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_calendar" />
+        <field name="arch" type="xml">
+            <xpath expr="//calendar" position="attributes">
+                <attribute name="date_start">planned_date_begin</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_sub_task_page_invisible" model="ir.ui.view">
+        <field name="name">project.sub.task.page.invisible</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2" />
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//form">
+                <field name="allow_subtasks" invisible="1" />
+            </xpath> -->
+            <xpath expr="//page[@name='sub_tasks_page']" position="attributes">
+                <!-- removed allow_subtasks == False or parent_id != False-->
+                <attribute name="invisible"> parent_id != False </attribute>
+            </xpath>
+            <xpath
+                expr="//page[@name='sub_tasks_page']/field[@name='child_ids']/tree/field[@name='stage_id']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group/group[1]/field[@name='project_id']" position="after">
+                <field name="program_type" invisible="1" />
+                <field name="is_sn_editable" invisible="1" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="task_grid_view_form_start_button_inherit" model="ir.ui.view">
+        <field name="name">task.grid.view.form.start.button.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="timesheet_grid.project_task_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_timer_start'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_timer_start'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- <record id="project_view_task_search_form_inherit" model="ir.ui.view">
+        <field name="name">project.view.task.search.form.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//search/group/filter[@name='personal_stage']" position="replace" />
+        </field>
+    </record> -->
+    <!--    view_task_search_form-->
+
+    <record model="ir.ui.menu" id="industry_fsm.fsm_menu_planning">
+        <field name="sequence" eval="1" />
+    </record>
+
+
+    <!--    project_task_view_search_fsm-->
+    <record id="project_task_view_search_fsm_person_support" model="ir.ui.view">
+        <field name="name">project.task.search.person.support.fsm</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="industry_fsm.project_task_view_search_fsm" />
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <filter string="Person Support" name="groupby_person_support"
+                    context="{'group_by':'partner_id'}" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_task_view_gantt_person_support" model="ir.ui.view">
+        <field name="name">project.task.person.support.view.gantt</field>
+        <field name="model">project.task</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <!-- color="project_color" -->
+            <gantt date_start="planned_date_begin"
+                date_stop="planned_date_end"
+                default_scale="month"
+                scales="day,week,month,year"
+                string="Planning"
+                thumbnails="{'partner_id': 'avatar_128'}"
+                js_class="task_gantt"
+                display_unavailability="1"
+                precision="{'day': 'hour:quarter', 'week': 'day:half', 'month': 'day:half'}"
+                decoration-danger="planning_overlap &gt; 0"
+                default_group_by="partner_id">
+                <templates>
+                    <div t-name="gantt-popover">
+                        <div t-if="project_id">
+                            <strong>Project — </strong>
+                            <t t-esc="project_id[1]" />
+                        </div>
+                        <div t-if="user_names">
+                            <strong>Assignees — </strong>
+                            <t t-out="user_names" />
+                        </div>
+                        <div t-if="partner_id">
+                            <strong>Customer — </strong>
+                            <t t-esc="partner_id[1]" />
+                        </div>
+                        <div>
+                            <t t-esc="userTimezoneStartDate.format('l LT ')" />
+                            <i class="fa fa-long-arrow-right" title="Arrow" />
+                            <t t-esc="userTimezoneStopDate.format(' l LT')" />
+                        </div>
+                        <div class="text-danger mt-2" t-if="planning_overlap">
+                            <t t-esc="planning_overlap" /> other task<span
+                                t-if="planning_overlap &gt; 1">s</span> for this employee at the
+                            same time. </div>
+                    </div>
+                </templates>
+                <field name="project_id" />
+                <field name="user_ids" />
+                <field name="user_names" />
+                <field name="partner_id" />
+                <!-- <field name="project_color" /> -->
+                <field name="planning_overlap" />
+            </gantt>
+        </field>
+    </record>
+
+    <record id="project_task_action_fsm_planning_groupby_person_supported"
+        model="ir.actions.act_window">
+        <field name="name">Planning by Person Support</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">gantt,kanban,tree,calendar,map,pivot,graph,form,activity</field>
+        <field name="search_view_id" ref="industry_fsm.project_task_view_search_fsm" />
+        <field name="domain">[('is_fsm', '=', True),('display_project_id', '!=', False)]</field>
+        <field name="context"
+            eval="{'search_default_groupby_person_support': 1, 'fsm_mode': 1, 'task_nameget_with_hours': 1}" />
+        <field name="help" type="html">
+            <p class='o_view_nocontent_smiling_face'>
+                No tasks found. Let's create one!
+            </p>
+            <p>
+                Schedule your tasks and assign them to your workers.
+            </p>
+        </field>
+    </record>
+
+    <record id="project_task_action_planning_groupby_person_supported_gantt"
+        model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">gantt</field>
+        <field name="view_id" ref="via_crm.project_task_view_gantt_person_support" />
+        <field name="act_window_id" ref="project_task_action_fsm_planning_groupby_person_supported" />
+    </record>
+    <!-- 
+    <record id="project_task_action_fsm_view_gannt" model="ir.actions.act_window.view">
+        <field name="sequence" eval="0" />
+        <field name="view_mode">gantt</field>
+        <field name="view_id" ref="project_enterprise.project_task_view_gantt" />
+        <field name="act_window_id" ref="industry_fsm.project_task_action_fsm" />
+    </record> -->
+    <data noupdate="1">
+        <record id="project_task_action_fsm_view_gannt" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0" />
+            <field name="view_id" ref="project_enterprise.project_task_view_gantt" />
+            <field name="view_mode">gantt</field>
+        </record>
+    </data>
+
+
+    <menuitem id="project_task_menu_planning_by_person_support_fsm"
+        name="By Person Support"
+        sequence="1"
+        action="via_crm.project_task_action_fsm_planning_groupby_person_supported"
+        parent="industry_fsm.fsm_tasks_menu"
+        groups="industry_fsm.group_fsm_user" />
+
+    <record id="industry_fsm.project_task_action_fsm" model="ir.actions.act_window">
+        <field name="view_mode">map,gantt,kanban,calendar,tree,form,activity</field>
+    </record>
+
+    <record id="industry_fsm.project_task_action_fsm_planning_groupby_user"
+        model="ir.actions.act_window">
+        <field name="view_mode">gantt,kanban,tree,calendar,map,pivot,graph,form,activity</field>
+    </record>
+
+
+</odoo>

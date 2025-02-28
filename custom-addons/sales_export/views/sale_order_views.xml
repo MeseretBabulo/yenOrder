@@ -1,0 +1,102 @@
+<odoo>
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.export</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- State Handling -->
+            <field name="state" position="replace">
+                <field name="state" widget="statusbar"
+                    statusbar_visible="draft,contract_sent,sale,preparation,certified,shipped,done"
+                    invisible="not is_direct_sales or company_id != 2"/>
+            </field>
+            <field name="state" position="after">
+                <field name="state" widget="statusbar"
+                    statusbar_visible="draft,contract_sent,sale,lc_opened,preparation,certified,shipped,docs_submitted,payment_processed,done"
+                   invisible="is_direct_sales or company_id != 2"/>
+            </field>
+            <!-- State Handling - Other Sales (Visible when NOT Export or Direct Sales) -->
+            <field name="state" position="after">
+                <field name="state" widget="statusbar"
+                    statusbar_visible="draft,contract_sent,sale"
+                    invisible="company_id in ['1'] or not is_direct_sales"/>
+            </field>
+            <xpath expr="//group[@name='partner_details']" position="before">
+                <group >
+                    <field name="is_direct_sales" string="Cash Against Document (CAD)" invisible="company_id != 2"/>
+                </group>
+                <!-- <group invisible="company_id  notin [1,3,4]"></group>
+                <group invisible="company_id != 2"></group> -->
+                <group></group>
+            </xpath>
+            <!-- LC Fields -->
+            <xpath expr="//group[@name='order_details']" position="after">
+            <group>
+            <group invisible="is_direct_sales == True">
+                    <field name="lc_reference"/>
+                    <field name="customer_bank_id"/>
+                    <field name="our_bank_id"/>
+                </group>
+            </group>
+                
+            </xpath>
+
+            <!-- Button Box -->
+            <xpath expr="//header//button[@id='send_by_email_primary']" position="replace">
+                <button name="action_quotation_send" id="send_by_email_primary" string="Send Contract" type="object" data-hotkey="g" invisible="state != 'draft'" class="btn-primary" context="{'validate_analytic': True}"/>
+            </xpath>
+            <xpath expr="//header//button[@id='action_confirm']" position="replace">
+                <!-- <attribute name="invisible">1</attribute> -->
+                <button name="action_confirm" id="action_confirm" data-hotkey="q" string="Confirm" class="btn-primary" type="object" context="{'validate_analytic': True}" invisible="state not in ['draft'] or company_id in ['1']"/>
+            </xpath>
+            <xpath expr="//header//button[@name='action_confirm'][2]" position="replace">
+                <!-- <attribute name="invisible"></attribute> -->
+                <button name="action_confirm" data-hotkey="q" string="Confirm" type="object" context="{'validate_analytic': True}" invisible="1"/>
+                
+            </xpath>
+                
+                
+            <xpath expr="//header//button[@name='action_confirm']" position="before">
+                <!-- <button name="action_send_contract" string="Send Contract" 
+                    type="object" class="btn-primary"
+                    invisible="state not in ['draft','contract_sent']"/> -->
+                <!-- <button name="action_customer_approve" string="Customer Approve"  -->
+                <button name="action_confirm" string="Customer Approve" 
+                    type="object" class="btn-primary"
+                    invisible="state not in ['contract_sent','sent']"/>
+                <button name="action_lc_open" string="Open LC" 
+                    type="object" class="btn-secondary"
+                    invisible="['|', (is_direct_sales == True), (state != 'sale')]"/>
+                <button name="action_lc_open" string="LC Opened" 
+                    type="object" class="btn-primary"
+                    invisible="state not in ['sale'] or is_direct_sales"/>
+                <button name="action_prepare_shipment" string="Prepare Shipment" 
+                    type="object" class="btn-primary"
+                    invisible="state not in ['lc_opened'] or is_direct_sales"/>
+                <button name="action_prepare_shipment" string="Prepare Shipment" 
+                    type="object" class="btn-primary"
+                    invisible="state not in ['sale'] or not is_direct_sales"/>
+                 <button name="action_obtain_certificate" string="Certified" 
+                    type="object" class="btn-primary"
+                    invisible="state not in ['preparation']"/>
+                 <button name="action_ship_djibouti" string="Shipped to Djibouti" 
+                    type="object" class="btn-primary"
+                    invisible="state not in ['certified']"/>
+                <button name="action_submit_docs" string="Documents Submit" 
+                    type="object" class="btn-primary"
+                    invisible="state not in ['shipped'] or is_direct_sales"/>
+                <button name="action_process_payment" string="Payment Processed" 
+                    type="object" class="btn-primary"
+                    invisible="state not in ['docs_submitted']"/>
+                <button name="action_done" string="Done" 
+                    type="object" class="btn-primary"
+                    invisible="state not in ['shipped','payment_processed'] or not is_direct_sales"/>
+                <button name="action_done" string="Done" 
+                    type="object" class="btn-primary"
+                    invisible="state not in ['payment_processed']"/>
+            </xpath>
+
+            <!-- Add other buttons similarly -->
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="view_residential_report_form" model="ir.ui.view">
+            <field name="name">residential.report.form</field>
+            <field name="model">residential.report</field>
+            <field name="arch" type="xml">
+                <form string="Time Off Summary">
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="person_support_id" options="{'no_create_edit': True, 'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Print" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_residential_report" model="ir.actions.act_window">
+            <field name="name">Residential Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">residential.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Residential Report"
+                  id="menu_view_tie_image_backup"
+                  parent="via_mar.menu_mar_report_main"
+                  action="action_residential_report"
+        />
+</odoo>

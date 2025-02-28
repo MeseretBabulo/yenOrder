@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="survey_user_input_form_ids_inherit" model="ir.ui.view">
+            <field name="name">ks_survey_user_input_ids_inherit_form</field>
+            <field name="model">survey.user_input</field>
+            <field name="inherit_id" ref="survey.survey_user_input_view_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='user_input_line_ids']" position="replace">
+                    <field name="user_input_line_ids" mode="tree" readonly="0">
+                        <tree>
+                            <field name="question_sequence" invisible="1"/>
+                            <field name="question_id"/>
+                            <field name="answer_type"/>
+<!--                            <field name="value_char_box" />-->
+<!--                            <field name="value_numerical_box" />-->
+<!--                            <field name="page_id"/>-->
+                            <field name="comment"/>
+                            <field name="answer_is_correct"/>
+                            <field name="remark"/>
+
+<!--                            <field name="skipped"/>-->
+                            <!--                            <field name="create_date"/>-->
+                            <!--                            <field name="answer_score"/>-->
+                        </tree>
+                    </field>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="survey_user_input_line_view_form_inherit" model="ir.ui.view">
+            <field name="name">ks_survey_user_input_line_inherit_form</field>
+            <field name="model">survey.user_input.line</field>
+            <field name="inherit_id" ref="survey.survey_user_input_line_view_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='answer_score']" position="after">
+                    <field name="comment"/>
+                    <field name="remark"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

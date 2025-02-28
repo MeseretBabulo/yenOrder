@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <data>
+        <!-- Inheriting from Bista timesheet form to add Survey button respect to Check-out -->
+        <record id="view_task_form2_inherited_inherits_add_buttons_inherit" model="ir.ui.view">
+            <field name="name">view.task.form2.inherited.inherits.add.button.ks</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="bista_timesheet_attendance.view_task_form2_inherited_inherits_add_buttons"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='attendance_tab']/group[@name='sign_in_out']" position="replace">
+                    <group name="sign_in_out" class="d-flex flex-wrap align-items-center justify-content-between col-12 mb-3">
+                        <field name="ks_user_is_checked_out" invisible="1"/>
+
+                        <div class="row w-200" style="width:200%">
+                            <div class="col-md-6 text-center">
+                            <widget 
+                                name="location_lat_lng"
+                                string="Check-In"
+                                style="width:50%, background: #1dc959;"
+                                class="btn btn-lg btn-success d-block w-100"
+                                lat="latitude_in"
+                                lng="longitude_in"
+                                show_map="false"
+                                button_attrs='{"name": "timesheet_sign_in", "type": "object", "context": {"type": "in"}}'
+                                invisible="not ks_user_is_checked_out"/>
+                            </div>
+
+                        <!-- Check-Out and Open Survey Buttons -->
+                           <div class="col-md-6 text-center">
+                            <widget 
+                                name="location_lat_lng"
+                                string="Check-Out"
+                                style="width:50%, background:rgb(201, 29, 29);"
+                                class="btn btn-danger d-block mb-2"
+                                lat="latitude_out"
+                                lng="longitude_out"
+                                show_map="false"
+                                button_attrs='{"name": "timesheet_sign_out", "type": "object", "context": {"type": "out"}}'
+                                invisible="ks_user_is_checked_out"/>
+
+                            <!-- <widget 
+                                name="location_lat_lng"
+                                string="Open Survey"
+                                style="width:50%, background: #1dc959;"
+                                 class="btn btn-lg btn-success d-block w-100"
+                                lat="latitude_out"
+                                lng="longitude_out"
+                                show_map="false"
+                                button_attrs='{"name": "open_survey_timesheet", "type": "object"}'
+                                invisible="ks_user_is_checked_out == True"/> -->
+                                  <button 
+                            name="open_survey_timesheet"
+                            type="object"
+                             style="width:50%, background: #1dc959;"
+                                 class="btn btn-lg btn-success d-block w-100"
+                            invisible="not ks_user_is_checked_out">
+                            Open Survey
+                        </button>
+                        </div>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>

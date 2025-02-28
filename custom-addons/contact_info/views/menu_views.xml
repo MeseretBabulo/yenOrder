@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu Items -->
+    <menuitem id="menu_contact_info"
+        name="Contact Info"
+        parent="contacts.menu_contacts"
+        action="action_odoobot_messages"
+        sequence="15"/>
+</odoo> 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_website_ihcs_user" model="ir.actions.act_url">
+            <field name="name">IHCS User</field>
+            <field name="url">/ihcs</field>
+            <field name="target">self</field>
+        </record>
+
+        <record id="action_website_ihcs" model="ir.actions.act_url">
+            <field name="name">IHCS Admin</field>
+            <field name="url">/ihcs-admin</field>
+            <field name="target">self</field>
+        </record>
+
+
+        <record id="action_website_res_user" model="ir.actions.act_url">
+            <field name="name">RES User</field>
+            <field name="url">/res2</field>
+            <field name="target">self</field>
+        </record>
+
+        <record id="action_website_res" model="ir.actions.act_url">
+            <field name="name">RES Admin</field>
+            <field name="url">/res-admin</field>
+            <field name="target">self</field>
+        </record>
+
+
+        <record id="action_website_pds_user" model="ir.actions.act_url">
+            <field name="name">PDS User</field>
+            <field name="url">/pds</field>
+            <field name="target">self</field>
+        </record>
+
+        <record id="action_website_pds" model="ir.actions.act_url">
+            <field name="name">PDS Admin</field>
+            <field name="url">/pds-admin</field>
+            <field name="target">self</field>
+        </record>
+    </data>
+</odoo>

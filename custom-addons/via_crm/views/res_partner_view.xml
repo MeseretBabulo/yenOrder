@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+    <record id="view_res_partner_inherit_extra_fields" model="ir.ui.view">
+        <field name="name">view.res.partner.inherit.extra.fields</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+
+
+            <xpath expr="//label[@for='phone']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//label[@for='mobile']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//label[@for='email']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='phone_action_blacklist_remove']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='mobile']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='email']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[2]/field[@name='phone']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[2]/field[@name='mobile']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[2]/field[@name='email']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//sheet/group/group[2]/field[@name='title']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[1]/span[@name='address_name']" position="before">
+                <field name="title" />
+                <field name="partner_relationship" />
+                <!--                <field name="firstname"/>-->
+                <!--                <field name="lastname"/>-->
+                <field name="date_of_birth" options="{'datepicker': {'maxDate':None}}" />
+                <field name="email" widget="email" context="{'gravatar_image': True}"
+                    required="user_ids != []" />
+                <field name="phone" widget="phone" />
+                <field name="mobile" widget="phone" />
+            </xpath>
+            <xpath expr="//sheet/group/group[1]/field[@name='vat']" position="before">
+                <field name="primary_language" />
+                <field name="partner_type" required="1" />
+                <field name="service_ids" widget="many2many_tags"
+                    options="{'no_create_edit': True, 'no_create': True}" />
+                <field name="physician_ids" widget="many2many_tags" force_save="1" readonly="1"
+                    options="{'no_create_edit': True, 'no_create': True}" />
+                <!--                <field name="partner_relationship"/>-->
+            </xpath>
+            <xpath expr="//sheet/group/group[2]/field[@name='function']" position="before">
+                <field name="gender" />
+                <field name="distinguish_region" invisible="via_company_type == 'nj'" />
+                <field name="assessment_date" invisible="via_company_type == 'pa'" />
+                <field name="is_person_graduating" invisible="via_company_type == 'pa'" />
+                <field name="is_legal_guardian"
+                    invisible="partner_relationship == 'self' or partner_relationship == False or via_company_type == 'pa'" />
+                <field name="internal_unique_id_code" />
+                <field name="via_company_type" invisible="1" />
+                <!--                <field name="ma_number" attrs="{}"/>-->
+                <field name="ma_number" required="partner_type == 'person_support'" />
+                <!--                <field name="ma_number" string="DDD ID #" attrs="{'invisible':
+                [('via_company_type', '=', 'pa')]}"/>-->
+                <field name="mci_number" invisible="via_company_type == 'nj'" />
+                <field name="mci_number" string="DDD ID #" invisible="via_company_type == 'pa'" />
+                <!--                <field name="medicaid_number" attrs="{'required': [('partner_type', '=',
+                'person_support')]}"/>-->
+                <!--                <label for="medicaid_date_in_service" string="MedicaId Dates"/>-->
+                <!--                <div class="o_row">-->
+                <!--                    <field name="medicaid_date_in_service" widget="daterange"
+                options="{'related_end_date': 'medicaid_date_out_service'}"/>-->
+                <!--                    <span> to </span>-->
+                <!--                    <field name="medicaid_date_out_service" widget="daterange"
+                options="{'related_start_date': 'medicaid_date_in_service'}"/>-->
+                <!--                </div>-->
+                <field name="program_type" />
+                <field name="funding_source" />
+                <field name="status_of_plan" />
+                <label for="plan_start_date" string="Plan Dates" />
+                <div class="o_row">
+                    <field name="plan_start_date" widget="daterange"
+                        options="{'related_end_date': 'plan_end_date'}" />
+                    <span> to </span>
+                    <field name="plan_end_date" widget="daterange"
+                        options="{'related_start_date': 'plan_start_date'}" />
+                </div>
+                <field name="status" />
+                <field name="plan_tier" />
+                <field name="payer" required="partner_type == 'person_support'" />
+                <field name="payer_program" required="partner_type == 'person_support'" />
+                <field name="source_platform" readonly="1" force_save="1" />
+
+            </xpath>
+
+            <xpath expr="//sheet/group/group[1]/div[@class='o_address_format']/field[@name='city']"
+                position="after">
+                <field name="county_id" placeholder="County" class="o_address_state"
+                    options="{'no_create_edit': True, 'no_create': True}" />
+            </xpath>
+            <xpath expr="//notebook/page[@name='internal_notes']" position="after">
+                <page name="demo_graphics" string="Demo Graphics">
+                    <group name="main_demo_graphics" string="Demo Graphics">
+                        <group name="group_1_demo_graphics">
+                            <field name="race" />
+                            <field name="ethnicity" />
+                        </group>
+                        <group name="group_3_demo_graphics">
+                            <field name="sexual_orientation" />
+                            <field name="religion" />
+                        </group>
+                        <group name="group_2_demo_graphics">
+                            <field name="developmental_disability" widget="radio"
+                                options="{'horizontal': True}" />
+                            <field name="commu_issue" widget="radio" options="{'horizontal': True}" />
+                            <field name="mobility" widget="radio" options="{'horizontal': True}" />
+                            <field name="living_arrangement" widget="radio"
+                                options="{'horizontal': True}" />
+                            <field name="intellectual_disability" widget="radio"
+                                options="{'horizontal': True}" />
+                        </group>
+                    </group>
+                    <group name="group_4_demo_graphics">
+                        <div>
+                            <strong>Ethnicity</strong>
+                            <table class="table table-responsive">
+                                <tr>
+                                    <th>No, not of Hispanic, Latino/a/x, or Spanish origin</th>
+                                    <th>Yes, Mexican, Mexican American, Chicano/a/x</th>
+                                    <th>Yes, Puerto Rican</th>
+                                    <th>Yes, Cuban</th>
+                                    <th>Yes, Another Hispanic, Latino/a/x or Spanish origin</th>
+                                    <th>Some other race, ethnicity, or origin</th>
+                                    <th>Prefer to self-describe</th>
+                                    <th>Prefer not to say</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <field name="is_hispanic" />
+                                    </td>
+                                    <td>
+                                        <field name="is_mexican" />
+                                    </td>
+                                    <td>
+                                        <field name="is_puerto_rican" />
+                                    </td>
+                                    <td>
+                                        <field name="is_cuban" />
+                                    </td>
+                                    <td>
+                                        <field name="is_another_hispanic" />
+                                    </td>
+                                    <td>
+                                        <field name="is_other_race" />
+                                    </td>
+                                    <td>
+                                        <field name="is_self_describe" />
+                                    </td>
+                                    <td>
+                                        <field name="is_not_say" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </group>
+                    <label for="pre_auth_notes" string="Notes" />
+                    <field name="pre_auth_notes" placeholder="Enter Notes" string="Notes" />
+                </page>
+                <page name="isp_data" string="ISP Data" invisible="0">
+                    <group name="isp_main_group" string="ISP Data">
+                        <field name="isp_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="product_id" domain="[('type', '=', 'service')]" />
+                                <field name="outcome_phrase" string="Description"
+                                    style="white-space: normal;word-break: break-word;" />
+                                <field name="reason_for_outcome" invisible="1" />
+                                <field name="outcome_statement" invisible="1" />
+                                <field name="actions_taken" invisible="1" />
+                                <field name="progress_status" invisible="1" />
+                            </tree>
+                        </field>
+
+                    </group>
+                </page>
+                <page name="pre_auth_details" string="Pre-Authorization">
+                    <group name="main_group_pre_auth" string="Pre-Authorization">
+                        <group name="group_1_pre_auth">
+                            <field name="date_referral" />
+                            <field name="referral_meeting_date" />
+                            <field name="project_auth_date" />
+                            <field name="authorized_date" />
+                            <field name="projected_units" />
+                        </group>
+                        <group name="group_2_pre_auth">
+                            <field name="support_coordinator" string="Support Coordinator" />
+                            <field name="sc_phone_no" string="Phone No#" />
+                            <field name="pre_auth_region" string="Region" />
+                            <field name="pre_auth_county_id"
+                                options="{'no_create_edit': True, 'no_create': True}"
+                                string="County" />
+                        </group>
+                        <label for="pre_auth_notes" string="Notes" />
+                        <field name="pre_auth_notes" placeholder="Enter Notes" string="Notes" />
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath
+                expr="//notebook/page[@name='contact_addresses']/field[@name='child_ids']/form/sheet/group/group[2]"
+                position="inside">
+                <field name="partner_relationship" />
+            </xpath>
+
+            <xpath
+                expr="//notebook/page[@name='contact_addresses']/field[@name='child_ids']/kanban/field[@name='display_name']"
+                position="after">
+                <field name="partner_relationship" />
+            </xpath>
+
+            <xpath
+                expr="//notebook/page[@name='contact_addresses']/field[@name='child_ids']/kanban/templates/t[@t-name='kanban-box']/div/div[@class='oe_kanban_details']"
+                position="inside">
+                <div t-if="record.partner_relationship.raw_value">Relationship to Presenter: <t
+                        t-esc="record.partner_relationship.value" /></div>
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- As of version 16 groups cannot be defined in inheritance view. 
+    You will need to push the groups restriction down to the field or make it a base view -->
+
+    <record id="view_res_partner_extra_fields_inherit" model="ir.ui.view">
+        <field name="name">view.res.partner.extra.fields.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="via_crm.view_res_partner_inherit_extra_fields" />
+        <!-- <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]" /> -->
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="invisible">0</attribute>
+                <attribute name="groups">base.group_erp_manager</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

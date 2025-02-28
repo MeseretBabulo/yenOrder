@@ -1,0 +1,48 @@
+<odoo>
+
+    <record id="via_service_note_survey_tree_view" model="ir.ui.view">
+        <field name="name">via.service.note.survey.tree.view</field>
+        <field name="model">via.service.note.survey</field>
+        <field name="arch" type="xml">
+            <tree string="VIA Service Note Survey">
+                <field name="name"/>
+                <field name="company_id" invisible="1" force_save="1" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="via_service_note_survey_form_view" model="ir.ui.view">
+        <field name="name">via.service.note.survey.form.view</field>
+        <field name="model">via.service.note.survey</field>
+        <field name="arch" type="xml">
+            <form string="VIA Service Note Survey">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_via_service_note_survey_search" model="ir.ui.view">
+        <field name="name">view.via.service.note.survey.search</field>
+        <field name="model">via.service.note.survey</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_via_service_note_survey" model="ir.actions.act_window">
+        <field name="name">Service Notes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">via.service.note.survey</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_via_service_note_survey_search"/>
+    </record>
+
+    <menuitem action="action_via_service_note_survey" id="menu_via_service_note_survey" name="Service Note Survey" parent="project.menu_project_config" sequence="28"/>
+
+</odoo>

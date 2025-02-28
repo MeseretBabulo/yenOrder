@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record model="ir.ui.menu" id="contacts.menu_contacts">
+            <field name="name">ISP DATA SEARCH</field>
+        </record>
+        <record model="ir.ui.menu" id="contacts.res_partner_menu_contacts">
+            <field name="name">SEARCH</field>
+        </record>
+        <record model="ir.actions.act_window" id="contacts.action_contacts">
+            <field name="name">SEARCH</field>
+        </record>
+
+
+
+        <record model="ir.ui.menu" id="sale.sale_menu_root">
+            <field name="name">ISP MENU</field>
+        </record>
+        <record model="ir.ui.menu" id="sale.sale_order_menu">
+            <field name="name">ACTIVATIONS</field>
+        </record>
+        <record model="ir.ui.menu" id="sale.menu_sale_quotations">
+            <field name="name">IN PROCESS ISPS
+            </field>
+        </record>
+        <record model="ir.ui.menu" id="sale.menu_sale_order">
+            <field name="name">ACTIVE ISPS</field>
+        </record>
+
+        <record model="ir.ui.menu" id="sale.product_menu_catalog">
+            <field name="name">SERVICES</field>
+        </record>
+
+        <record model="ir.ui.menu" id="sale.menu_product_template_action">
+            <field name="name">SERVICE LINES</field>
+        </record>
+
+        <record id="pricelist_menu" model="ir.ui.menu">
+            <field name="name">Pricelists</field>
+            <field name="parent_id" ref="sale.product_menu_catalog"/>
+            <field name="sequence" eval="21"/>
+            <field name="action" ref="product.product_pricelist_action2"/>
+        </record> 
+<!-- 
+        <record id="promotion_program_menu" model="ir.ui.menu">
+            <field name="name">Promotion Programs</field>
+            <field name="parent_id" ref="sale.product_menu_catalog"/>
+            <field name="sequence" eval="22"/>
+            <field name="action" ref="coupon.coupon_program_action_promo_program"/>
+        </record>  -->
+
+        <!-- <record id="coupon_program_menu" model="ir.ui.menu">
+            <field name="name">Coupon Programs</field>
+            <field name="parent_id" ref="sale.product_menu_catalog"/>
+            <field name="sequence" eval="23"/>
+            <field name="action" ref="coupon.coupon_program_action_coupon_program"/>
+        </record>  -->
+
+
+        <record model="ir.ui.menu" id="project.menu_projects">
+            <field name="name">PROGRAMS</field>
+        </record>
+        <record model="ir.ui.menu" id="project.menu_projects_group_stage">
+            <field name="name">PROGRAMS</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="project.open_view_project_all">
+            <field name="name">PROGRAMS</field>
+        </record>
+
+
+        <record id="pricelist_menu" model="ir.ui.menu">
+            <field name="name">Timesheets and Planning Analysis</field>
+            <field name="parent_id" ref="project.menu_project_report"/>
+            <field name="sequence" eval="21"/>
+            <field name="action" ref="project_timesheet_forecast.project_timesheet_forecast_report_action"/>
+        </record> 
+
+        <record id="crm_main_menu" model="ir.ui.menu">
+            <field name="name">MAIN MENU</field>
+            <field name="parent_id" ref="crm.crm_menu_root"/>
+            <field name="sequence" eval="0"/>
+            <field name="action" ref="contacts.action_contacts"/>
+        </record> 
+        <record id="crm_main_menu_search" model="ir.ui.menu">
+            <field name="name">SEARCH</field>
+            <field name="parent_id" ref="crm_main_menu"/>
+            <field name="sequence" eval="1"/>
+            <field name="action" ref="contacts.action_contacts"/>
+        </record> 
+
+        <record id="crm_main_menu_new_contact" model="ir.ui.menu">
+            <field name="name">ADD NEW CONTACT</field>
+            <field name="parent_id" ref="crm_main_menu"/>
+            <field name="sequence" eval="2"/>
+            <field name="action" ref="crm.crm_lead_action_my_activities"/>
+        </record> 
+
+        <record id="crm_main_menu_build_isp" model="ir.ui.menu">
+            <field name="name">BUILD ISP SERVICE</field>
+            <field name="parent_id" ref="crm_main_menu"/>
+            <field name="sequence" eval="3"/>
+            <field name="action" ref="sale.action_quotations"/>
+        </record> 
+
+        <record id="crm_main_menu_pipeline" model="ir.ui.menu">
+            <field name="name">ISP STAGES</field>
+            <field name="parent_id" ref="crm_main_menu"/>
+            <field name="sequence" eval="4"/>
+            <field name="action" ref="crm.crm_lead_action_pipeline"/>
+        </record> 
+
+        <record id="crm_main_menu_dialog" model="ir.ui.menu">
+            <field name="name">NO DIALOG YET</field>
+            <field name="parent_id" ref="crm.crm_menu_root"/>
+            <field name="sequence" eval="1"/>
+            <field name="action" ref="crm.crm_lead_all_leads"/>
+        </record> 
+
+        <record model="ir.actions.act_window" id="sale.action_quotations">
+            <field name="name">BUILD ISP SERVICE</field>
+        </record>
+        <record model="ir.actions.act_window" id="crm.crm_lead_action_my_activities">
+            <field name="name">ADD NEW CONTACT</field>
+        </record>
+        <record model="ir.actions.act_window" id="crm.crm_lead_action_pipeline">
+            <field name="name">Pipeline = ISP DEVELOPMENT</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="crm.crm_lead_all_leads">
+            <field name="name">NO DIALOG YET</field>
+        </record>
+
+        <record id="project_first_task" model="ir.ui.menu">
+            <field name="name">My Tasks</field>
+            <field name="parent_id" ref="project.menu_main_pm"/>
+            <field name="sequence" eval="0"/>
+            <field name="action" ref="project.action_view_all_task"/>
+        </record>
+        <record model="ir.actions.act_window" id="project.action_view_all_task">
+            <field name="name">CALENDAR</field>
+        </record>
+
+        <record id="project.menu_project_management" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="crm.crm_menu_sales" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="crm.crm_menu_sales" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="crm.crm_menu_report" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <record id="sale.menu_sale_report" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="survey.menu_survey_type_form1" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="survey.survey_menu_questions" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="sale.action_orders">
+            <field name="name">ACTIVE ISPS</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sale.action_quotations_with_onboarding">
+            <field name="name">IN PROCESS ISPS</field>
+        </record>
+
+        <record model="ir.ui.menu" id="survey.menu_surveys">
+            <field name="name">SERVICE NOTES</field>
+        </record>
+        <record model="ir.ui.menu" id="survey.menu_survey_form">
+            <field name="name">SN TEMPLATES</field>
+        </record>
+        <record model="ir.actions.act_window" id="survey.action_survey_form">
+            <field name="name">SN TEMPLATES</field>
+        </record>
+
+
+        <record id="sn_questions" model="ir.ui.menu">
+            <field name="name">Questions</field>
+            <field name="parent_id" ref="survey.menu_surveys"/>
+            <field name="sequence" eval="2"/>
+            <field name="action" ref="survey.action_survey_question_form"/>
+        </record> 
+
+        <record id="sn_questions_submenu" model="ir.ui.menu">
+            <field name="name">Questions</field>
+            <field name="parent_id" ref="sn_questions"/>
+            <field name="sequence" eval="1"/>
+            <field name="action" ref="survey.action_survey_question_form"/>
+        </record> 
+
+        <record id="sn_suggested_val" model="ir.ui.menu">
+            <field name="name">Suggested Values</field>
+            <field name="parent_id" ref="sn_questions"/>
+            <field name="sequence" eval="2"/>
+            <field name="action" ref="survey.survey_question_answer_action"/>
+        </record> 
+
+        <record id="snh" model="ir.ui.menu">
+            <field name="name">Service Note History</field>
+            <field name="parent_id" ref="survey.menu_surveys"/>
+            <field name="sequence" eval="3"/>
+        </record>
+
+        <record id="sn_serdel_val" model="ir.ui.menu">
+            <field name="name">Services Delivered</field>
+            <field name="parent_id" ref="snh"/>
+            <field name="sequence" eval="1"/>
+            <field name="action" ref="survey.action_survey_user_input"/>
+        </record>  
+
+        <record id="sn_detailans_val" model="ir.ui.menu">
+            <field name="name">Detailed Answers</field>
+            <field name="parent_id" ref="snh"/>
+            <field name="sequence" eval="2"/>
+            <field name="action" ref="survey.survey_user_input_line_action"/>
+        </record>  
+
+        <record id="sn_ans" model="ir.ui.menu">
+            <field name="name">Answers</field>
+            <field name="parent_id" ref="snh"/>
+            <field name="sequence" eval="3"/>
+            <field name="action" ref="ks_project_task.survey_user_input_linee_action"/>
+        </record>  
+
+        <record id="sn_sds" model="ir.ui.menu">
+            <field name="name">Service Delivery Summary</field>
+            <field name="parent_id" ref="snh"/>
+            <field name="sequence" eval="4"/>
+            <field name="action" ref="ks_project_task.ks_progress_notes_action"/>
+        </record>  
+
+    </data>
+</odoo>
+
+

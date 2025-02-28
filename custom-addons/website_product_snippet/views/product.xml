@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <record id="product_template_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button"
+                        type="object"
+                        name="action_snippet_publish"
+                        string="Published"
+                        icon="fa-globe">
+                    <field name="is_published_snippet" widget="boolean_button"
+                           options="{'terminology': {'string_true': 'Published', 'string_false': 'Unpublished'}}"/>
+                </button>
+            </xpath>
+        </field>
+    </record> -->
+</odoo>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="project_task_form_inherit" model="ir.ui.view">
+            <field name="name">project.view_task_form2.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='description_page']" position="before">
+                    <page string="Medical Info" name="medical_info"
+                          invisible="medical_appointment != True">
+                        <group>
+                            <group>
+                                <field name="reason_for_appointment"/>
+                                <field name="medical_facilities"/>
+                                <field name="medical_appointment" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="specialist"/>
+                                <field name="medical_form_name" invisible="1"/>
+                                <field name="medical_form" filename="medical_form_name"/>
+                                <button name="schedule_activity_medical" string="Send For Approval" type="object"
+                                        class="oe_highlight"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Verification Stage" name="verification_stage"
+                          invisible="medical_appointment != True">
+                        <group>
+                            <group>
+                                <field name="result_recommendation"/>
+                            </group>
+                            <group>
+                                <field name="next_appointment"/>
+                                <field name="next_appointment_date_start"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <!--        making page invisible for medical appointment-->
+        <record id="view_task_form2_inherited_invisible_page_ks" model="ir.ui.view">
+            <field name="name">view.task.form2.inherited.invisible.page.ks</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@id='timesheets_tab']" position="attributes">
+                    <attribute name="invisible">medical_appointment == True</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_task_form2_inherited_inherits_add_buttons_inherit" model="ir.ui.view">
+            <field name="name">view.task.form2.inherited.invisible.page.attendance.ks</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="bista_timesheet_attendance.view_task_form2_inherited_inherits_add_buttons"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='attendance_tab']" position="attributes">
+                <attribute name="invisible">medical_appointment == True</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!--        inherit calander view-->
+        <record id="project_task_calender_inherit" model="ir.ui.view">
+            <field name="name">project.view_task_calender.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="industry_fsm.project_task_view_calendar_fsm"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='project_id']" position="replace">
+                    <field name="project_task_calender_id"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_phone']" position="after">
+                    <field name="medical_form_name" invisible="1"/>
+                    <field name="medical_form" filename="medical_form_name"/>
+                </xpath>
+            </field>
+        </record>
+        <!--        project task form inherit add button Verify-->
+        <record id="view_task_form2_inherit_ks" model="ir.ui.view">
+            <field name="name">task.form.inherit.ks</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="industry_fsm.view_task_form2_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_fsm_validate']" position="after">
+                    <button name="stage_move_to_verified_stage" string="VERIFY APPOINTMENT" type="object"
+                            class="oe_highlight" invisible="medical_appointment != True"/>
+                    <button name="navigate_lati_long" string="NAVIGATE TO" type="object"
+                            class="oe_highlight" invisible="medical_appointment != True"/>
+                </xpath>
+            </field>
+        </record>
+        <!--        Inherit project task type stages form-->
+        <record id="task_type_edit_inherit_add_fields_ks" model="ir.ui.view">
+            <field name="name">task.type.edit.inherit.add.fields.ks</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_edit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group/group[2]/field[@name='project_ids']" position="after">
+                    <field name="verify_stage"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

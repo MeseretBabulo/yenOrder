@@ -1,0 +1,52 @@
+version: '3.1'
+services:
+  dbProd:
+    container_name: dbsuqi
+    image: postgres
+    user: root
+    ports:
+      - "5401:5432"
+    #networks:
+    #  - my-network
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo17
+      - POSTGRES_DB=postgres
+    restart: always # run as a service
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  odooProd:
+    container_name: odoosuqi
+    image: odoo:17.0
+    user: root
+    depends_on:
+      - dbProd
+    ports:
+      - "8069:8069"
+      - "20021:8072" # live chat
+    # networks:
+    #  - my-network
+    tty: true
+    command: -- --db_host=dbProd --db_port=5432 --db_user=odoo --db_password=odoo17
+    environment:
+      - HOST=dbProd
+      - USER=odoo
+      - PASSWORD=odoo17
+    volumes:
+      #- /etc/timezone:/etc/timezone:ro
+      #- /etc/localtime:/etc/localtime:ro
+      # - ./entrypoint.sh:/entrypoint.sh   # if you want to install additional Python packages, uncomment this line!
+      - ./extra-addons:/mnt/extra-addons
+      - ./custom-addons:/mnt/custom-addons
+      - ./etc:/etc/odoo
+    restart: always # run as a service
+
+#networks:
+#  my-network:
+#      external: true
+
+volumes:
+  postgres_data:
+
+

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="link_project_survey_form" model="ir.ui.view">
+            <field name="name">link.project.survey.form</field>
+            <field name="model">link.project.survey</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="program_type"/>
+                            <field name="survey_template"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="link_project_survey_tree" model="ir.ui.view">
+            <field name="name">link.project.survey.tree</field>
+            <field name="model">link.project.survey</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="program_type"/>
+                    <field name="survey_template"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="link_project_survey_action" model="ir.actions.act_window">
+            <field name="name">Link Project Survey</field>
+            <field name="res_model">link.project.survey</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

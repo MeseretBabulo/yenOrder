@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_wizard_import_icd10_diagnosis_data" model="ir.ui.view">
+        <field name="name">view.wizard.import.icd10.diagnosis.data</field>
+        <field name="model">wizard.import.icd10.diagnosis.data</field>
+        <field name="arch" type="xml">
+            <form string="Import ICD10 Diagnosis Data">
+                <group name="main_group">
+                    <span>To import ICD10 Diagnosis Data please click on Import.</span>
+                </group>
+                <footer>
+                    <button string="Import" name="import_icd10_diagnosis_data" type="object" class='btn-primary'/> 
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_import_icd10_diagnosis_data" model="ir.actions.act_window">
+        <field name="name">Import ICD10 Diagnosis Data</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wizard.import.icd10.diagnosis.data</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="via_mar.view_wizard_import_icd10_diagnosis_data"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_wizard_import_icd10_diangosis_data_main" action="via_mar.action_wizard_import_icd10_diagnosis_data" name="Wizard ICD10 Diagnosis Data" parent="via_mar.menu_drug_data_main" sequence="2"/>
+
+</odoo>

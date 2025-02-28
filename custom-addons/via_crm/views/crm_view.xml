@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+    <record id="view_crm_lead_form_inherit_extra_info" model="ir.ui.view">
+        <field name="name">view.crm.lead.inherit.form.extra.info</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+            <!-- Lead view fields-->
+            <xpath expr="//header//field[@name='stage_id']" position="attributes">
+                <attribute name="force_save">1</attribute>
+                <attribute name="invisible">is_won_stage == True or active == False or type =="lead"</attribute>
+                <attribute name="readonly">is_won_stage == True </attribute>
+            </xpath>
+            <xpath expr="//header//field[@name='stage_id']" position="after">
+                <field name="won_stage_id" widget="statusbar" force_save="1"
+                    options="{'clickable': False,'fold_field': 'fold'}"
+                    domain="['|', ('team_id', '=', team_id), ('team_id', '=', False)]"
+                    invisible="is_won_stage == False or active == False or type == 'lead'" />
+            </xpath>
+            <xpath expr="//sheet/group/group[@name='lead_partner']/field[@name='partner_id']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_partner']/field[@name='partner_name']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='lead']/group/group[1]/field[@name='partner_name']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/div[@class='oe_title']//h1/field[@name='name']"
+                position="attributes">
+                <attribute name="placeholder">Please input text here</attribute>
+            </xpath>
+
+
+            <xpath expr="//sheet/group/group[@name='lead_partner']/field[@name='partner_id']"
+                position="attributes">
+                <attribute name="string">Person Supported</attribute>
+            </xpath>
+            <xpath expr="//sheet/group/group[@name='lead_partner']/field[@name='partner_id']"
+                position="before">
+                <label for="contact_name" />
+                <div class="o_row">
+                    <field name="contact_name" />
+                    <field name="title" placeholder="Title" domain="[]"
+                        options="{&quot;no_open&quot;: True}" />
+                </div>
+                <field name="partner_relationship" />
+                <field name="firstname" />
+                <field name="lastname" />
+                <field name="date_of_birth" options="{'datepicker': {'maxDate':None}}" />
+                <label for="email_from" class="oe_inline" />
+                <div class="o_row o_row_readonly">
+                    <button name="mail_action_blacklist_remove" class="fa fa-ban text-danger"
+                        title="This email is blacklisted for mass mailings. Click to unblacklist."
+                        type="object" context="{'default_email': email_from}"
+                        groups="base.group_user"
+                        invisible="is_blacklisted == False" />
+                    <field name="email_from" id="email_from_group_lead_info" string="Email"
+                        widget="email" />
+                    <span class="fa fa-exclamation-triangle text-warning oe_edit_only"
+                        title="By saving this change, the customer email will also be updated."
+                        invisible="partner_email_update == False" />
+                </div>
+                <label for="phone_group_lead_info" class="oe_inline" />
+                <div class="o_row o_row_readonly">
+                    <button name="phone_action_blacklist_remove" class="fa fa-ban text-danger"
+                        title="This phone number is blacklisted for SMS Marketing. Click to unblacklist."
+                        type="object" context="{'default_phone': phone}" groups="base.group_user"
+                        invisible="phone_blacklisted == False" />
+                    <field name="phone" id="phone_group_lead_info" widget="phone" />
+                    <span class="fa fa-exclamation-triangle text-warning oe_edit_only"
+                        title="By saving this change, the customer phone number will also be updated."
+                        invisible="partner_phone_update == False" />
+                </div>
+                <label for="mobile" class="oe_inline" />
+                <div class="o_row o_row_readonly">
+                    <button name="phone_action_blacklist_remove" class="fa fa-ban text-danger"
+                        title="This phone number is blacklisted for SMS Marketing. Click to unblacklist."
+                        type="object" context="{'default_phone': mobile}" groups="base.group_user"
+                        invisible="mobile_blacklisted == False" />
+                    <field name="mobile" widget="phone" string="Mobile" />
+                </div>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_partner']/field[@name='lang_id']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_partner']/field[@name='website']"
+                position="before">
+                <field name="primary_language" />
+            </xpath>
+
+            <xpath expr="//sheet/group/group[5]/field[@name='team_id']" position="attributes">
+                <attribute name="string">Service Team</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_info']//label[@for='contact_name']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_info']//div[hasclass('o_row')][1]"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_info']//field[@name='email_cc']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_info']//field[@name='function']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_info']//div[hasclass('o_row')][2]"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath
+                expr="//sheet/group/group[@name='lead_info']//label[@for='email_from_group_lead_info']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+
+            <xpath
+                expr="//sheet/group/group[@name='lead_info']//label[@for='phone_group_lead_info']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_info']//div[hasclass('o_row')][3]"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_info']//label[@for='mobile']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_info']//div[hasclass('o_row')][4]"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_priority']" position="replace">
+                <group name="lead_priority" invisible="type == 'opportunity'">
+                    <field name="tag_ids" widget="many2many_tags"
+                        options="{'color_field': 'color', 'no_create_edit': True}" />
+                    <field name="priority" widget="priority"
+                        required="stage_type == 'activation' or is_won_stage == True" />
+                </group>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[@name='lead_info']/field[@name='is_blacklisted']"
+                position="before">
+                <field name="stage_type" invisible="1" />
+                <field name="gender" />
+                <field name="distinguish_region"
+                    invisible="via_company_type == 'nj'" />
+                <field name="assessment_date"
+                    invisible="via_company_type == 'pa'" />
+                <field name="is_person_graduating"
+                    invisible="via_company_type == 'pa'" />
+                <field name="is_legal_guardian"
+                    invisible="partner_relationship == 'self' or partner_relationship == False or via_company_type == 'pa'" />
+                <field name="service_ids" widget="many2many_tags" />
+                <field name="via_company_type" invisible="1" />
+                <field name="internal_unique_id_code" />
+                <field name="ma_number" />
+                <!--                <field name="ma_number" string="DDD ID #" attrs="{'invisible':
+                [('via_company_type', '=', 'pa')]}"/>-->
+                <field name="mci_number" invisible="via_company_type == 'nj'" />
+                <field name="mci_number" string="DDD ID #"
+                    invisible="via_company_type == 'pa'" />
+                <!--                <field name="medicaid_number"/>-->
+                <!--                <label for="medicaid_date_in_service" string="MedicaId Dates"/>-->
+                <!--                <div class="o_row">-->
+                <!--                    <field name="medicaid_date_in_service" widget="daterange"
+                options="{'related_end_date': 'medicaid_date_out_service'}"/>-->
+                <!--                    <span> to </span>-->
+                <!--                    <field name="medicaid_date_out_service" widget="daterange"
+                options="{'related_start_date': 'medicaid_date_in_service'}"/>-->
+                <!--                </div>-->
+                <field name="program_type" />
+                <field name="funding_source" />
+                <field name="status_of_plan" />
+                <label for="plan_start_date" string="Plan Dates" />
+                <div class="o_row">
+                    <field name="plan_start_date" widget="daterange"
+                        options="{'related_end_date': 'plan_end_date'}" />
+                    <span> to </span>
+                    <field name="plan_end_date" widget="daterange"
+                        options="{'related_start_date': 'plan_start_date'}" />
+                </div>
+                <field name="status" />
+                <field name="plan_tier" />
+                <field name="payer"
+                    required="stage_type == 'activation' or is_won_stage == True" />
+                <field name="payer_program"
+                    required="stage_type == 'activation' or is_won_stage == True" />
+                <field name="function" />
+                <field name="source_platform" readonly="1" force_save="1" />
+                <field name="partner_relative_id"
+                    options="{'no_create_edit': True, 'no_create': True}"
+                    invisible="partner_relationship in ['self', False]"
+                    readonly="type == 'lead'"
+                    force_save="1" />
+            </xpath>
+
+            <xpath
+                expr="//sheet/group/group[@name='lead_partner']/div[@class='o_address_format']/field[@name='city']"
+                position="after">
+                <field name="county_id" placeholder="County" class="o_address_state"
+                    options="{'no_create_edit': True, 'no_create': True}" />
+            </xpath>
+            <field name="user_id" position="before">
+                <field name="partner_name" string="Employer" />
+            </field>
+
+            <!-- Opportunity view fields-->
+            <xpath expr="//sheet/group/group[@name='opportunity_partner']/field[@name='partner_id']"
+                position="attributes">
+                <attribute name="string">Person Supported</attribute>
+            </xpath>
+            <xpath
+                expr="//sheet/group/group[@name='opportunity_partner']/field[@name='is_blacklisted']"
+                position="before">
+                <!--                <field name="partner_relationship" required="1"/>-->
+                <!--                <field name="date_of_birth"/>-->
+                <field name="is_won_stage" invisible="1" />
+                <label for="contact_name" />
+                <div class="o_row">
+                    <field name="contact_name" />
+                    <field name="title" placeholder="Title" domain="[]"
+                        options="{&quot;no_open&quot;: True}" />
+                </div>
+                <field name="partner_relationship" />
+                <field name="firstname" />
+                <field name="lastname" />
+                <field name="date_of_birth" options="{'datepicker': {'maxDate':None}}" />
+                <!--                <label for="email_from" class="oe_inline"/>-->
+                <!--                <div class="o_row o_row_readonly">-->
+                <!--                    <button name="mail_action_blacklist_remove" class="fa fa-ban text-danger"
+                title="This email is blacklisted for mass mailings. Click to unblacklist."
+                type="object" context="{'default_email': email_from}" groups="base.group_user"
+                attrs="{'invisible': [('is_blacklisted', '=', False)]}"/>-->
+                <!--                    <field name="email_from" id="email_from_group_lead_info" string="Email"
+                widget="email"/>-->
+                <!--                    <span class="fa fa-exclamation-triangle text-warning oe_edit_only" title="By
+                saving this change, the customer email will also be updated." attrs="{'invisible':
+                [('partner_email_update', '=', False)]}"/>-->
+                <!--                </div>-->
+                <!--                <label for="phone_group_lead_info" class="oe_inline"/>-->
+                <!--                <div class="o_row o_row_readonly">-->
+                <!--                    <button name="phone_action_blacklist_remove" class="fa fa-ban text-danger"
+                title="This phone number is blacklisted for SMS Marketing. Click to unblacklist."
+                type="object" context="{'default_phone': phone}" groups="base.group_user"
+                attrs="{'invisible': [('phone_blacklisted', '=', False)]}"/>-->
+                <!--                    <field name="phone" id="phone_group_lead_info" widget="phone"/>-->
+                <!--                    <span class="fa fa-exclamation-triangle text-warning oe_edit_only" title="By
+                saving this change, the customer phone number will also be updated."
+                attrs="{'invisible': [('partner_phone_update', '=', False)]}"/>-->
+                <!--                </div>-->
+                <!--                <label for="mobile" class="oe_inline"/>-->
+                <!--                <div class="o_row o_row_readonly">-->
+                <!--                    <button name="phone_action_blacklist_remove" class="fa fa-ban text-danger"
+                title="This phone number is blacklisted for SMS Marketing. Click to unblacklist."
+                type="object" context="{'default_phone': mobile}" groups="base.group_user"
+                attrs="{'invisible': [('mobile_blacklisted', '=', False)]}"/>-->
+                <!--                    <field name="mobile" widget="phone" string="Mobile"/>-->
+                <!--                </div>-->
+            </xpath>
+
+            <field name="date_deadline" position="before">
+                <field name="gender"
+                    required="via_company_type == 'pa' or stage_type == 'discussion' and is_won_stage == True" />
+                <field name="distinguish_region"
+                    required="via_company_type =='pa' or stage_type == 'discussion' and is_won_stage == True"
+                    invisible="via_company_type == 'nj'" />
+                <field name="assessment_date"
+                    invisible="via_company_type == 'pa'" />
+                <field name="is_person_graduating"
+                    invisible="via_company_type == 'pa'" />
+                <field name="is_legal_guardian"
+                    invisible="partner_relationship == 'self' or partner_relationship == False or via_company_type == 'pa'" />
+                <field name="service_ids" widget="many2many_tags" />
+                <field name="internal_unique_id_code"
+                    required="stage_type == 'activation' or is_won_stage == True" />
+                <field name="ma_number"
+                    required="stage_type == 'activation' or is_won_stage == True" />
+                <!--                <field name="ma_number" string="DDD ID #" attrs="{'invisible':
+                [('via_company_type', '=', 'pa')]}"/>-->
+                <field name="mci_number"
+                    required="stage_type == 'activation' or is_won_stage == True"
+                    invisible="via_company_type == 'nj'" />
+                <field name="mci_number" string="DDD ID #"
+                    invisible="via_company_type == 'pa'" />
+                <!--                <field name="medicaid_number" attrs="{'required': ['|', ('stage_type', '=',
+                'activation'), ('is_won_stage', '=', True)]}"/>-->
+                <!--                <label for="medicaid_date_in_service" string="MedicaId Dates"/>-->
+                <!--                <div class="o_row">-->
+                <!--                    <field name="medicaid_date_in_service" widget="daterange"
+                options="{'related_end_date': 'medicaid_date_out_service'}" attrs="{'required':
+                ['|', ('stage_type', '=', 'activation'), ('is_won_stage', '=', True)]}"/>-->
+                <!--                    <span> to </span>-->
+                <!--                    <field name="medicaid_date_out_service" widget="daterange"
+                options="{'related_start_date': 'medicaid_date_in_service'}" attrs="{'required':
+                ['|', ('stage_type', '=', 'activation'), ('is_won_stage', '=', True)]}"/>-->
+                <!--                </div>-->
+                <field name="program_type"
+                    required="stage_type == 'activation' or is_won_stage == True" />
+                <field name="funding_source" />
+                <field name="status_of_plan" />
+                <label for="plan_start_date" string="Plan Dates" />
+                <div class="o_row">
+                    <field name="plan_start_date" widget="daterange"
+                        options="{'related_end_date': 'plan_end_date'}"
+                        required="stage_type == 'activation' or is_won_stage == True" />
+                    <span> to </span>
+                    <field name="plan_end_date" widget="daterange"
+                        options="{'related_start_date': 'plan_start_date'}"
+                        required="stage_type == 'activation' or is_won_stage == True" />
+                </div>
+                <field name="status"
+                    required="stage_type == 'activation' or is_won_stage == True" />
+                <field name="plan_tier" />
+                <field name="payer"
+                    required="stage_type == 'activation' or is_won_stage == True" />
+                <field name="payer_program"
+                    required="stage_type == 'activation' or is_won_stage == True" />
+
+                <field name="function"
+                    required="stage_type == 'activation' or is_won_stage == True" />
+                <field name="source_platform" readonly="1" force_save="1"
+                    required="stage_type == 'activation' or is_won_stage == True" />
+                <field name="partner_relative_id"
+                    invisible="partner_relationship in ['self', False]"
+                    readonly="partner_id == False"
+                    domain="[('parent_id', '=', partner_id)]"
+                    options="{'no_create_edit': True, 'no_create': True}" force_save="1" />
+            </field>
+
+            <!--            <xpath expr="//sheet/group/group[3]" position="replace">-->
+
+            <!--                <field name="partner_relative_id" attrs="{'invisible': [('partner_relationship',
+            'in', ('self', False))], 'readonly': [('partner_id', '=', False)]}"
+            domain="[('parent_id', '=', partner_id)]" options="{'no_create_edit': True, 'no_create':
+            True}" force_save="1"/>-->
+            <!--            </xpath>-->
+
+            <!--            <xpath expr="//sheet/group/group[4]" position="after">-->
+            <!--                <group attrs="{'invisible': [('type', '=', 'lead')]}">-->
+            <!--                                <field name="date_deadline"/>-->
+            <!--                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color',
+            'no_create_edit': True}"/>-->
+            <!--                    <field name="priority" widget="priority"/>-->
+            <!--                            </group>-->
+            <!--            </xpath>-->
+            <xpath expr="//notebook/page[@name='internal_notes']" position="after">
+                <page name="demo_graphics" string="Demo Graphics">
+                    <group col="2" name="main_demo_graphics" string="Demo Graphics">
+                        <group name="group_1_demo_graphics">
+                            <field name="race" />
+                            <field name="ethnicity" />
+                        </group>
+                        <group name="group_3_demo_graphics">
+                            <field name="sexual_orientation" />
+                            <field name="religion" />
+                        </group>
+                        <group name="group_2_demo_graphics">
+                            <field name="developmental_disability" widget="radio"
+                                options="{'horizontal': True}" />
+                            <field name="commu_issue" widget="radio" options="{'horizontal': True}" />
+                            <field name="mobility" widget="radio" options="{'horizontal': True}" />
+                            <field name="living_arrangement" widget="radio"
+                                options="{'horizontal': True}" />
+                            <field name="intellectual_disability" widget="radio"
+                                options="{'horizontal': True}" />
+                        </group>
+                    </group>
+                    <group col="4">
+                        <div>
+                            <strong>Ethnicity</strong>
+                            <table class="table table-responsive">
+                                <tr>
+                                    <th>No, not of Hispanic, Latino/a/x, or Spanish origin</th>
+                                    <th>Yes, Mexican, Mexican American, Chicano/a/x</th>
+                                    <th>Yes, Puerto Rican</th>
+                                    <th>Yes, Cuban</th>
+                                    <th>Yes, Another Hispanic, Latino/a/x or Spanish origin</th>
+                                    <th>Some other race, ethnicity, or origin</th>
+                                    <th>Prefer to self-describe</th>
+                                    <th>Prefer not to say</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <field name="is_hispanic" />
+                                    </td>
+                                    <td>
+                                        <field name="is_mexican" />
+                                    </td>
+                                    <td>
+                                        <field name="is_puerto_rican" />
+                                    </td>
+                                    <td>
+                                        <field name="is_cuban" />
+                                    </td>
+                                    <td>
+                                        <field name="is_another_hispanic" />
+                                    </td>
+                                    <td>
+                                        <field name="is_other_race" />
+                                    </td>
+                                    <td>
+                                        <field name="is_self_describe" />
+                                    </td>
+                                    <td>
+                                        <field name="is_not_say" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </group>
+                    <label for="pre_auth_notes" string="Notes" />
+                    <field name="pre_auth_notes" placeholder="Enter Notes" />
+                </page>
+                <page name="pre_auth_details" string="Pre-Authorization">
+                    <group name="main_group_pre_auth" string="Pre-Authorization">
+                        <group name="group_1_pre_auth">
+                            <field name="date_referral" />
+                            <field name="referral_meeting_date" />
+                            <field name="project_auth_date" />
+                            <field name="authorized_date" />
+                            <field name="projected_units" />
+                        </group>
+                        <group name="group_2_pre_auth">
+                            <field name="support_coordinator" string="Support Coordinator" />
+                            <field name="sc_phone_no" string="Phone No#" />
+                            <field name="pre_auth_region" string="Region" />
+                            <field name="pre_auth_county_id"
+                                options="{'no_create_edit': True, 'no_create': True}"
+                                string="County" />
+                        </group>
+                        <label for="pre_auth_notes" string="Notes" />
+                        <field name="pre_auth_notes" placeholder="Enter Notes" string="Notes" />
+                    </group>
+                </page>
+                <page name="isp_data" string="ISP Data"
+                    invisible="project_auth_date == False">
+                    <group name="isp_main_group" string="ISP Data">
+                        <field name="isp_ids" nolabel="1">
+                            <tree editable="bottom" class="crm_isp_data">
+                                <field name="product_id" domain="[('type', '=', 'service')]" />
+                                <field name="outcome_phrase" string="Description"
+                                    style="white-space: normal;word-break: break-word;" />
+                                <field name="reason_for_outcome" invisible="1" />
+                                <field name="outcome_statement" invisible="1" />
+                                <field name="actions_taken" invisible="1" />
+                                <field name="progress_status" invisible="1" />
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+                <page name="representative_details"
+                    invisible="partner_relationship in ['self', False]"
+                    string="Representative Details">
+                    <group name="main_representative">
+                        <group name="group_1_representative">
+                            <field name="representative_firstname"
+                                required="partner_relationship not in  ['self', False]" />
+                            <field name="representative_lastname"
+                                required="partner_relationship not in ['self', False]" />
+                            <label for="street" string="Address" />
+                            <div class="o_address_format">
+                                <field name="representative_street" placeholder="Street..."
+                                    class="o_address_street" />
+                                <field name="representative_street2" placeholder="Street 2..."
+                                    class="o_address_street" />
+                                <field name="representative_city" placeholder="City"
+                                    class="o_address_city" />
+                                <field name="representative_state_id" class="o_address_state"
+                                    placeholder="State"
+                                    options="{&quot;no_open&quot;: True, 'no_create_edit': True, 'no_create': True}" />
+                                <field name="representative_zip" placeholder="ZIP"
+                                    class="o_address_zip" />
+                                <field name="representative_country_id" placeholder="Country"
+                                    class="o_address_country"
+                                    options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True, 'no_create_edit': True}" />
+                            </div>
+                        </group>
+                        <group name="group_2_representative">
+                            <field name="representative_email" string="Email" />
+                            <field name="representative_phone" string="Phone" />
+                            <field name="representative_mobile" string="Mobile" />
+                        </group>
+                        <label for="representative_comment" string="Notes" />
+                        <field name="representative_comment" />
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//header/button[@name='action_set_won_rainbowman']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+
+            <!-- commented out due to being same as %(crm.crm_lead_lost_action)d -->
+            <!-- <xpath expr="//header/button[@name='action_set_lost']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath> -->
+            <xpath expr="//header/button[@name='%(crm.crm_lead_lost_action)d']"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//sheet/widget[1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//sheet/widget[2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!--            <xpath expr="//sheet/group/group[@name='lead_partner']" position="after">-->
+            <!--                <group>-->
+            <!--                    <label for="contact_name"/>-->
+            <!--                    <div class="o_row">-->
+            <!--                        <field name="contact_name"/>-->
+            <!--                        <field name="title" placeholder="Title" domain="[]" options="{&quot;no_open&quot;:
+            True}"/>-->
+            <!--                    </div>-->
+            <!--                </group>-->
+            <!--            </xpath>-->
+        </field>
+    </record>
+
+    <menuitem name="My Tasks" id="menu_project_management_pro" parent="crm.crm_menu_sales"
+        action="project.action_view_all_task" sequence="10"
+        groups="base.group_no_one,project.group_project_user" />
+</odoo>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="task_type_edit_inherit_add_fields" model="ir.ui.view">
+            <field name="name">task.type.edit.inherit.add.fields</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_edit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group/group[2]/field[@name='project_ids']" position="after">
+                    <field name="task_color"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_task_form2_enhance_fields" model="ir.ui.view">
+            <field name="name">view.task.form2.enhance.fields</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_ids']" position="attributes">
+                    <attribute name="context">{'project_task_id': id}</attribute>
+                    <attribute name="options">{'no_create_edit': True, 'no_create': True}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Changed color field and added  -->
+        <record id="project_task_view_gantt_inherit_enhancement" model="ir.ui.view">
+            <field name="name">project.task.view.gant.inherit.enhancement</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project_enterprise.project_task_view_gantt"/>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <xpath expr="//gantt" position="attributes">
+                    <attribute name="color">task_color</attribute>
+                    <attribute name="default_group_by">partner_id</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="project_task_timesheet_page_add_field" model="ir.ui.view">
+            <field name="name">project.task.timesheet.page.add.field</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@id='timesheets_tab']//field[@name='timesheet_ids']/tree/field[@name='unit_amount']" position="before">
+                    <field name="service_bill_unit" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account_analytic_line_view_tree_with_service_bill_unit" model="ir.ui.view">
+            <field name="name">account.analytic.line.view.tree.with.service.bill.unit</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="hr_timesheet.timesheet_view_tree_user"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="service_bill_unit" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

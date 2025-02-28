@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        <record id="paperformat_custom_mar_admin_report" model="report.paperformat">-->
+<!--            <field name="name">Custom Paperformat for MAR Admin Report</field>-->
+<!--            <field name="default" eval="False"/>-->
+<!--            <field name="disable_shrinking" eval="False"/>-->
+<!--            <field name="format">A4</field>-->
+<!--            <field name="page_height">0</field>-->
+<!--            <field name="page_width">0</field>-->
+<!--            <field name="orientation">Landscape</field>-->
+<!--            <field name="margin_top">42.00</field>-->
+<!--            <field name="margin_bottom">17.00</field>-->
+<!--            <field name="margin_left">7.00</field>-->
+<!--            <field name="margin_right">7.00</field>-->
+<!--            <field name="header_spacing">45</field>-->
+<!--            <field name="header_line" eval="False" />-->
+<!--            <field name="dpi">90</field>-->
+<!--        </record>-->
+
+        <record id="action_report_mar_admin_record" model="ir.actions.report">
+            <field name="name">Monitoring report</field>
+            <field name="model">via.monitoring</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">via_survey_monitoring.report_monitoring_docs</field>
+            <field name="report_file">via_survey_monitoring.report_monitoring_docs</field>
+            <field name="print_report_name">'Monitoring Report'</field>
+            <field name="binding_model_id" ref="model_via_monitoring"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

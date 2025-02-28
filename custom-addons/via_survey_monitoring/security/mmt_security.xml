@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record model="ir.module.category" id="module_category_mmt_access">
+            <field name="name">MMT</field>
+            <field name="description">MMT</field>
+            <field name="sequence">46</field>
+        </record>
+
+        <record id="group_mmt_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="via_survey_monitoring.module_category_mmt_access"/>
+        </record>
+
+        <record id="group_mmt_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="implied_ids" eval="[(4, ref('via_survey_monitoring.group_mmt_user'))]"/>
+            <field name="category_id" ref="via_survey_monitoring.module_category_mmt_access"/>
+        </record>
+
+    </data>
+</odoo>

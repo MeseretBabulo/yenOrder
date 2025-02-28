@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="sms_composer_form_inherit" model="ir.ui.view">
+            <field name="name">inherit.sms_composer.form</field>
+            <field name="model">sms.composer</field>
+            <field name="inherit_id" ref="sms.sms_composer_view_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]" position="after">
+                    <br></br>
+                    <field name="sms_template_checker" invisible="1"/>
+                    <span class="font-weight-bold">Chose Template </span>
+                    <field name="ks_template" invisible="not sms_template_checker"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

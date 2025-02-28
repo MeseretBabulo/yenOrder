@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_residential_data_form" model="ir.ui.view">
+        <field name="name">view.residential.data.form</field>
+        <field name="model">residential.data</field>
+        <field name="arch" type="xml">
+            <form string="Residential Data">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="person_support_id" options="{'no_create_edit': True, 'no_create': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="residential_fire_drill" string="Fire Drill">
+                            <field name="residential_fire_drill_ids">
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="person_support_id"
+                                                   options="{'no_create_edit': True, 'no_create': True}" force_save="1"
+                                                   required="0" invisible="1"/>
+                                            <field name="service_received" required="1"/>
+                                            <field name="completed_by"
+                                                   options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                                            <field name="completed_datetime" required="1"/>
+                                            <field name="is_sleep_hours" required="1"/>
+                                            <field name="hypothetical_fire_location" required="1"/>
+                                            <field name="exit_used" required="1"/>
+                                            <field name="participants" required="1"/>
+                                            <field name="evacuation_time" required="1"/>
+                                            <field name="designated_meeting_place" required="1"/>
+                                            <field name="evacuate_desig_meeting_place" required="1"/>
+                                            <field name="reason_for_desig_meeting"
+                                                   attrs="{'required': [('evacuate_desig_meeting_place', '=', 'no')]}"/>
+                                            <field name="place_of_alarm_sound" required="1"/>
+                                            <field name="assistance_to_evacuate" required="1"/>
+                                            <field name="service_provider_id"
+                                                   options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                                            <field name="partner_address_id"
+                                                   options="{'no_create_edit': True, 'no_create': True}"
+                                                   domain="[('parent_id', '=', person_support_id)]"
+                                                   context="{'create_attendance': True}"/>
+                                        </group>
+                                        <group>
+                                            <field name="issue_encountered" required="1"/>
+                                            <field name="smoke_detector" required="1"/>
+                                            <field name="smoke_detector_tested" required="1"/>
+                                            <field name="smoke_detector_followup" required="1"/>
+                                            <field name="fire_extinguishers_and_lst_service_date" required="1"/>
+                                            <field name="active_working_status" required="1"/>
+                                            <field name="working_status_follow_up"
+                                                   attrs="{'required': [('active_working_status', '=', 'no')]}"/>
+                                            <field name="fire_safety_equipment" required="1"/>
+                                            <field name="equipment_names"
+                                                   attrs="{'required': [('fire_safety_equipment', '=', 'yes')]}"/>
+                                            <field name="water_temperature" required="1"/>
+                                            <field name="water_degree" required="1"/>
+                                            <field name="water_degree_follow_up"
+                                                   attrs="{'required': [('water_degree', '=', 'no')]}"/>
+                                            <field name="comment"/>
+                                        </group>
+                                    </group>
+                                </form>
+                                <tree>
+                                    <field name="service_received" optional="show"/>
+                                    <field name="completed_by"
+                                           options="{'no_create_edit': True, 'no_create': True}" optional="show"/>
+                                    <field name="completed_datetime" optional="show"/>
+                                    <field name="is_sleep_hours" optional="show"/>
+                                    <field name="hypothetical_fire_location" optional="show"/>
+                                    <field name="exit_used" optional="hide"/>
+                                    <field name="participants" optional="hide"/>
+                                    <field name="evacuation_time" optional="hide"/>
+                                    <field name="designated_meeting_place" optional="hide"/>
+                                    <field name="evacuate_desig_meeting_place" optional="hide"/>
+                                    <field name="reason_for_desig_meeting" optional="hide"/>
+                                    <field name="place_of_alarm_sound" optional="hide"/>
+                                    <field name="assistance_to_evacuate" optional="hide"/>
+                                    <field name="issue_encountered" optional="hide"/>
+                                    <field name="smoke_detector" optional="hide"/>
+                                    <field name="smoke_detector_tested" optional="hide"/>
+                                    <field name="smoke_detector_followup" optional="hide"/>
+                                    <field name="fire_extinguishers_and_lst_service_date" optional="hide"/>
+                                    <field name="active_working_status" optional="hide"/>
+                                    <field name="working_status_follow_up" optional="hide"/>
+                                    <field name="fire_safety_equipment" optional="hide"/>
+                                    <field name="equipment_names" optional="hide"/>
+                                    <field name="water_temperature" optional="hide"/>
+                                    <field name="water_degree" optional="hide"/>
+                                    <field name="water_degree_follow_up" optional="hide"/>
+                                    <field name="comment" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page name="residential_blood_glucose" string="Blood Glucose">
+                            <field name="residential_blood_glucose_ids">
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="person_support_id"
+                                                   options="{'no_create_edit': True, 'no_create': True}" force_save="1"
+                                                   invisible="1"/>
+                                            <field name="service_received" required="1"/>
+                                            <field name="reported_by"
+                                                   options="{'no_create_edit': True, 'no_create': True}"  required="1"/>
+                                            <field name="report_datetime" required="1"/>
+                                            <field name="value" required="1"/>
+                                            <field name="notification_level" required="1"/>
+                                            <field name="method_used" required="1"/>
+                                            <field name="fasting" required="1"/>
+                                        </group>
+                                        <group>
+                                            <field name="time_since_last_meal" required="1"/>
+                                            <field name="insulin_given" required="1"/>
+                                            <field name="nurse_or_doctor" required="1"/>
+                                            <field name="treatment_type" required="1"/>
+                                            <field name="other_treatment"
+                                                   attrs="{'required': [('treatment_type', '=', 'other')]}"/>
+                                            <field name="comment"/>
+                                        </group>
+                                    </group>
+
+                                    <notebook>
+                                        <page name="residential_blood_glucose_medication"
+                                              string="Blood Glucose Medication">
+                                            <field name="residential_blood_glucose_medication_ids"
+                                                   attrs="{'required': [('treatment_type', '=', 'medication')]}">
+                                                <tree editable="bottom">
+                                                    <field name="person_support_id"
+                                                           options="{'no_create_edit': True, 'no_create': True}"
+                                                           force_save="1" invisible="1"/>
+                                                    <field name="quantity"/>
+                                                    <field name="route"/>
+                                                    <field name="frequency"/>
+                                                </tree>
+                                            </field>
+                                        </page>
+                                    </notebook>
+                                </form>
+                                <tree>
+                                    <field name="person_support_id"
+                                           options="{'no_create_edit': True, 'no_create': True}" force_save="1"
+                                           invisible="1" optional="hide"/>
+                                    <field name="service_received" optional="show"/>
+                                    <field name="reported_by"
+                                           options="{'no_create_edit': True, 'no_create': True}" optional="show"/>
+                                    <field name="report_datetime" optional="show"/>
+                                    <field name="value" optional="show"/>
+                                    <field name="notification_level" optional="show"/>
+                                    <field name="method_used" optional="show"/>
+                                    <field name="fasting" optional="show"/>
+                                    <field name="time_since_last_meal" optional="hide"/>
+                                    <field name="insulin_given" optional="hide"/>
+                                    <field name="nurse_or_doctor" optional="hide"/>
+                                    <field name="treatment_type" optional="hide"/>
+                                    <field name="other_treatment" optional="hide"/>
+                                    <field name="comment" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page name="residential_intake_elimination" string="Intake Elimination">
+                            <field name="residential_intake_elimination_ids">
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="residential_id"
+                                                   options="{'no_create_edit': True, 'no_create': True}" invisible="1"/>
+                                            <field name="person_support_id"
+                                                   options="{'no_create_edit': True, 'no_create': True}" force_save="1"
+                                                   invisible="1" required="1"/>
+                                            <field name="service_received" required="1"/>
+                                            <field name="intake_elimination_date" required="1"/>
+                                            <field name="fluid_intake"/>
+                                            <field name="route"/>
+                                            <field name="meal_eaten"/>
+                                        </group>
+                                        <group>
+                                            <field name="calorie_intake"/>
+                                            <field name="fluid_void"/>
+                                            <field name="bowel_movement"/>
+                                            <field name="bowel_aids"/>
+                                            <field name="bowel_comment"
+                                                   attrs="{'required': [('bowel_aids', '=', 'other')]}"/>
+                                            <field name="reported_by"
+                                                   options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                                            <field name="entered_by"
+                                                   options="{'no_create_edit': True, 'no_create': True}"/>
+                                        </group>
+                                    </group>
+
+                                </form>
+                                <tree>
+                                    <field name="residential_id"
+                                           options="{'no_create_edit': True, 'no_create': True}" optional="hide"/>
+                                    <field name="person_support_id"
+                                           options="{'no_create_edit': True, 'no_create': True}" force_save="1"
+                                           invisible="1" optional="show"/>
+                                    <field name="service_received" optional="show"/>
+                                    <field name="intake_elimination_date" optional="show"/>
+                                    <field name="fluid_intake" optional="show"/>
+                                    <field name="route" optional="show"/>
+                                    <field name="meal_eaten" optional="show"/>
+                                    <field name="calorie_intake" optional="show"/>
+                                    <field name="fluid_void" optional="show"/>
+                                    <field name="bowel_movement" optional="hide"/>
+                                    <field name="bowel_aids" optional="hide"/>
+                                    <field name="bowel_comment" optional="hide"/>
+                                    <field name="reported_by"
+                                           options="{'no_create_edit': True, 'no_create': True}" optional="show"/>
+                                    <field name="entered_by"
+                                           options="{'no_create_edit': True, 'no_create': True}" optional="show"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page name="residential_overnight_tracking" string="Overnight tracking">
+                            <field name="residential_overnight_tracking_ids">
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="residential_id"
+                                                   options="{'no_create_edit': True, 'no_create': True}" invisible="1"/>
+                                            <field name="person_support_id"
+                                                   options="{'no_create_edit': True, 'no_create': True}" force_save="1"
+                                                   invisible="1"/>
+                                            <field name="overnight_tracking_date"/>
+                                        </group>
+                                    </group>
+                                    <notebook>
+                                        <page name="residential_overnight_tracking_question"
+                                              string="Overnight Time Tracking">
+                                            <field name="residential_overnight_tracking_question_ids">
+                                                <tree editable="bottom">
+                                                    <field name="question" widget="float_time"/>
+                                                    <field name="am_pm"/>
+                                                    <field name="time_tracking_type"/>
+                                                </tree>
+                                            </field>
+                                        </page>
+                                    </notebook>
+                                </form>
+
+                                <tree>
+                                    <field name="person_support_id"
+                                           options="{'no_create_edit': True, 'no_create': True}" force_save="1"/>
+                                    <field name="overnight_tracking_date"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page name="residential_vital_signs" string="Vital Signs">
+                            <field name="residential_vital_signs_ids">
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="residential_id"
+                                                   options="{'no_create_edit': True, 'no_create': True}" invisible="1"/>
+                                            <field name="person_support_id"
+                                                   options="{'no_create_edit': True, 'no_create': True}" force_save="1"
+                                                   invisible="1" required="1"/>
+                                            <field name="service_received" required="1"/>
+                                            <field name="reported_by"
+                                                   options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                                            <field name="report_date" required="1"/>
+                                            <field name="notification_level"/>
+                                        </group>
+                                        <group>
+
+                                        </group>
+                                        <group name="Temperature" string="Temperature">
+                                            <field name="temperature_value"/>
+                                            <label for="temperature_time" string="Temperature Time"/>
+                                            <div class="o_row">
+                                                <field name="temperature_time" widget="float_time"/>
+                                                <field name="temperature_am_pm"/>
+                                            </div>
+                                            <field name="temperature_site"/>
+                                        </group>
+
+                                        <group name="pulse" string="Pulse">
+                                            <field name="pulse_value"/>
+                                            <field name="oxygen_saturation"/>
+                                            <label for="pulse_time" string="Pulse Time"/>
+                                            <div class="o_row">
+                                                <field name="pulse_time" widget="float_time"/>
+                                                <field name="pulse_am_pm"/>
+                                            </div>
+                                            <field name="rhythm"/>
+                                            <field name="force"/>
+                                            <field name="method_used"/>
+                                        </group>
+
+                                        <group name="respiration" string="Respiration">
+                                            <field name="respiration_value"/>
+                                            <label for="respiration_time" string="Respiration Time"/>
+                                            <div class="o_row">
+                                                <field name="respiration_time" widget="float_time"/>
+                                                <field name="respiration_am_pm"/>
+                                            </div>
+                                            <field name="lung_sound"/>
+                                            <field name="other_lung_sound"/>
+                                        </group>
+
+                                        <group name="Blood Pressure" string="Blood Pressure">
+                                            <field name="systolic"/>
+                                            <field name="diastolic"/>
+                                            <label for="blood_pressure_time" string="Blood Time"/>
+                                            <div class="o_row">
+                                                <field name="blood_pressure_time" widget="float_time"/>
+                                                <field name="blood_am_pm"/>
+                                            </div>
+                                            <field name="blood_pressure_method_used"/>
+                                            <field name="reaction"/>
+                                        </group>
+                                    </group>
+
+
+                                    <group>
+                                        <field name="comment"/>
+                                    </group>
+                                </form>
+                                <tree>
+                                    <field name="person_support_id"
+                                           options="{'no_create_edit': True, 'no_create': True}" invisible="1"
+                                           force_save="1" required="1"/>
+                                    <field name="service_received" required="1"/>
+                                    <field name="reported_by"
+                                           options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                                    <field name="report_date" required="1"/>
+                                    <field name="notification_level"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page name="residential_seizures" string="Seizures">
+                            <field name="residential_seizures_ids">
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="residential_id"
+                                                   options="{'no_create_edit': True, 'no_create': True}" force_save="1" invisible="1"/>
+                                            <field name="person_support_id"
+                                                   options="{'no_create_edit': True, 'no_create': True}" invisible="1"
+                                                   force_save="1" required="1"/>
+                                            <field name="service_received" required="1"/>
+                                            <field name="reported_by"
+                                                   options="{'no_create_edit': True, 'no_create': True}" required="1"/>
+                                            <field name="report_date" required="1"/>
+                                            <field name="notification_level" required="1"/>
+                                            <field name="seizure_occurred" required="1"/>
+                                        </group>
+                                        <group>
+                                            <field name="location" attrs="{'required': [('seizure_occurred', '=', 'yes')]}"/>
+                                            <field name="other_location" attrs="{'required': [('location', '=', 'other')]}"/>
+                                            <label for="begin_time" string="Begin Time"/>
+                                            <div class="o_row">
+                                                <field name="begin_time" widget="float_time" attrs="{'required': [('seizure_occurred', '=', 'yes')]}"/>
+                                                <field name="seizures_am_pm" attrs="{'required': [('seizure_occurred', '=', 'yes')]}"/>
+                                            </div>
+                                            <field name="seizure_duration" attrs="{'required': [('seizure_occurred', '=', 'yes')]}"/>
+                                            <field name="precipitating_factors" attrs="{'required': [('seizure_occurred', '=', 'yes')]}"/>
+                                            <field name="resulting_injuries" attrs="{'required': [('seizure_occurred', '=', 'yes')]}"/>
+                                            <field name="comment"/>
+                                        </group>
+                                        <group>
+                                            <field name="description_ids" widget="many2many_tags" attrs="{'required': [('seizure_occurred', '=', 'yes')]}"/>
+                                            <field name="behaviour_ids" widget="many2many_tags" attrs="{'required': [('seizure_occurred', '=', 'yes')]}"/>
+                                            <field name="staff_action_ids" widget="many2many_checkboxes" attrs="{'required': [('seizure_occurred', '=', 'yes')]}"/>
+                                        </group>
+                                    </group>
+                                </form>
+                                <tree>
+                                    <field name="service_received" optional="show"/>
+                                    <field name="reported_by"
+                                           options="{'no_create_edit': True, 'no_create': True}" optional="show"/>
+                                    <field name="report_date" optional="show"/>
+                                    <field name="notification_level" optional="show"/>
+                                    <field name="seizure_occurred" optional="show"/>
+                                    <field name="location" optional="show"/>
+                                    <field name="other_location" optional="show"/>
+                                    <field name="begin_time" widget="float_time"  optional="show"/>
+                                    <field name="seizure_duration" optional="show"/>
+                                    <field name="description_ids" optional="hide"/>
+                                    <field name="behaviour_ids" optional="hide"/>
+                                    <field name="staff_action_ids" optional="hide"/>
+                                    <field name="precipitating_factors" optional="hide"/>
+                                    <field name="resulting_injuries" optional="hide"/>
+                                    <field name="comment" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_residential_data_tree" model="ir.ui.view">
+        <field name="name">view.residential.data.tree</field>
+        <field name="model">residential.data</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="person_support_id" options="{'no_create_edit': True, 'no_create': True}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_residential_data" model="ir.actions.act_window">
+        <field name="name">Residential</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">residential.data</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_residential_data_tree"/>
+    </record>
+
+    <record id="view_residential_seizures_desc_tree" model="ir.ui.view">
+        <field name="name">view.residential.seizures.desc.tree</field>
+        <field name="model">residential.seizures.desc</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_residential_seizures_behaviour_tree" model="ir.ui.view">
+        <field name="name">view.residential.seizures.behaviour.tree</field>
+        <field name="model">residential.seizures.behaviour</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_residential_seizures_staff_action_tree" model="ir.ui.view">
+        <field name="name">view.residential.seizures.staff.action.tree</field>
+        <field name="model">residential.seizures.staff.action</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_residential_seizures_desc" model="ir.actions.act_window">
+        <field name="name">Description</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">residential.seizures.desc</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_residential_seizures_desc_tree"/>
+    </record>
+
+    <record id="action_residential_seizures_behaviour" model="ir.actions.act_window">
+        <field name="name">Behaviour</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">residential.seizures.behaviour</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_residential_seizures_behaviour_tree"/>
+    </record>
+
+    <record id="action_residential_seizures_staff_action" model="ir.actions.act_window">
+        <field name="name">Staff Action</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">residential.seizures.staff.action</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_residential_seizures_staff_action_tree"/>
+    </record>
+
+</odoo>

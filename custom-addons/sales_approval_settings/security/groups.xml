@@ -1,0 +1,6 @@
+<odoo>
+    <record id="group_sales_approval_menu" model="res.groups">
+        <field name="name">Sales Approval Menu</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+</odoo>

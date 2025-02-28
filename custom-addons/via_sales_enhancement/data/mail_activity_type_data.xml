@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_sale_order_upload_activity_data" model="mail.activity.type">
+            <field name="name">Sale order Upload Document</field>
+            <field name="icon">fa-upload</field>
+            <field name="delay_count">5</field>
+            <field name="sequence">30</field>
+            <field name="category">upload_file</field>
+             <field name="folder_id" ref="via_sales_enhancement.documents_sale_order_folder"/>
+            <field name="tag_ids" eval="[(6, 0, [ref('via_sales_enhancement.documents_sale_order_document_tag')])]"/>
+        </record>
+    </data>
+</odoo>

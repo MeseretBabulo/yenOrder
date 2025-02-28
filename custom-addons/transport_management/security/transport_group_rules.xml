@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Transport Management Category -->
+    <record id="module_category_transport_management" model="ir.module.category">
+        <field name="name">Transport Management</field>
+        <field name="description">Transport Management Settings</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <!-- Transport Budget Request Group -->
+    <record id="group_transport_budget_request" model="res.groups">
+        <field name="name">Transport Budget Request</field>
+        <field name="category_id" ref="module_category_transport_management"/>
+    </record>
+
+    <!-- Transport Budget Approval Group -->
+    <record id="group_transport_budget_approval" model="res.groups">
+        <field name="name">Transport Budget Approval</field>
+        <field name="category_id" ref="module_category_transport_management"/>
+    </record>
+
+</odoo>

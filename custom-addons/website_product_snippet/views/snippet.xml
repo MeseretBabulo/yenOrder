@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="product_snippet" name="Product Showcase">
+        <section class="product-showcase-snippet">
+            <div class="container">
+                <div class="row product-cards" id="productContainer">
+                    <!-- Products will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="snippet_product_options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='layout']" position="after">
+            <div data-selector=".product-showcase-snippet" data-js="product_showcase">
+                <we-button class="refresh-products">Refresh Products</we-button>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="website.snippets" inherit_id="website.snippets">
+        <xpath expr="//div[@id='snippet_structure']/div[hasclass('o_panel_body')]" position="inside">
+            <t t-snippet="website_product_snippet.product_snippet"
+               t-thumbnail="/website_product_snippet/static/description/icon.png"/>
+        </xpath>
+    </template>
+</odoo>

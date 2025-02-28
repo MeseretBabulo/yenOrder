@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_attendance_confirm_message" model="ir.actions.act_window">
+        <field name="name">Attendance Confirm Message</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">attendance.confirm.message</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="attendance_confirm_message_tree_view" model="ir.ui.view">
+        <field name="name">attendance.confirm.message.tree.view</field>
+        <field name="model">attendance.confirm.message</field>
+        <field name="arch" type="xml">
+            <tree string="Attendance Confirm Message">
+                <field name="name" />
+                <field name="confirm_message" />
+                <field name="active" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="attendance_confirm_message_form_view" model="ir.ui.view">
+        <field name="name">attendance.confirm.message.form.view</field>
+        <field name="model">attendance.confirm.message</field>
+        <field name="arch" type="xml">
+            <form string="Attendance Confirm Message">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                        </group>
+                        <group>
+                            <field name="active" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="confirm_message" widget="html" />
+                        <!--                            <field name="company_id" attrs="{'readonly': [('state', '=', 'done')]}"
+                        groups="base.group_multi_company" options="{&quot;no_open&quot;:True}"/>-->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <menuitem action="action_attendance_confirm_message" id="menu_attendance_confirm_message"
+        name="Attendance Confirm Message" parent="project.menu_project_config" sequence="27" />
+
+</odoo>

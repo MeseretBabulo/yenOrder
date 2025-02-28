@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="via_monitoring_tree_view">
+            <field name="name">questionnire.tree</field>
+            <field name="model">via.monitoring</field>
+            <field name="arch" type="xml">
+                <tree string="Asset Wear and Tear">
+                    <field name="partner_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="via_monitoring_form">
+            <field name="name">questionnire.form</field>
+            <field name="model">via.monitoring</field>
+            <field name="arch" type="xml">
+                <form string="My Form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="template_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="is_broken" invisible="1"/>
+                                <field name="ques_score" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="ans_total" invisible="1"/>
+                            </group>
+                        </group>
+                        <h2 invisible = "[('is_broken','!=', False)]">Question and Answers</h2>
+                        <span invisible = "[('is_broken','!=', False)]">
+                        </span>
+                        <notebook invisible = "[('is_broken','!=', False)]">
+                            <page string="Questions and Answer" name="Questions" invisible="1">
+                                <field name="monitoring_question_ids" widget="many2many"
+                                       options="{'no_create': True, 'no_create_edit':True}" force_save="1">
+                                    <tree string="Questions and Answer">
+                                        <field name="question_id"/>
+                                        <field name="question_type"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Questions and Answer" name="Questions">
+                                <field name="question_answer_ids" widget="section_and_note_one2many" mode="tree" options="{'no_create': True, 'no_create_edit':True}" force_save="1">
+                                    <tree string="Questions and Answer" create="0" edit="0" editable="top">
+                                        <field name="sequence"  widget="handle"/>
+                                        <field name="display_type" invisible="1"/>
+                                        <field name="question_id" invisible="1" readonly="1" force_save="1"/>
+                                        <field name="name" string="Questions" readonly = "[('display_type', '=', False)]" force_save="1" widget="section_and_note_text" optional="show"/>
+                                        <field name="answer_type" invisible="1"/>
+                                        <field name="skipped" invisible="1"/>
+                                        <field name="answer" invisible="1"/>
+                                        <field name="answer_is_correct" invisible="1"/>
+                                        <field name="answer_score" invisible="1"/>
+                                        <field name="ans_score" invisible="1"/>
+                                        <field name="is_page" invisible="1"/>
+                                        <field name="answer_sel" string='' options="{'no_open':true, 'no_create':true}"
+                                               readonly = "['|',('answer_type', 'in', ['number', 'date','textbox', 'multi_textbox']),('skipped', '!=', False)]"
+                                               domain="[(['monitoring_question_id', '=', question_id])]"/>
+                                        <field name="answer_float"
+                                               readonly = "['|',('answer_type', 'in', ['textbox','date','simple_choice', 'multi_textbox']), ('skipped', '!=', False)]"/>
+                                        <field name="answer_date"
+                                               readonly = "['|',('answer_type', 'in', ['textbox', 'number','simple_choice', 'multi_textbox']),('skipped', '!=', False)]"/>
+                                        <field name="answer_char"
+                                               readonly = "['|',('answer_type', 'in', ['number', 'date','simple_choice', 'multi_textbox']),('skipped', '!=', False)]"/>
+                                        <field name="answer_textbox" string="Multi line Textbox"
+                                               readonly = "['|',('answer_type', 'in', ['number', 'date','simple_choice', 'textbox']),('skipped', '!=', False)]"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_via_monitoring_1" model="ir.actions.act_window">
+            <field name="name">Monitoring</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">via.monitoring</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="action_via_monitoring_1"
+                  id="menu_via_monitoring"
+                  name="Monitoring"
+                  parent="contacts.menu_contacts"
+                  sequence="2"/>
+
+        <record model="ir.ui.menu" id="contacts.res_partner_menu_config">
+            <field name="sequence" eval="3"/>
+        </record>
+
+        <record model="ir.ui.view" id="asset_survey_question_form">
+            <field name="name">Form view for survey question</field>
+            <field name="model">via.monitoring.question</field>
+            <field name="arch" type="xml">
+                <form string="Survey Question" create="false">
+                    <field name="is_page" invisible="1"/>
+                    <field name="partner_id" invisible="1"/>
+                    <field name="sequence" invisible="1"/>
+                    <sheet>
+                        <div class="oe_title" style="width: 100%;">
+                            <label for="title" string="Section" invisible="[('is_page', '=', False)]"/>
+                            <label for="title" string="Question" invisible="[('is_page', '=', True)]"/>
+                            <separator/>
+                            <field name="title" colspan="4"/>
+                            <separator/>
+                        </div>
+                        <group class="o_label_nowrap" invisible = "[('is_page', '=', False)]">
+                        </group>
+                        <group invisible = "[('is_page', '=', True)]">
+                            <group>
+                                <field name="question_type" widget="radio"
+                                       required = "[('is_page', '=', False)]"/>
+                            </group>
+                            <group>
+                                <div class="col-lg-6 offset-lg-3 o_preview_questions">
+                                    <!-- Multiple Lines Text Zone -->
+                                    <div invisible = "[('question_type', '!=', 'free_text')]">
+                                        <i class="fa fa-align-justify fa-4x" role="img" aria-label="Multiple lines"
+                                           title="Multiple Lines"/>
+                                    </div>
+                                    <!-- Single Line Text Zone -->
+                                    <div invisible = "[('question_type', '!=', 'textbox')]">
+                                        <i class="fa fa-minus fa-4x" role="img" aria-label="Single Line"
+                                           title="Single Line"/>
+                                    </div>
+                                    <!-- Numerical Value -->
+                                    <div invisible = "[('question_type', '!=', 'numerical_box')]">
+                                        <i class="fa fa-2x" role="img" aria-label="Numeric" title="Numeric">123..</i>
+                                    </div>
+                                    <!-- Date -->
+                                    <div invisible = "[('question_type', '!=', 'date')]">
+                                        <p class="o_datetime">YYYY-MM-DD
+                                            <i class="fa fa-calendar fa-2x" role="img" aria-label="Calendar"
+                                               title="Calendar"/>
+                                        </p>
+                                    </div>
+                                    <!-- Date and Time -->
+                                    <div invisible = "[('question_type', '!=', 'datetime')]">
+                                        <p class="o_datetime">YYYY-MM-DD hh:mm:ss
+                                            <i class="fa fa-calendar fa-2x" role="img" aria-label="Calendar"
+                                               title="Calendar"/>
+                                        </p>
+                                    </div>
+                                    <!-- Multiple choice: only one answer -->
+                                    <div invisible = "[('question_type', '!=', 'simple_choice')]" role="img"
+                                         aria-label="Multiple choice with one answer"
+                                         title="Multiple choice with one answer">
+                                        <div class="row">
+                                            <i class="fa fa-circle-o  fa-lg"/>
+                                            answer
+                                        </div>
+                                        <div class="row">
+                                            <i class="fa fa-dot-circle-o fa-lg"/>
+                                            answer
+                                        </div>
+                                        <div class="row">
+                                            <i class="fa fa-circle-o  fa-lg"/>
+                                            answer
+                                        </div>
+                                    </div>
+                                </div>
+                            </group>
+                        </group>
+
+                        <notebook invisible = "[('is_page', '=', True)]">
+                            <page string="Answers">
+                                <label for="labels_ids" string="Columns of the Matrix" invisible="1"/>
+                                <field name="labels_ids" string="Type of answers"
+                                       invisible = "[('question_type', '=', False)]"
+                                       context="{'default_question_id': active_id}">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="value" string="Choices Select"
+                                               column_invisible = "[('parent.question_type', 'in', ['number', 'date', 'textbox', 'multi_textbox'])]"/>
+                                        <field name="answer_char" string="Choices Char"
+                                               column_invisible = "[('parent.question_type', 'in', ['number', 'date', 'simple_choice', 'multi_textbox'])]"/>
+                                        <field name="answer_float" string="Choices Numerical"
+                                               column_invisible = "[('parent.question_type', 'in', ['textbox', 'date', 'simple_choice', 'multi_textbox'])]"/>
+                                        <field name="answer_date" string="Choices Date"
+                                               column_invisible = "[('parent.question_type', 'in', ['textbox', 'number', 'simple_choice', 'multi_textbox'])]"/>
+                                        <field name="answer_textbox" string="Multi line Textbox"
+                                               column_invisible = "[('parent.question_type', 'in', ['textbox', 'number', 'simple_choice', 'date'])]"/>
+                                        <field name="is_correct" invisible="1"/>
+                                        <field name="answer_score" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="asset_survey_question_tree">
+            <field name="name">Tree view for asset survey question</field>
+            <field name="model">via.monitoring.question</field>
+            <field name="arch" type="xml">
+                <tree string="Survey Question" create="false">
+                    <field name="sequence" widget="handle"/>
+                    <field name="question"/>
+                    <field name="question_type"/>
+                    <field name="skipped"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+
+</odoo>

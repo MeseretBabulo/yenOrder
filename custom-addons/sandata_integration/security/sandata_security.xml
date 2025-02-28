@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="group_create_attendance" model="res.groups">
+            <field name="name">Create Attendance</field>
+        </record>
+
+    </data>
+</odoo>

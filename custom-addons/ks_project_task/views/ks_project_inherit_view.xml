@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+                <record id="project_form_inherit" model="ir.ui.view">
+                    <field name="name">Project.form</field>
+                    <field name="model">project.project</field>
+                    <field name="inherit_id" ref="project.edit_project"/>
+                    <field name="priority" eval="8"/>
+                    <field name="arch" type="xml">
+                        <xpath expr="//field[@name='tag_ids']" position="after">
+        <!--                    <field name="ks_survey_read_only"/>-->
+                            <field name="ks_survey"/>
+                        </xpath>
+                        <xpath expr="//field[@name='partner_id']" position="attributes">
+                            <attribute name="required">1</attribute>
+                        </xpath>
+                        <div name="button_box" position="inside">
+                            <button name="action_survey_user_input_completed"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-pencil-square-o">
+                                <field string="Service Note" name="ks_answer_done_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                    </field>
+                </record>
+<!-- 
+        <record id="ks_view_task_form2_inherited_hide_fields_optionally" model="ir.ui.view">
+            <field name="name">project.task.timesheet.page.hide.field.optionally</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@id='timesheets_tab']//field[@name='timesheet_ids']/tree/field[@name='employee_id']"
+                       position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@id='timesheets_tab']//field[@name='timesheet_ids']/tree/field[@name='name']"
+                       position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@id='timesheets_tab']//field[@name='timesheet_ids']/tree/field[@name='actual_hrs']"
+                       position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@id='timesheets_tab']//field[@name='timesheet_ids']/tree/field[@name='paid_hrs']"
+                       position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@id='timesheets_tab']//field[@name='timesheet_ids']/tree/field[@name='unit_amount']"
+                       position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+            </field>
+        </record> -->
+<!-- 
+        <record id="ks_view_task_form2_inherited_show_fields_optionally" model="ir.ui.view">
+            <field name="name">project.task.timesheet.page.show.field.optionally</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='timesheet_ids']/tree/field[@name='so_line']" position="replace">
+                    <field name="so_line"
+                           attrs="{'column_invisible': [('parent.allow_billable', '=', False)]}"
+                           context="{'with_remaining_hours': True, 'with_price_unit': True}"
+                           options="{'no_create': True, 'no_open': True}"
+                           domain="[('is_service', '=', True), ('order_partner_id', 'child_of', parent.commercial_partner_id), ('is_expense', '=', False), ('state', 'in', ['sale', 'done'])]"
+                    />
+                </xpath>
+            </field>
+        </record> -->
+
+        <record id="survey_user_input_linee_action" model="ir.actions.act_window">
+            <field name="name">Answers</field>
+            <field name="res_model">survey.user_input.line</field>
+            <field name="view_mode">tree,form</field>
+            <!--            <field name="search_view_id" ref="survey_user_input_line_view_search"/>-->
+            <!--            <field name="context">{'search_default_group_by_survey': True, 'search_default_group_by_user_input': True}-->
+            <!--            </field>-->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_empty_folder">
+                    All surveys
+                </p>
+            </field>
+        </record>
+
+        <record id="action_create_survey_in_project" model="ir.actions.server">
+            <field name="name">Create Survey</field>
+            <field name="model_id" ref="project.model_project_project"/>
+            <field name="binding_model_id" ref="project.model_project_project"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = records._open_wizard_from_here()
+            </field>
+        </record>
+
+        <menuitem name="Answers"
+                  id="menu_survey_response_line_form_inherit"
+                  action="survey_user_input_linee_action"
+                  parent="survey.menu_survey_type_form1"
+                  sequence="5"/>
+
+        <menuitem name="Link Survey"
+                  id="Link_project_survey_menu_item"
+                  action="link_project_survey_action"
+                  parent="project.menu_project_report"
+                  sequence="6"/>
+
+        <!--        <record model="ir.ui.menu" id="via_sales_enhancement.menu_via_service_note_survey">-->
+        <!--      <field name="name">Service Note</field>-->
+        <!--    </record>-->
+
+        <record model="ir.ui.menu" id="via_sales_enhancement.menu_via_service_note">
+            <field name="name">Service Note Data</field>
+        </record>
+
+        <menuitem id="via_sales_enhancement.menu_via_service_note_survey" active="False"/>
+
+        <record model="ir.actions.act_window" id="service_note_survey_action">
+            <field name="name">Service Note</field>
+            <field name="res_model">survey.user_input</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="survey.survey_user_input_view_tree"/>
+            <field name="search_view_id" ref="survey.survey_user_input_view_search"/>
+            <field name="context">{'search_default_group_by_survey': True}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_empty_folder">
+                    Nobody has replied to your surveys yet
+                </p>
+            </field>
+        </record>
+
+        <!--Instead of popup , redirect to form view (calender view) -->
+        <record id="project_project_calendar_view_inherit" model="ir.ui.view">
+            <field name="name">project.project.calendar.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_calendar"/>
+            <field name="arch" type="xml">
+                <xpath expr="//calendar" position="attributes">
+                    <attribute name="event_open_popup">False</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem name="Service Note"
+                  id="Service_note_survey_menu_item"
+                  action="service_note_survey_action"
+                  parent="project.menu_project_config"
+                  sequence="6"/>
+
+        <!--        <record id="view_task_timesheet_add_custom_field_inherit" model="ir.ui.view">-->
+        <!--        <field name="name">view.task.form2.inherited.inherits.add.button.inherit</field>-->
+        <!--        <field name="model">project.task</field>-->
+        <!--        <field name="inherit_id" ref="bista_timesheet_attendance.view_task_form2_inherited_inherits_add_buttons"/>-->
+        <!--        <field name="arch" type="xml">-->
+        <!--            <xpath expr="//page[@name='attendance_tab']//field[@name='attendance_line_ids']/tree" position="inside">-->
+        <!--                <field name="total_time_consumed"/>-->
+        <!--            </xpath>-->
+        <!--        </field>-->
+        <!--    </record>-->
+
+        <!--        Inherit attendance_line_ids records tree view-->
+        <record id="view_task_timesheet_add_custom_field_inherit" model="ir.ui.view">
+            <field name="name">view.task.form2.inherited.inherits.add.fields.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="bista_timesheet_attendance.view_task_form2_inherited_inherits_add_buttons"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='attendance_tab']//field[@name='attendance_line_ids']/tree" position="inside">
+                    <field name="visit_id" optional="show"/>
+                    <button name="create_attendance_update_with_id"
+                            string="Change Attendance"
+                            type="object"
+                            class="btn-primary"
+                    />
+                </xpath>
+            </field>
+        </record>
+        <record id="project_form_inherit_medical" model="ir.ui.view">
+            <field name="name">Project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='settings']//field[@name='privacy_visibility']" position="after">
+                    <field name="medical_appointment_checker"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_menu_programs">
+            <field name="name">Show filter programs by team</field>
+            <field name="res_model">project.project</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="project.view_project_kanban"/>
+            <field name="search_view_id" ref="project.view_project_project_filter"/>
+            <field name="domain">[
+                ('team_id.member_ids', '=', uid)
+                ]
+            </field>
+        </record>
+
+        <menuitem name="Programs" id="ks_project_task.menu_task_programs"
+                  parent="project.menu_main_pm" action="ks_project_task.action_menu_programs" sequence="1"/>
+    </data>
+</odoo>

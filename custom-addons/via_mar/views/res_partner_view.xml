@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_res_partner_form_inherit_add_page_mar_lines" model="ir.ui.view">
+        <field name="name">view.res.partner.form.inherit.add.page.mar.lines</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="medical_presc_details" string="Prescription Details">
+                    <group name="group_medical_presc_details">
+                        <field name="medication_prescription_line_ids" nolabel="1" force_save="1" readonly="1">
+                            <tree create="0" edit="0" delete="0">
+                                <field name="patient_id" invisible="1"/>
+                                <field name="medication_id"/>
+                                <field name="med_code"/>
+                                <field name="date_med_started"/>
+                                <field name="date_med_end"/>
+                                <field name="diagnosis"/>
+                                <field name="strength"/>
+                                <field name="dosage_form"/>
+                                <field name="other_dosage_form"/>
+                                <!-- <field name="dose"/> -->
+                                <field name="route_of_admin" optional="hide"/>
+                                <field name="other_admin_route" optional="hide"/>
+                                <field name="admin_frequency_id" optional="hide"/>
+                                <field name="prescribed_admin_times" optional="hide"/>
+                                <field name="duration_of_prescription" optional="hide"/>
+                                <field name="special_precautions" optional="hide"/>
+                                <button name="open_medical_prescription" type="object" icon="fa-forward"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+             </xpath>
+            <xpath expr="//sheet/div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" type="object" name="open_schedule_dose"
+                        context="{'patient_id': active_id}"
+                        invisible="via_drug_schedule_count == 0" icon="fa-tasks">
+<!--                    <field string="Drug Schedule" name="via_service_note_count" widget="statinfo"/>-->
+                    <field string="MAR" name="via_drug_schedule_count" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" groups="via_mar.group_mar_admin,via_mar.group_mar_user" type="object" name="open_diagnosis_details"
+                        icon="fa-stethoscope">
+                    <field string="Diagnoses" name="diagnoses_count" widget="statinfo"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,146 @@
+<odoo>
+    <!-- Employee Form View Modifications -->
+    <record id="view_employee_form_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='mobile_phone']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='coach_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='lang']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='div_km_home_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='km_home_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='private_state_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='private_zip']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='private_country_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='private_email']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='private_phone']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//label[@for='private_street']" position="attributes">
+                <attribute name="class">o_hidden</attribute>
+            </xpath>
+            <xpath expr="//field[@name='lang']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='div_km_home_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='km_home_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//label[@for='km_home_work']" position="attributes">
+                <attribute name="class">o_hidden</attribute>
+            </xpath>
+            <xpath expr="//field[@name='private_car_plate']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='country_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='ssnid']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='passport_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='spouse_complete_name']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='spouse_birthdate']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='children']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='visa_no']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+
+            <xpath expr="//separator[@name='has_work_permit']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='permit_no']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='visa_expire']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='work_permit_expiration_date']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='work_permit_name']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='has_work_permit']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='personal_information']//group[1]//group[2]"
+                position="attributes">
+                <attribute name="string">Family Status</attribute>
+            </xpath>
+            <xpath expr="//page[@name='personal_information']//group[1]//group[5]"
+                position="attributes">
+                <attribute name="string">Additional Private Information</attribute>
+            </xpath>
+            <xpath expr="//field[@name='identification_id']"
+                position="attributes">
+                <attribute name="string">Fayda Id Number</attribute>
+            </xpath>
+            <xpath expr="//page[@name='personal_information']//group[1]//group[5]" position="after">
+                <group string="Additional File Upload">
+
+                    <field name="fayda_attachment" string="Fayda Attachment" placeholder="Fayda Attachment" filename="fayda_attachment_filename"
+                        widget="image"
+                        options="{'preview_image': 'fayda_attachment'}" />
+
+                    <field name="passport_attachment" string ="Passport Attachment" filename="passport_attachment_filename"
+                        widget="image"
+                        options="{'preview_image': 'passport_attachment'}" />
+
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='work_email']" position="after">
+                 <field name="tin_number" widget="TIN Number"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Contract Form View Modifications -->
+    <record id="view_contract_custom" model="ir.ui.view">
+        <field name="name">hr.contract.form.custom</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='wage']/../.." position="after">
+                <group string="Allowances">
+                    <group col="2">
+                        <field name="employee_transport_allowance"
+                            options="{'currency_field': 'currency_id'}" string="Transport Allowance" />
+                        <field name="employee_telephone_allowance"
+                            options="{'currency_field': 'currency_id'}" string="Telephone Allowance" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

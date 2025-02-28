@@ -1,0 +1,6 @@
+<odoo>
+    <record id="group_weight_of_container" model="res.groups">
+        <field name="name">Weight Of Container</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+</odoo>

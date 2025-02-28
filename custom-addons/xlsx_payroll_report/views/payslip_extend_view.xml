@@ -1,0 +1,57 @@
+<odoo>
+<!-- Inherit Payslip Batch Form -->
+<record id="hr_payslip_run_form_inherit" model="ir.ui.view">
+    <field name="name">hr.payslip.run.form.inherit</field>
+    <field name="model">hr.payslip.run</field>
+    <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+    <field name="arch" type="xml">
+        <notebook position="inside">
+            <page string="Salary Computation" name="salary_computation">
+                <button name="action_compute_summary" 
+                        string="Compute Summary" 
+                        type="object" 
+                        class="oe_highlight" />
+                        <!-- attrs="{'invisible': [('state', '!=', 'close')]}"/> -->
+                <field name="summary_line_ids" colspan="4" nolabel="1">
+                    <tree string="Salary Summary" editable="bottom" decoration-info="total == 0">
+                        <!-- <field name="sequence" invisible="1"/> -->
+                        <field name="name"/>
+                        <field name="category"/>
+                        <field name="quantity"/>
+                        <field name="rate"/>
+                        <field name="rule"/>
+                        <field name="amount"/>
+                        <field name="total"/>
+                        <!-- <field name="currency_id" invisible="1"/> -->
+                    </tree>
+                    <form string="Summary Line">
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="category"/>
+                            <field name="quantity"/>
+                            <field name="rate"/>
+                            <field name="rule"/>
+                            <field name="amount"/>
+                            <field name="total"/>
+                            <!-- <field name="currency_id" invisible="1"/> -->
+                        </group>
+                    </form>
+                </field>
+            </page>
+        </notebook>
+    </field>
+</record>
+<!-- Action -->
+<!-- <record id="action_salary_summary" model="ir.actions.act_window">
+    <field name="name">Salary Summaries</field>
+    <field name="res_model">salary.summary</field>
+    <field name="view_mode">tree,form</field>
+</record> -->
+
+<!-- Menu Item -->
+<!-- <menuitem id="menu_salary_summary"
+          name="Salary Summaries"
+          parent="hr_payroll.menu_hr_payroll_root"
+          action="action_salary_summary"
+          sequence="16"/> -->
+</odoo>

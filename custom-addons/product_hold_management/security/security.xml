@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Product Hold Manager Group -->
+        <record id="group_product_hold_manager" model="res.groups">
+            <field name="name">Product Hold Manager</field>
+            <field name="category_id" ref="base.module_category_sales_sales"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+
+    <data noupdate="0">
+        <!-- Record Rules -->
+        <record id="product_hold_all_rule" model="ir.rule">
+            <field name="name">Product Hold All Users Rule</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="product_hold_manager_rule" model="ir.rule">
+            <field name="name">Product Hold Manager Rule</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('product_hold_management.group_product_hold_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+    </data>
+</odoo> 

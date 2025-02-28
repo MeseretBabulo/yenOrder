@@ -1,0 +1,40 @@
+<odoo>
+
+    <record id="vendor_contacts_checkbox" model="ir.ui.view">
+        <field name="name">vendor.contacts.checkbox</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <group>
+                    <field name="is_vendor" string="Is Vendor" />
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='internal_notes']" position="after">
+                <page name="private_information" string="Private Information">
+                    <group>
+                        <group>
+                            <field name="fayda_attachment" filename="fayda_attachment_filename"
+                                widget="image"
+                                options="{'preview_image': 'fayda_attachment'}"
+                                style="max-width: 200px; max-height: 200px;"
+                            />
+
+                        </group>
+                        <group>
+
+                            <field name="passport_attachment"
+                                filename="passport_attachment_filename"
+                                widget="image"
+                                options="{'preview_image': 'passport_attachment'}"
+                                style="max-width: 200px; max-height: 200px;"
+                            />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

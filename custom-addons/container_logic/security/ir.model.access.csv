@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_container_measurement_logic_model,container_logic_container_measurement_logic_model,model_container_logic_container_measurement_logic_model,base.group_user,1,1,1,1
+access_container_line,container.line,model_container_line,,1,1,1,1
+

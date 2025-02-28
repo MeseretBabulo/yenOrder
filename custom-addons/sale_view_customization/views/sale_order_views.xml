@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.hide.elements</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <!-- Hide Preview button -->
+            <xpath expr="//header//button[@name='action_preview_sale_order']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Change Optional Products tab Name -->
+            <xpath expr="//notebook//page[@name='optional_products']" position="attributes">
+                <attribute name="string">Costs</attribute>
+            </xpath>
+
+            <!-- Hide Customer Signature section -->
+            <xpath expr="//notebook//page[contains(@name, 'sign')]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Hide Add Shipping button -->
+            <xpath expr="//button[@name='action_open_delivery_wizard']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Hide Terms & Conditions -->
+            <xpath expr="//field[@name='note']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <template id="custom_report_pdf_quote"
+        inherit_id="sale.report_saleorder_document">
+        <xpath expr="//table[1]" position="replace">
+            <table class="table table-sm mt-4">
+                <thead style="display: table-row-group; ">
+                    <tr style="border: none;">
+                        <th name="th_description"
+                            style="border: 1px solid white; border-top:2px solid #3e7157">
+                            <strong style="color:black">Product</strong>
+                        </th> 
+                        <th name="th_price_unit"
+                            style="border: 1px solid white; border-top:2px solid #3e7157"
+                            class="text-end">
+                            <strong style="color:black">Unit Price</strong>
+                        </th>
+                        <th name="th_quantity"
+                            style="border: 1px solid white; border-top:2px solid #3e7157"
+                            class="text-end">
+                            <strong style="color:black">Qty</strong>
+                        </th>
+                        <th name="th_discount" t-if="display_discount" class="text-end">
+                            <span style="color:black">Disc.%</span>
+                        </th>
+                        <th name="th_subtotal"
+                            style="border: 1px solid white; border-top:2px solid #3e7157"
+                            class="text-end">
+                            <strong style="color:black">Tax Excluded</strong>
+                        </th>
+                        <th name="th_quantity"
+                            style="border: 1px solid white; border-top:2px solid #3e7157"
+                            class="text-end">
+                            <strong style="color:black">Total</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="lines_to_report" t-as="line">
+                        <tr
+                            style="border-top:2px solid #3e7157 !important"
+                            t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+
+                            <t t-if="not line.display_type">
+                                <td style="border: 1px solid white;" id="product">
+
+                                    <span t-field="line.name" />
+                                </td>
+                                <td class="text-end"  style="border: 1px solid white;" >
+                                    <span t-field="line.price_unit" />
+                                </td>
+                                <td style="border: 1px solid white;" class="text-end">
+                                    <span t-field="line.product_uom_qty">3</span>
+                                    <span t-field="line.product_uom">units</span>
+                                    <span t-if="line.product_packaging_id"> (<span
+                                            t-field="line.product_packaging_qty"
+                                            t-options='{"widget": "integer"}' /> <span
+                                            t-field="line.product_packaging_id" />) </span>
+                                </td>
+                                <td t-if="display_discount" class="text-end">
+                                    <span t-field="line.discount">-</span>
+                                </td>
+                                <td style="border: 1px solid white;" class="text-end" >
+                                    <span t-field="line.price_subtotal" />
+                                </td>
+                                <td style="border: 1px solid white;" class="text-end" >
+                                    <span t-field="line.price_total" />
+                                </td>
+                            </t>
+                            <t t-else="">
+                                <td style="border: 1px solid white;" colspan="99" id="section">
+                                    <span t-field="line.name" />
+                                </td>
+                            </t>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </xpath>
+
+        <xpath expr="//h2" position="before">
+            <div
+                style="display: flex; display: -webkit-box; -webkit-box-pack: center; justify-content: center;  width: 100%; box-sizing: border-box; margin-top:30px;">
+                <div style="flex: 1; -webkit-box-flex: 1; -webkit-flex: 1; margin-right: 20px;">
+                    <p>Phone: <span t-field="doc.partner_id.phone"></span></p>
+                    <p>TIN No: <span t-field="doc.partner_id.vat"></span></p>
+                </div>
+                <div style="flex: 1; -webkit-box-flex: 1; -webkit-flex: 1; margin-right: 20px;">
+                    <p>Sales Order: <span t-field="doc.name"></span></p>
+                    <p>Email: <span t-field="doc.partner_id.email"></span></p>
+                </div>
+                <div style="flex: 1; -webkit-box-flex: 1; -webkit-flex: 1;">
+
+                    <p>Quotation Date:<span class="m-0" t-field="doc.date_order"
+                            t-options='{"widget": "date"}'></span></p>
+                    <p>Customer No: <span t-field="doc.partner_id.country_id.code"></span> <span
+                            t-field="doc.partner_id.id"></span></p>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='informations']" position="replace">
+            <div></div>
+        </xpath>
+        <xpath expr="//h2" position="replace">
+            <div></div>
+            <!-- This removes all h2 elements inside only the first mt-4 div -->
+        </xpath>
+    </template>
+
+    <template id="report_saleorder_document_remove_optional_products" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//h4[@name='h_optional_products']" position="replace">
+            <div></div>
+        </xpath>
+        <xpath expr="//table[@name='table_optional_products']" position="replace">
+            <div></div>
+        
+        </xpath>
+    </template>
+
+
+
+</odoo> 

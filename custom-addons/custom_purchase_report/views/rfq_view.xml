@@ -1,0 +1,128 @@
+<odoo>
+    <template id="custom_report_purchasequotation_document"
+        inherit_id="purchase.report_purchasequotation_document">
+        <!-- Add content at the beginning of the page -->
+        <xpath expr="//table" position="replace">
+            <table class="table table-sm mt-4">
+                <thead style="display: table-row-group">
+                    <tr>
+                        <th style="border: 1px solid white; border-top:2px solid #3e7157" name="th_product">
+                            <strong style="color:black">Product</strong>
+                        </th>
+                        <th style="border: 1px solid white; border-top:2px solid #3e7157" name="th_country" class="text-end">
+                            <strong style="color:black">Origin</strong>
+                        </th>
+                        <th style="border: 1px solid white; border-top:2px solid #3e7157" name="th_hs_code" class="text-end">
+                            <strong style="color:black">HS Code</strong>
+                        </th>
+                        <th style="border: 1px solid white; border-top:2px solid #3e7157" name="th_unit_price"
+                            class="text-end">
+                            <strong style="color:black">Unit Price</strong>
+                        </th>
+                        <th style="border: 1px solid white; border-top:2px solid #3e7157" name="th_quantity" class="text-end">
+                            <strong style="color:black">Qty</strong>
+                        </th>
+                        <th style="border: 1px solid white; border-top:2px solid #3e7157" name="th_tax_excluded" class="text-end">
+                            <strong style="color:black">Tax Excluded</strong>
+                        </th>
+                        <th style="border: 1px solid white; border-top:2px solid #3e7157" name="th_quantity" class="text-end">
+                            <strong style="color:black">Total</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="o.order_line" t-as="order_line">
+                        <tr
+                            style="border-top:2px solid #3e7157 !important"
+                            t-att-class="'bg-200 fw-bold o_line_section' if order_line.display_type == 'line_section' else 'fst-italic o_line_note' if order_line.display_type == 'line_note' else ''">
+                            <t t-if="not order_line.display_type">
+                                <td id="product" style="border: 1px solid white;">
+                                    <span t-field="order_line.name" />
+                                </td>
+                                <td class="text-end" style="border: 1px solid white;">
+                                    <span t-field="order_line.selected_country" />
+                                </td>
+                                <td class="text-end" style="border: 1px solid white;">
+                                    <span t-field="order_line.hs_code" />
+                                </td>
+                                <td class="text-end" style="border: 1px solid white;">
+                                    <span t-field="order_line.price_unit" />
+                                </td>
+                                <td class="text-end" style="border: 1px solid white;">
+                                    <span t-field="order_line.product_qty" />
+                                    <span t-field="order_line.product_uom" groups="uom.group_uom" />
+                                    <span t-if="order_line.product_packaging_id"> (<span
+                                            t-field="order_line.product_packaging_qty"
+                                            t-options='{"widget": "integer"}' /> <span
+                                            t-field="order_line.product_packaging_id" />) </span>
+                                </td>
+                                <td class="text-end" style="border: 1px solid white;">
+                                    <span t-field="order_line.price_subtotal" />
+                                </td>
+                                <td class="text-end" style="border: 1px solid white;">
+                                    <span t-field="order_line.price_total" />
+                                </td>
+                            </t>
+                            <t t-else="">
+                                <td colspan="99" id="section">
+                                    <span t-field="order_line.name" />
+                                </td>
+                            </t>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+            <div id="total" class="row justify-content-end">
+                <div class="col-4">
+                    <table class="table table-sm table-borderless">
+                        <t t-set="tax_totals" t-value="o.tax_totals" />
+                        <t t-call="purchase.document_tax_totals" />
+                    </table>
+                </div>
+            </div>
+        </xpath>
+        <!-- <xpath expr="//div" position="after">
+            <div>
+                <t t-if="not o.is_direct_purchase">
+                    <strong>Proforma Invoice:</strong>
+                    <span t-field="o.proforma_invoice"></span>
+
+                </t>
+            </div>
+        </xpath> -->
+        <!-- <xpath expr="//t[1]//t[3]//div" position="attributes">
+            <attribute name = "style">display:flex;width:100%</attribute>        
+        </xpath> -->
+
+        <xpath expr="//h2" position="before">
+            <div
+                style="display: flex; display: -webkit-box; -webkit-box-pack: center; justify-content: center;  width: 100%; box-sizing: border-box; margin-top:30px;">
+                <div style="flex: 1; -webkit-box-flex: 1; -webkit-flex: 1; margin-right: 20px;">
+                    <p>Phone: <span t-field="o.partner_id.phone"></span></p>
+                    <p>TIN No: <span t-field="o.partner_id.vat"></span></p>
+                </div>
+                <div style="flex: 1; -webkit-box-flex: 1; -webkit-flex: 1; margin-right: 20px;">
+                    <p>Purchase Order: <span t-field="o.name"></span></p>
+                    <p>Email: <span t-field="o.partner_id.email"></span></p>
+                </div>
+                <div style="flex: 1; -webkit-box-flex: 1; -webkit-flex: 1;">
+                    
+                    <p>Proforma Invoice: <span t-field="o.proforma_invoice"></span> </p>
+
+                    <p>Supplier No: <span t-field="o.partner_id.country_id.code"></span> <span
+                            t-field="o.partner_id.id"></span></p>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//table" position="after">
+        <div class="text-center" style=" width :100% ; border-bottom: 2px solid #3e7157; padding-bottom: 2px;  margin-bottom:10px">
+            <p><span style="font-size: 24px" t-field="o.total_price_in_words"> </span></p>
+        </div>
+        </xpath>
+        <xpath expr = "//h2" position="replace">
+            <div></div>
+        </xpath>
+
+    </template>
+</odoo>

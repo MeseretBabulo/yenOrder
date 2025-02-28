@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="portal_attendance" name="Attendance Kiosk">
+        <t t-call="web.layout">
+            <t t-set="title">Welcome to Chinaksen</t>
+              <style>
+                .btn-success:hover {
+                    transform: translateY(-2px);
+                    transition: transform 0.2s;
+                }
+                .btn-danger:hover {
+                    transform: translateY(-2px);
+                    transition: transform 0.2s;
+                }
+                .card {
+                    border-radius: 15px;
+                }
+                .card-header {
+                    border-top-left-radius: 15px;
+                    border-top-right-radius: 15px;
+                }
+                .btn {
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+            </style>
+            <div class="container-fluid vh-100 d-flex align-items-center justify-content-center bg-light">
+                <div class="card shadow-sm" style="max-width: 500px; width: 100%;">
+                    <div class="card-header bg-primary text-white text-center py-3">
+                        <h2 class="m-0">Welcome to Chinaksen</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <img t-att-src="'/company_logo.png'" alt="Company Logo" 
+                                 class="img-fluid mb-3" style="max-height: 100px;"/>
+                            <h4 class="text-muted">Please select an action</h4>
+                        </div>
+                        
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <button type="button" 
+                                        class="btn btn-success w-100 py-3 h-100"
+                                        t-att-data-action="'check_in'"
+                                        t-on-click="action_check_in">
+                                    <i class="fa fa-sign-in fa-2x mb-2"></i>
+                                    <div>Check In</div>
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" 
+                                        class="btn btn-danger w-100 py-3 h-100"
+                                        t-att-data-action="'check_out'"
+                                        t-on-click="action_check_out">
+                                    <i class="fa fa-sign-out fa-2x mb-2"></i>
+                                    <div>Check Out</div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Message Alert -->
+                        <div class="alert alert-success mt-4 d-none" role="alert" id="successMessage">
+                            Action recorded successfully!
+                        </div>
+                        <div class="alert alert-danger mt-4 d-none" role="alert" id="errorMessage">
+                            An error occurred. Please try again.
+                        </div>
+                    </div>
+                    <div class="card-footer text-center py-3 bg-light">
+                        <small class="text-muted">© <t t-esc="datetime.date.today().year"/> Chinaksen. All rights reserved.</small>
+                    </div>
+                </div>
+            </div>
+          
+        </t>
+    </template>
+
+</odoo>

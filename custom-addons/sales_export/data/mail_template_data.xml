@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="email_template_submit_docs" model="mail.template">
+    <field name="name">Sale Order: Submit Docs to Bank</field>
+    <field name="model_id" ref="sale.model_sale_order" />
+    <field name="subject">{{ object.company_id.name }} Sale Order (Ref {{ object.name or 'n/a' }})</field>
+    <field name="partner_to">{{ object.partner_id.id }}</field>
+    <field name="description">Sent manually to bank for LC account processing</field>
+    <field name="body_html" type="html">
+        <div>
+            <p> Dear Bank Representative, <br /><br /> Based on the sale order <span
+                    style="font-weight:bold;"
+                    t-out="object.name or ''">{{ object.name }}</span>
+                <t t-if="object.client_order_ref"> with reference: <strong>{{ object.client_order_ref or '' }}</strong>. </t>,
+                please find attached the necessary documents for your review and processing. The attached files include: 
+                <ul>
+                    <li>Commercial Documents</li>
+                    <li>Financial Documents</li>
+                    <li>Shipment and Transport Documents</li>
+                    <li>Customer Complaints</li>
+                    <li>Bank-Related Documents</li>
+                </ul>
+                <br /><br /> Kindly confirm receipt of these documents and let us know if any further information or
+                clarification is required. 
+                <t t-if="not is_html_empty(object.user_id.signature)">
+                    <br /><br />
+                    <t t-out="object.user_id.signature or ''">--<br />{{ object.user_id.name }}</t>
+                </t>
+            </p>
+        </div>
+    </field>
+    <!-- <field name="report_template_ids" eval="[(4, ref('sale.report_saleorder_document'))]" /> -->
+    <field name="lang">{{ object.partner_id.lang }}</field>
+    <field name="auto_delete" eval="True" />
+</record>
+
+
+</odoo>

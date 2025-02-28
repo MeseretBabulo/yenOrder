@@ -1,0 +1,146 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_expire_module
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0-20221005\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-22 07:36+0000\n"
+"PO-Revision-Date: 2023-05-22 07:36+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_expire_module
+#: model_terms:ir.ui.view,arch_db:hr_expire_module.report_bank_payroll
+msgid ""
+"<br/>\n"
+"                        <span>Prepared by:</span>\n"
+"                        <span style=\"margin-left:250px ;\">Checked by:</span>\n"
+"                        <span style=\"margin-left:250px;\">Approved by:</span>"
+msgstr ""
+"<br/>\n"
+" <span>የተዘጋጀው በ:</span>\n"
+" <span style=\"margin-left:250px ;\">የተረጋገጠ በ:</span>\n"
+" <span style=\"margin-left:250px;\>በ</span> የተፈቀደ"
+#. module: hr_expire_module
+#: model_terms:ir.ui.view,arch_db:hr_expire_module.report_bank_payroll
+msgid "<strong>Total</strong>"
+msgstr "<strong>ጠቅላላ</strong>"
+
+#. module: hr_expire_module
+#: model:ir.model.fields,field_description:hr_expire_module.field_hr_employee__emp_acc
+msgid "Bank Account "
+msgstr "የባንክ ሒሳብ "
+
+#. module: hr_expire_module
+#: model_terms:ir.ui.view,arch_db:hr_expire_module.report_bank_payroll
+msgid "Bank Account No."
+msgstr "የባንክ ሂሳብ ቁጥር."
+
+#. module: hr_expire_module
+#: model:ir.model,name:hr_expire_module.model_bank_payroll
+msgid "Bank Payroll"
+msgstr "የባንክ ክፍያ"
+
+#. module: hr_expire_module
+#: model:ir.actions.report,name:hr_expire_module.action_report_bank_payroll
+msgid "Bank Payroll Report"
+msgstr "የባንክ ክፍያ ሪፖርት"
+
+#. module: hr_expire_module
+#: model:ir.model.fields,field_description:hr_expire_module.field_bank_payroll__create_uid
+msgid "Created by"
+msgstr "የተፈጠረ"
+
+#. module: hr_expire_module
+#: model:ir.model.fields,field_description:hr_expire_module.field_bank_payroll__create_date
+msgid "Created on"
+msgstr "ላይ ተፈጠረ"
+
+#. module: hr_expire_module
+#: model:ir.model.fields,field_description:hr_expire_module.field_bank_payroll__display_name
+msgid "Display Name"
+msgstr "መጠሪያው ስም"
+
+#. module: hr_expire_module
+#: code:addons/hr_expire_module/models/models.py:0
+#, python-format
+msgid "END OF PROBATION"
+msgstr "የሙከራ ጊዜ ማብቂያ"
+
+#. module: hr_expire_module
+#: model:ir.model,name:hr_expire_module.model_hr_employee
+msgid "Employee"
+msgstr "ሰራተኛ"
+
+#. module: hr_expire_module
+#: model:ir.model.fields,field_description:hr_expire_module.field_hr_employee__employee_bank_account
+msgid "Employee Bank Account"
+msgstr "የሰራተኛ የባንክ ሂሳብ"
+
+#. module: hr_expire_module
+#: model:ir.model,name:hr_expire_module.model_hr_contract
+msgid "Employee Contract"
+msgstr "የሰራተኛ ውል"
+
+#. module: hr_expire_module
+#: model_terms:ir.ui.view,arch_db:hr_expire_module.report_bank_payroll
+msgid "Employee Name"
+msgstr "የሰራተኛ ስም"
+
+#. module: hr_expire_module
+#: model:ir.model.fields,field_description:hr_expire_module.field_bank_payroll__id
+msgid "ID"
+msgstr "መታወቂያ"
+
+#. module: hr_expire_module
+#: model:ir.model.fields,field_description:hr_expire_module.field_bank_payroll____last_update
+msgid "Last Modified on"
+msgstr "መጨረሻ የተሻሻለው በርቷል።"
+
+#. module: hr_expire_module
+#: model:ir.model.fields,field_description:hr_expire_module.field_bank_payroll__write_uid
+msgid "Last Updated by"
+msgstr "መጨረሻ የዘመነው በ"
+
+#. module: hr_expire_module
+#: model:ir.model.fields,field_description:hr_expire_module.field_bank_payroll__write_date
+msgid "Last Updated on"
+msgstr "መጨረሻ የዘመነው በርቷል።"
+
+#. module: hr_expire_module
+#: model_terms:ir.ui.view,arch_db:hr_expire_module.report_bank_payroll
+msgid "Net Pay"
+msgstr "የተጣራ ክፍያ"
+
+#. module: hr_expire_module
+#: model:ir.model.fields,field_description:hr_expire_module.field_bank_payroll__payroll_month
+msgid "Payroll Month"
+msgstr "የደመወዝ ወር"
+
+#. module: hr_expire_module
+#: model:ir.model,name:hr_expire_module.model_hr_payslip_run
+msgid "Payslip Batches"
+msgstr "የክፍያ ደረሰኝ ስብስቦች"
+
+#. module: hr_expire_module
+#: model_terms:ir.ui.view,arch_db:hr_expire_module.hr_contract_form_view_inherit_date
+msgid "Period Provision"
+msgstr "የጊዜ አቅርቦት"
+
+#. module: hr_expire_module
+#: model_terms:ir.ui.view,arch_db:hr_expire_module.report_bank_payroll
+msgid "SI.No"
+msgstr "ተራ ቁጥር"
+
+#. module: hr_expire_module
+#: model:ir.actions.server,name:hr_expire_module.probation_end_notification_auto_function_ir_actions_server
+#: model:ir.cron,cron_name:hr_expire_module.probation_end_notification_auto_function
+#: model:ir.cron,name:hr_expire_module.probation_end_notification_auto_function
+msgid "probation end notification auto function"
+msgstr "የሙከራ መጨረሻ ማሳወቂያ ራስ ተግባር"

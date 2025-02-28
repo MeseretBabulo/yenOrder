@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_task_timesheet_add_custom_field" model="ir.ui.view">
+        <field name="name">view.task.form2.inherited.inherits.add.button</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="bista_timesheet_attendance.view_task_form2_inherited_inherits_add_buttons"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='attendance_tab']//field[@name='attendance_line_ids']/tree" position="inside">
+                <field name="note" string="Service Note" optional="show" attrs="{'readonly': [('check_out_time', '!=', False)]}"/>
+                <field name="via_error_code_ids" optional="show" widget="many2many_tags" options="{'no_create_edit': True, 'no_create': True}" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

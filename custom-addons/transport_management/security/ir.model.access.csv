@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_transport_record,transport.record,model_transport_record,,1,1,1,1
+access_location_combination,access_location_combination,model_location_combination,,1,1,1,1
+access_vehicle_type,access_vehicle_type,model_vehicle_type,,1,1,1,1

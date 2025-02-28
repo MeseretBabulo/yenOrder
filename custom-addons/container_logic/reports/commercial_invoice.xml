@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_commercial_invoice_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                        <div style="text-align:end" >
+                            <p><strong>DATE:</strong> 02/01/2025</p>
+                        </div>
+                        <div style="text-align:end" >
+                            <p><strong>REF NO:</strong> CHCI008-0006/2025</p>
+                        </div>
+                    <div class="page" style="font-family: Arial, sans-serif;">
+                        <p style="text-align: center; text-decoration: underline; font-weight: bold;">COMMERCIAL INVOICE</p>
+                        
+                        
+                        <p style="padding-left:60px" ><strong>SELLER:</strong> <span style="text-decoration: underline; font-weight: bold;" t-field="doc.company_id" >(Mohammed Umer
+                            Yusuf),</span><span style="text-decoration: underline;"> 
+                            <!-- <span t-field="doc.address.city"></span> -->
+                            ,address.city 
+                            <!-- <span t-field="doc.address.state"></span> -->
+                            </span></p>
+                        <p  style="padding-left:60px"><strong>CONSIGNEE:</strong> <span t-field="doc.partner_id"></span></p>
+                        <p  style="padding-left:60px"><strong>PAYMENT MODE:</strong> Cash Against Document (CAD)</p>
+                        <p  style="padding-left:60px"><strong>PORT OF LOADING:</strong><span t-field="doc.port_of_loading"></span> <strong>PORT OF DISCHARGE:</strong>
+                            <span t-field="doc.port_of_discharge"></span></p>
+
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <th
+                                    style="border: 1px solid black; padding: 8px;  text-align: left;">Marks and Nos.</th>
+                                <th
+                                    style="border: 1px solid black; padding: 8px;  text-align: left;">Description
+                                    of Goods</th>
+                                <th
+                                    style="border: 1px solid black; padding: 8px;  text-align: left;">Qty
+                                    Kgs Gross</th>
+                                <th
+                                    style="border: 1px solid black; padding: 8px;  text-align: left;">Qty
+                                    Kgs Net</th>
+                                <th
+                                    style="border: 1px solid black; padding: 8px;  text-align: left;">Unit
+                                    Price </th>
+                                <th
+                                    style="border: 1px solid black; padding: 8px;  text-align: left;">Quantity
+                                    / LBR</th>
+                                <th
+                                    style="border: 1px solid black; padding: 8px;  text-align: left;">Total
+                                    Amount </th>
+                            </tr>
+                            <t t-foreach="doc.invoice_line_ids" t-as="line">
+                                        <tr
+                                            style="border-top:2px solid #3e7157 !important"
+                                        >
+                                            <td style="border: 1px solid black; padding: 8px;">Chinaksen Import
+                                    and Export Ethiopia</td>
+                                <td style="border: 1px solid black; padding: 8px;">36 Kg. Equivalent
+                                    to 2 x 36 Bags of 60 Kg each of <span t-field = "line.product_id"/>
+                                    <br/><span t-field = "line.gross_quantity"/> Kg Weight<br/>HS Code <span t-field = "line.hs_code"/><br/>Shipped
+                                    Weight: <span t-field = "line.quantity"/> Kg</td>
+                                <td style="border: 1px solid black; padding: 8px;"><span t-field = "line.gross_quantity"></span></td>
+                                <td style="border: 1px solid black; padding: 8px;"><span t-field = "line.quantity"></span></td>
+                                <td style="border: 1px solid black; padding: 8px;"><span t-field = "line.price_unit"></span></td>
+                                <td style="border: 1px solid black; padding: 8px;"><span t-esc="line.quantity * 2.2"/></td>
+                                <td style="border: 1px solid black; padding: 8px;"><span t-field = "line.price_subtotal"></span></td>
+
+                                        </tr>
+
+                                    </t>
+                            <tr>
+                                <td colspan="6" style="border: 1px solid black; padding: 8px;"><strong>Amount
+                                    in Words:</strong><span t-field="doc.total_price_in_words" /> only</td>
+                                <td style="border: 1px solid black; padding: 8px;"><strong>Total:</strong>
+                                    $150,120</td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    
+    <record id="action_report_commercial_invoice" model="ir.actions.report">
+        <field name="name">Commercial Invoice</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">container_logic.report_commercial_invoice_document</field>
+        <field name="report_file">container_logic.report_commercial_invoice_document</field>
+        <field name="print_report_name"> 'Commercial Invoice For Sale Report - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

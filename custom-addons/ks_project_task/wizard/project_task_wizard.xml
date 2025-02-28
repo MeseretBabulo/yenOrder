@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_task_wizard_form" model="ir.ui.view">
+        <field name="name">create.project.task.wizard.form</field>
+        <field name="model">create.project.task.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="physician_ids" invisible="1"/>
+                        <field name="name"/>
+                        <field name="physician_id" options="{'no_create_edit': True, 'no_create': True}"
+                               domain="[('id', 'in', physician_ids)]"/>
+                    </group>
+                    <group>
+                        <field name="project_id"/>
+                        <field name="medical_facilities"/>
+                        <field name="specialist"/>
+                        <field name="chose_medical_form_id"  domain="[('id', 'in', chose_medical_form_ids)]"/>
+                        <field name="chose_medical_form_ids" invisible="1"/>
+                    </group>
+                </group>
+                <group>
+                    <label for="planned_date_begin" string="Planned Date"/>
+                    <div class="w-100">
+                        <div class="o_row">
+                            <field name="planned_date_begin" widget="daterange"
+                                   options='{"related_end_date": "planned_date_end"}'/>
+                            <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow"/>
+                            <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow"
+                            invisible="not (planned_date_begin or planned_date_end)"/>
+                            <field name="planned_date_end" widget="daterange"
+                                   options='{"related_start_date": "planned_date_begin"}'/>
+                        </div>
+                    </div>
+                </group>
+                <footer>
+                    <button string="Create" name="create_project_task" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

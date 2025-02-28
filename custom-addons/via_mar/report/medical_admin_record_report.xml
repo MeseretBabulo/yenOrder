@@ -1,0 +1,1047 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="external_layout_standard">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+
+            <t t-if="not company">
+                <!-- Multicompany -->
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+            </t>
+
+            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <div class="row">
+                    <div class="col-12 text-right" style="margin-top:22px;" name="moto">
+                        <h5>
+                            <b>Values into Action PA, Inc . (MPI 101203922)</b>
+                        </h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb4">
+                        <img class="pull-right" t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                             style="max-height: 135px;" alt="Logo"/>
+                    </div>
+                </div>
+                <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                    <div class="col-12">
+                        <div style="border-bottom: 1px solid black;"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6" name="company_address">
+                        <span t-if="company.company_details" t-field="company.company_details"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}"
+                 t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+<!--                <div class="pt-5">-->
+<!--                    &lt;!&ndash; This div ensures that the address is not cropped by the header. &ndash;&gt;-->
+<!--                    <t t-call="web.address_layout"/>-->
+<!--                </div>-->
+                <t t-out="0"/>
+            </div>
+
+            <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout" style="margin:0 !important; padding:0!important;">
+                <div class="text-center" style="border-top: 1px solid black;">
+                    <div class="row" style="margin:0 !important; padding:0!important;">
+                        <div class="col-2">
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                                 style="max-height: 70px;width: 180px;" alt="Logo"/>
+                        </div>
+                        <div class="col-8">
+                            <t t-set="current_time" t-value="doc.get_current_date_time_and_user()"/>
+                            <span class="p">Generated from Odoo 'Medication Administration Record' by <t t-esc="current_time.get('current_user')"/> Value into Action PA, Inc
+                                (MPI 101203922) on
+                                <t t-esc="current_time.get('current_time').strftime('%m/%d/%Y %I:%M %p')"/>
+                            </span>
+                        </div>
+                        <div class="col-2">
+                            <strong class="pull-right" style="font-weight:800">
+                                Page
+                                <span class="page"/>
+                                of
+                                <span class="topage"/>
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="report_medical_admin_record_document">
+            <t t-call="via_mar.external_layout_standard">
+                <style>
+                    .does_details{
+                    padding: 0!important;
+                    }
+                    .custom_border thead tr{
+                    border: 1px solid black;
+                    }
+                    .custom_border tbody tr{
+                    border: 1px solid black;
+                    }
+                    .table-bordered th, .table-bordered td {
+                    border: 1px solid black !important;
+                    }
+                    .blank_td_table{
+                        height:20pt;
+                    }
+                    .thead_table{
+                        background-color: rgb(204, 204, 204);
+                        height:16pt;
+                    }
+                    .s1 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal;
+                    text-decoration: none; font-size: 13.5pt; }
+                    h3 { color: black; font-family:Arial, sans-serif; font-style: normal; font-weight: bold;
+                    text-decoration: none; font-size: 10pt; }
+                    .s2 { color: black; font-family:Arial, sans-serif; font-style: normal; font-weight: normal;
+                    text-decoration: none; font-size: 10pt; }
+                    h1 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: bold;
+                    text-decoration: none; font-size: 12pt; }
+                    .s3 { color: black; font-family:Arial, sans-serif; font-style: normal; font-weight: bold;
+                    text-decoration: none; font-size: 10pt; }
+                    .s9 {font-family:Arial, sans-serif; font-style: normal; font-weight: bold; text-decoration: none;
+                    font-size: 8pt;}
+                    .s4 { color: black; font-family:Arial, sans-serif; font-style: normal; font-weight: normal;
+                    text-decoration: none; font-size: 8pt; }
+                    .p, p { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal;
+                    text-decoration: none; font-size: 12pt; margin:0pt; }
+                    .s5 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal;
+                    text-decoration: none; font-size: 4pt; vertical-align: -1pt; }
+                    h2 { color: black; font-family:Arial, sans-serif; font-style: normal; font-weight: bold;
+                    text-decoration: none; font-size: 10.5pt; }
+                    .s6 { color: black; font-family:Arial, sans-serif; font-style: normal; font-weight: normal;
+                    text-decoration: none; font-size: 10pt; }
+                    .s7 { color: black; font-family:Arial, sans-serif; font-style: normal; font-weight: normal;
+                    text-decoration: none; font-size: 12pt; }
+                </style>
+                <div class="page">
+                    <t t-if="doc.report_date">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h5>
+                                    <span>Medication Administration Record -<t t-esc="doc.report_date.strftime('%B')"/>,
+                                        <t t-esc="doc.report_date.year"/>
+                                    </span>
+                                </h5>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="col-12">
+                                    <h3>Individual Name:
+                                        <span class="s2"><t t-esc="doc.resident_partner_id.name"/>
+                                            <t t-if="doc.resident_partner_id.phone">
+                                                ,<t t-esc="doc.resident_partner_id.phone"/>
+                                            </t>
+                                        </span>
+                                    </h3>
+                                </div>
+                                <div class="col-12">
+                                    <h3>Birthdate:
+                                        <span class="s2">
+                                            <t t-esc="doc.date_of_birth"/>
+                                        </span>
+                                    </h3>
+                                </div>
+                                <div class="col-12">
+                                    <h3>Created By:
+                                        <span class="s2"><t t-esc="doc.create_uid.name"/>, Community Support Facilitator
+                                            on
+                                            <t t-esc="doc.create_date.strftime('%m/%d/%Y %I:%M %p')"/>
+                                        </span>
+                                    </h3>
+                                </div>
+                                <div class="col-12">
+                                    <h3>Approved By:
+                                        <span class="s2">
+                                            <t t-esc="doc.approved_by_user_id.name"/>
+                                            <t t-if="doc.approved_date">
+                                                , Community Support Facilitator on
+                                                <t t-esc="doc.approved_date.strftime('%m/%d/%Y %I:%M %p')"/>
+                                            </t>
+                                        </span>
+                                    </h3>
+                                </div>
+                                <div class="col-12">
+                                    <h3>Form ID:
+                                        <span class="s2">
+                                            <t t-esc="doc.resident_partner_id.name"/>
+                                            <t t-esc="doc.resident_partner_id.phone"/>
+                                        </span>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="col-12 pull-right">
+                                    <img class="pull-right" t-if="doc.resident_partner_id.image_1920"
+                                         t-att-src="image_data_uri(doc.resident_partner_id.image_1920)"
+                                         style="max-height: 155px;height: 150px;width: 140px;" alt="Logo"/>
+                                    <!--                                    <h3><t t-esc="doc.resident_partner_id.name"/></h3>-->
+                                </div>
+                                <div class="col-12 mt3">
+                                    <h3 class="pull-right mt-2">
+                                        <t t-esc="doc.resident_partner_id.name"/>
+                                        <t t-esc="doc.resident_partner_id.phone"/>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <t t-set="last_date_of_month" t-value="doc.report_date + relativedelta(day=31)"/>
+                        <t t-set="first_date_of_month" t-value="doc.report_date + relativedelta(day=1)"/>
+                        <t t-set="line_data" t-value="doc.medication_prescription_line_ids.filtered(lambda prescription_line: prescription_line.date_med_started and prescription_line.date_med_started &gt;= first_date_of_month and prescription_line.date_med_started &lt;= last_date_of_month and not prescription_line.discontinued_date)"/>
+                        <t t-set="line_data_diagnosis" t-value="doc.medication_prescription_line_ids.filtered(lambda prescription_line: prescription_line.date_med_started and prescription_line.date_med_started &gt;= first_date_of_month and prescription_line.date_med_started &lt;= last_date_of_month)"/>
+                        <t t-set="medical_diagnosis_data" t-value="doc.get_medical_diagnosis_initials(line_data_diagnosis)"/>
+
+                        <t t-if="line_data">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="col-12">
+                                        <strong>Scheduled Medication(s)</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <t t-set="count" t-value="1"/>
+
+                            <t t-foreach="line_data"
+                               t-as="medication_prescription_line">
+                                <t t-if="count == 2">
+                                    <t t-set="count" t-value="0"/>
+                                </t>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="col-12 does_details"
+                                             style="border:1px solid black;">
+                                            <div style="padding:5px !important;">
+                                                <div class="col-12 does_details">
+                                                    <strong>
+                                                        <b>
+                                                            <t t-esc="medication_prescription_line.medication_id.name"/>
+                                                        </b>
+                                                    </strong>
+                                                </div>
+                                                <br/>
+                                                <div class="col-12 does_details">
+                                                    <h3>
+                                                        <b>Give Amount /Quantity:</b>
+                                                        <span class="p">
+                                                            <t t-esc="medication_prescription_line.quantity"/>
+<!--                                                            <t t-esc="medication_prescription_line.dose_unit_id.name"/>-->
+                                                        </span>
+                                                        <b>Frequency:</b>
+                                                        <span class="p">
+                                                            <t t-esc="medication_prescription_line.admin_frequency_id.name"/>
+                                                        </span>
+                                                    </h3>
+                                                </div>
+                                                <div class="col-12 does_details">
+                                                    <h3>
+                                                        <b>Begin Date Time:</b>
+                                                        <span class="p">
+                                                            <t t-esc="medication_prescription_line.date_med_started"/>
+                                                        </span>
+                                                    </h3>
+                                                </div>
+                                                <t t-set="slot_list"
+                                                   t-value="doc.get_slot_time(medication_prescription_line.id)"/>
+                                                <!--                                            <t t-set="slot_time" t-value=""/>-->
+                                                <div class="col-12 does_details">
+                                                    <h3>
+                                                        <b>Schedule Repeat:</b>
+                                                        <span class="p">
+                                                            <t t-esc="medication_prescription_line.strength"/>
+<!--                                                            <t t-esc="medication_prescription_line.dose_unit_id.name"/>-->
+                                                        </span>
+                                                        <b>Schedule Time Slot(s):</b>
+                                                        <span class="p">
+                                                            <t t-esc="' , '.join([str('{0:02.0f}:{1:02.0f}'.format(*divmod(float(elem.split(' ')[0]) * 60, 60)) + ' ' + elem.split(' ')[1]) for elem in slot_list])"/>
+                                                        </span>
+                                                    </h3>
+                                                </div>
+                                                <div class="col-12 does_details">
+                                                    <h3>
+                                                        <b>Instruction:</b>
+                                                        <span class="p">
+                                                            <t t-esc="medication_prescription_line.dose_instructions"/>
+                                                        </span>
+                                                    </h3>
+                                                </div>
+                                            </div>
+
+                                            <!--                                            <t t-esc="doc.report_date.strftime('%Y')"/>-->
+                                            <!--                                            <t t-esc="doc.report_date.strftime('%m')"/>-->
+                                            <t t-set="last_date_of_month"
+                                               t-value="doc.report_date + relativedelta(day=31)"/>
+                                            <!--                                            <t t-esc="last_date_of_month.day"/>-->
+                                            <div class="col-12 does_details" style="padding:5px !important;">
+                                                <table class="table table-sm table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="s3 text-center">Time</th>
+                                                            <t t-foreach="range(1,last_date_of_month.day+1)"
+                                                               t-as="day_date">
+                                                                <th class="s3 text-center">
+                                                                    <t t-esc="day_date"/>
+                                                                </th>
+                                                            </t>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="s4"
+                                                                style="border-bottom: 1px solid black !important;"></th>
+                                                            <t t-foreach="range(1,last_date_of_month.day+1)"
+                                                               t-as="day_date">
+                                                                <td class="s4 text-center"
+                                                                    style=" text-transform: uppercase;border-bottom: 1px solid black !important;">
+                                                                    <t t-esc="datetime.datetime.strptime(str(doc.report_date.strftime('%Y'))+ '-' + str(doc.report_date.strftime('%m')) + '-' + str(day_date), '%Y-%m-%d').strftime('%a')"/>
+                                                                </td>
+                                                            </t>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <t t-foreach="slot_list" t-as="slot">
+                                                            <tr>
+                                                                <th class="s4 text-center">
+                                                                    <t t-esc="'{0:02.0f}:{1:02.0f}'.format(*divmod(float(slot.split(' ')[0]) * 60, 60)) + ' ' + slot.split(' ')[1]"/>
+                                                                </th>
+                                                                <t t-foreach="range(1,last_date_of_month.day+1)"
+                                                                   t-as="day_date">
+                                                                    <t t-set="d_line"
+                                                                       t-value="medication_prescription_line.medical_doses_line_ids.filtered(lambda line: line.medication_date and line.medication_date.date().day == day_date and str(line.dose_time) == slot.split(' ')[0])"/>
+                                                                    <td class="s4 text-center">
+                                                                        <t t-if="d_line">
+                                                                            <t t-esc="d_line[0].initials"/>
+                                                                        </t>
+                                                                    </td>
+                                                                </t>
+                                                            </tr>
+                                                        </t>
+                                                        <!--                                                        <t t-foreach="medication_prescription_line.medical_doses_line_ids" t-as="line">-->
+                                                        <!--                                                            <tr>-->
+                                                        <!--                                                                <td></td>-->
+                                                        <!--                                                            </tr>-->
+                                                        <!--                                                        </t>-->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <t t-set="count" t-value="count + 1"/>
+                                <t t-if="count == 1">
+                                    <br/>
+                                </t>
+                                <t t-if="count == 2">
+                                    <p style="page-break-after: always;"/>
+                                </t>
+                            </t>
+                            <p style="page-break-after: always;"/>
+                        </t>
+
+
+                        <t t-set="discontinued_line_data" t-value="doc.medication_prescription_line_ids.filtered(lambda prescription_line: prescription_line.date_med_started and prescription_line.date_med_started &gt;= first_date_of_month and prescription_line.date_med_started &lt;= last_date_of_month and prescription_line.discontinued_date)"/>
+
+                        <t t-if="discontinued_line_data">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h1>PRN Medication(s)</h1>
+                                </div>
+                            </div>
+
+                            <t t-set="discontinued_count" t-value="1"/>
+                            <t t-foreach="discontinued_line_data"
+                           t-as="medication_prescription_line">
+                            <t t-if="discontinued_count == 2">
+                                <t t-set="discontinued_count" t-value="0"/>
+                            </t>
+                            <t t-if="discontinued_count == 1">
+                                <br/>
+                            </t>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="col-12 does_details"
+                                         style="border:1px solid black;">
+                                        <div style="padding:5px !important;">
+                                            <div class="col-12 does_details">
+                                                <strong>
+                                                    <b>
+                                                        <t t-esc="medication_prescription_line.medication_id.name"/>
+                                                    </b>
+                                                </strong>
+                                            </div>
+                                            <br/>
+                                            <div class="col-12 does_details">
+                                                <h3>
+                                                    <b>Give Amount /Quantity:</b>
+                                                    <span class="p">
+                                                        <t t-esc="medication_prescription_line.quantity"/>
+<!--                                                        <t t-esc="medication_prescription_line.dose_unit_id.name"/>-->
+                                                    </span>
+                                                    <b>Frequency:</b>
+                                                    <span class="p">
+                                                        <t t-esc="medication_prescription_line.admin_frequency_id.name"/>
+                                                    </span>
+                                                </h3>
+                                            </div>
+                                            <div class="col-12 does_details">
+                                                <h3>
+                                                    <b>Begin Date Time:</b>
+                                                    <span class="p">
+                                                        <t t-esc="medication_prescription_line.date_med_started"/>
+                                                    </span>
+                                                </h3>
+                                            </div>
+                                            <t t-set="slot_list"
+                                               t-value="doc.get_slot_time(medication_prescription_line.id)"/>
+                                            <!--                                            <t t-set="slot_time" t-value=""/>-->
+                                            <div class="col-12 does_details">
+                                                <h3>
+                                                    <b>Schedule Repeat:</b>
+                                                    <span class="p">
+                                                        <t t-esc="medication_prescription_line.strength"/>
+<!--                                                        <t t-esc="medication_prescription_line.dose_unit_id.name"/>-->
+                                                    </span>
+                                                    <b>Schedule Time Slot(s):</b>
+                                                    <span class="p">
+                                                        <t t-esc="', '.join([str('{0:02.0f}:{1:02.0f}'.format(*divmod(float(elem.split(' ')[0]) * 60, 60)) + ' ' + elem.split(' ')[1]) for elem in slot_list])"/>
+                                                    </span>
+                                                </h3>
+                                            </div>
+                                            <div class="col-12 does_details">
+                                                <h3>
+                                                    <b>Instruction:</b>
+                                                    <span class="p">
+                                                        <t t-esc="medication_prescription_line.dose_instructions"/>
+                                                    </span>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <t t-set="discontinued_count" t-value="discontinued_count + 1"/>
+                            <t t-if="discontinued_count == 2">
+                                <p style="page-break-after: always;"/>
+                            </t>
+                        </t>
+                        </t>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <h1>PRN Medication/Treatment Administrations</h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table style="page-break-inside: always;" class="table table-sm o_main_table table-bordered">
+                                    <thead>
+                                        <tr class="thead_table">
+                                            <th class="s3 text-center">Medication Name</th>
+                                            <th class="s3 text-center">Record Type</th>
+                                            <th class="s3 text-center">Administer Date</th>
+                                            <th class="s3 text-center">Administer Time</th>
+                                            <th class="s3 text-center">Initials</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <p style="page-break-after: always;"/>
+                        <div class="row">
+                            <div class="col-12">
+                                <h1>PRN Follow-up(s)</h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-sm o_main_table table-bordered">
+                                    <thead>
+                                        <tr class="thead_table">
+                                            <th class="s3 text-center">Medication Name</th>
+                                            <th class="s3 text-center">Follow-up Date</th>
+                                            <th class="s3 text-center">Follow-up Time</th>
+                                            <th class="s3 text-center">Follow-up By</th>
+                                            <th class="s3 text-center">Follow-up Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+<!--                        <t t-if="medical_diagnosis_data">-->
+                            <p style="page-break-after: always;"/>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h1>Allergies</h1>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="col-12" style="border: 1px solid black;padding:0px">
+                                        <div class="col-7" style="padding:0px">
+<!--                                            <div class="col-12" style="padding:0px;margin-top:5px;">-->
+<!--                                                <h3>Allergy Status:-->
+<!--                                                    <span class="s2"><t t-esc="doc.allergies_status"/></span>-->
+<!--                                                </h3>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-12" style="padding:0px">-->
+<!--                                                <h3>Drug Allergy Status:-->
+<!--                                                    <span class="s2"><t t-esc="doc.drug_allergy_status"/></span>-->
+<!--                                                </h3>-->
+<!--                                            </div>-->
+                                            <div class="col-12" style="padding:0px">
+                                                <h3>Allergies:
+                                                    <span class="s2"><t t-esc="doc.allergies"/></span>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2>Medical Diagnosis</h2>
+                                    <h1>Active Diagnoses</h1>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table table-sm o_main_table table-bordered">
+                                        <thead>
+                                            <tr class="thead_table">
+                                                <th class="s3 text-center">Diagnosis Coding Type</th>
+                                                <th class="s3 text-center">Diagnosis Code</th>
+                                                <th class="s3 text-center">Description</th>
+                                                <th class="s3 text-center">DSM-5</th>
+                                                <th class="s3 text-center">Billable</th>
+                                                <th class="s3 text-center">Diagnosis Date</th>
+                                                <th class="s3 text-center">Diagnosed By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="sale_tbody">
+                                            <t t-foreach="medical_diagnosis_data.get('medical_diagnosis')" t-as="medical_diagnosis_line">
+                                                <tr class="blank_td_table">
+                                                    <td><p><t t-esc="medical_diagnosis_line.get('coding_type')"/></p></td>
+                                                    <td><p><t t-esc="medical_diagnosis_line.get('code')"/></p></td>
+                                                    <td><p><t t-esc="medical_diagnosis_line.get('description')"/></p></td>
+                                                    <td><p><t t-esc="medical_diagnosis_line.get('dsm')"/></p></td>
+                                                    <td><p><t t-esc="medical_diagnosis_line.get('billable')"/></p></td>
+                                                    <td><p><br/></p></td>
+                                                    <td><p><br/></p></td>
+                                                </tr>
+                                            </t>
+                                            <t t-if="not medical_diagnosis_data.get('medical_diagnosis')">
+                                                <tr class="blank_td_table">
+                                                    <td><p><br/></p></td>
+                                                    <td><p><br/></p></td>
+                                                    <td><p><br/></p></td>
+                                                    <td><p><br/></p></td>
+                                                    <td><p><br/></p></td>
+                                                    <td><p><br/></p></td>
+                                                    <td><p><br/></p></td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <t t-if="doc.dietary_guidelines_note">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h2>Dietary Guidelines</h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="col-12" style="border: 1px solid black;padding:0px">
+                                            <p class="s2"><t t-esc="doc.dietary_guidelines_note"/></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+<!--                        </t>-->
+
+
+                        <p style="page-break-after: always;"/>
+                        <div class="row">
+                            <div class="col-12">
+                                <h1>Signature Sheet</h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-sm o_main_table table-bordered">
+                                    <thead>
+                                        <tr class="thead_table">
+                                            <th class="s3 text-center">Title</th>
+                                            <th class="s3 text-center">Name</th>
+                                            <th class="s3 text-center">Initials</th>
+                                            <th class="s3 text-center">Signature</th>
+                                            <th class="s3 text-center">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="sale_tbody">
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                        <tr class="blank_td_table">
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                            <td><p><br/></p></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <p style="page-break-after: always;"/>
+                        <div class="row">
+                            <div class="col-12">
+                                <h1>User Initials</h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-sm o_main_table table-bordered">
+                                    <thead>
+                                        <tr class="thead_table">
+                                            <th class="s3 text-center">Initials</th>
+                                            <th class="s3 text-center">Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="sale_tbody">
+                                        <t t-foreach="medical_diagnosis_data.get('medical_initials')" t-as="initials_line">
+                                            <tr class="blank_td_table">
+                                                <td>
+                                                    <span><t t-esc="initials_line.get('initials')"/></span>
+                                                </td>
+                                                <td>
+                                                    <span><t t-esc="initials_line.get('name')"/></span>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="not medical_diagnosis_data.get('medical_initials')">
+                                            <tr class="blank_td_table">
+                                                <td><p><br/></p></td>
+                                                <td><p><br/></p></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </t>
+                </div>
+                <div class="oe_structure"/>
+            </t>
+        </template>
+
+
+        <template id="report_medical_admin_record_docs">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="via_mar.report_medical_admin_record_document" t-lang="request.env.user.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

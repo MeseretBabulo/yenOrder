@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_answer_report" model="ir.actions.report">
+        <field name="name">Answer Report</field>
+        <field name="model">progress.notes</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">ks_project_task.answer_report_template</field>
+        <field name="report_file">ks_project_task.answer_report_template</field>
+        <field name="binding_model_id" ref="model_progress_notes"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

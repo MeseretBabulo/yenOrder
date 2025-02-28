@@ -1,0 +1,83 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Get and set location lat lng to the fields</h2>
+        <div class="w3-content w3-display-container">
+            <pre class="bg-black">
+                <code>
+    e.g.
+        In .xml File
+        &lt;record id="fleet_vehicle_view_form_inherit_location" model="ir.ui.view"&gt;
+            &lt;field name="name"&gt;fleet.vehicle.form.inherit.location&lt;/field&gt;
+            &lt;field name="model"&gt;fleet.vehicle&lt;/field&gt;
+            &lt;field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/&gt;
+            &lt;field name="arch" type="xml"&gt;
+                &lt;xpath expr="//sheet" position="inside"&gt;
+                    &lt;notebook&gt;
+                        &lt;page string="Map"&gt;
+                            &lt;group&gt;
+                                &lt;group&gt;
+                                    &lt;widget name="location_lat_lng"
+                                            button_attrs="{'name':'sign_in', 'type': 'object', 'context': {'type': 'in'}}"
+                                            string="Sign In"
+                                            classList="btn-success d-block"
+                                            lat="latitude_in"
+                                            lng="longitude_in"
+                                            show_map="1"
+                                            map_height="300"/&gt;
+                                &lt;/group&gt;
+                                &lt;group&gt;
+                                    &lt;widget name="location_lat_lng"
+                                            button_attrs="{'name':'sign_out', 'type': 'object', 'context': {'type': 'out'}}"
+                                            string="Sign Out"
+                                            classList="btn-danger d-block"
+                                            lat="latitude_out"
+                                            lng="longitude_out"
+                                            show_map="1"
+                                            map_height="300"/&gt;
+                                &lt;/group&gt;
+                                &lt;group&gt;
+                                    &lt;field name="latitude_in"/&gt;
+                                    &lt;field name="longitude_in"/&gt;
+                                &lt;/group&gt;
+                                &lt;group&gt;
+                                    &lt;field name="latitude_out"/&gt;
+                                    &lt;field name="longitude_out"/&gt;
+                                &lt;/group&gt;
+                            &lt;/group&gt;
+                        &lt;/page&gt;
+                    &lt;/notebook&gt;
+                &lt;/xpath&gt;
+            &lt;/field&gt;
+        &lt;/record&gt;
+
+        In .py File
+        from odoo import fields, models
+
+
+        class FleetVehicle(models.Model):
+            _inherit = "fleet.vehicle"
+
+            latitude_in = fields.Float('Geo Latitude', digits=(16, 5))
+            longitude_in = fields.Float('Geo Longitude', digits=(16, 5))
+            latitude_out = fields.Float('Geo Latitude', digits=(16, 5))
+            longitude_out = fields.Float('Geo Longitude', digits=(16, 5))
+
+            def sign_in(self, kwargs=None):
+                """
+                :param kwargs: {'lat': FLOAT, 'lng': FLOAT, 'mode': 'readonly | edit'}
+                """
+                self.latitude_in = kwargs.get('lat')
+                self.longitude_in = kwargs.get('lng')
+
+            def sign_out(self, kwargs=None):
+                """
+                :param kwargs: {'lat': FLOAT, 'lng': FLOAT, 'mode': 'readonly | edit'}
+                """
+                self.latitude_out = kwargs.get('lat')
+                self.longitude_out = kwargs.get('lng')
+
+                </code>
+            </pre>
+        </div>
+    </div>
+</section>

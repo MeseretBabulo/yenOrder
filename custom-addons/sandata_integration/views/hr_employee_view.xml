@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_employee_inherit_extra_fields" model="ir.ui.view">
+            <field name="name">view.hr.employee.inherit.extra.fields</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="mobile_phone" position="before">
+                    <field name="firstname" required='1'/>
+                    <field name="lastname" required='1'/>
+                </field>
+                <field name="work_email" position="after">
+                    <field name="employee_uuid" invisible='1'/>
+                    <field 
+                        name="employee_ssn" 
+                        password='True' 
+                        placeholder='Last 5 Digit of SSN Number' 
+                        readonly='employee_uuid != False'/>
+                    <field name="is_need_to_update" invisible='1'/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

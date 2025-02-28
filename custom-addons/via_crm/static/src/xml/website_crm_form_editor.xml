@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template">
+
+    <t t-name="via_crm.form_selection">
+        <t t-set="recordId" t-value="field.id + record_index"/>
+        <option t-att-value="record.name" ><t t-esc="record.display_name"/></option>
+    </t>
+
+    <t t-extend="website.form_field_selection">
+        <t t-jquery="div.s_website_form_multiple" t-operation="replace">
+            <t t-if="field.isCheckedBox">
+                <div class="s_col_no_resize s_col_no_bgcolor" t-att-data-name="field.name" t-att-data-display="field.formatInfo.multiPosition">
+                    <select id="partner_relationship_selection"
+                            name="partner_relationship" required="True"
+                            class="form-control form-select s_website_form_input"
+                            aria-label="Default select example">
+                        <t t-foreach="field.records" t-as="record">
+                            <t t-call="via_crm.form_selection"/>
+                        </t>
+                    </select>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" t-att-data-name="field.name" t-att-data-display="field.formatInfo.multiPosition">
+                    <t t-foreach="field.records" t-as="record">
+                        <t t-call="website.form_radio"/>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </t>
+</templates>

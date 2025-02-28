@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="survey_order_approval_email_new" model="mail.template">
+            <field name="name">Survey Approval Mail</field>
+            <field name="model_id" ref="ks_project_task.model_survey_user_input"/>
+<!--            <field name="email_from">{{object.name_of_person_supported.email}}</field>-->
+            <field name="subject">Survey Approval Mail</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <div>
+                    <p>Hello Administrator</p>
+                    <br/>
+                    <p>
+                        Survey approval request has been generated for
+                        <t t-out="object.employee_id.name or 'user'"/>
+                    </p>
+                    <br/>
+<!--                    <p>-->
+<!--                        "<t t-out="object.user_id.name or ''"/>" has been requested for approval.-->
+<!--                    </p>-->
+                    <br/>
+                    Please click on redirect button to see survey.
+                    <a t-attf-href="/survey/redirect?&amp;id={{object.id}}"
+                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                        Redirect
+                    </a>
+                </div>
+            </field>
+        </record>
+
+        <record id="survey_order_approved_email" model="mail.template">
+            <field name="name">Survey Approved Mail</field>
+            <field name="model_id" ref="ks_project_task.model_survey_user_input"/>
+<!--            <field name="email_from">{{object.name_of_person_supported.email}}</field>-->
+            <field name="subject">Survey Approved Mail</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <div>
+                    <p>Hello <t t-out="object.employee_id.name or 'user'"/></p>
+                    <br/>
+                    <p>
+                        Your Survey is Approved
+                    </p>
+                    <br/>
+                    <br/>
+<!--                    Please click on redirect button to see survey order-->
+<!--                    <a t-attf-href="/survey/redirect?&amp;id={{object.id}}"-->
+<!--                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">-->
+<!--                        Redirect-->
+<!--                    </a>-->
+                </div>
+            </field>
+        </record>
+        <!--        Mail for incomplete Survey -->
+        <record id="survey_order_to_complete_email" model="mail.template">
+            <field name="name">Complete pending Survey Template</field>
+            <field name="model_id" ref="ks_project_task.model_survey_user_input"/>
+            <field name="subject">Kindly Complete your pending Survey</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <div>
+                    <p>Hello <t t-out="object.employee_id.name or 'user'"/></p>
+                    <br/>
+                    <p>
+                        Your Attempted Survey is still in pending state Kindly complete it As soon as possible.
+                    </p>
+                    <br/>
+                    <br/>
+                    Please click on Open survey button to complete the survey.
+                    <br/>
+                    <br/>
+                    <a t-attf-href="{{object.get_survey_url_mail()}}"
+                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                        Open survey
+                    </a>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

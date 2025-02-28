@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="view_container_measurement_logic_tree" model="ir.ui.view">
+            <field name="name">container_measurement_logic.tree</field>
+            <field name="model">container_logic.container_measurement_logic_model</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Container Type" />
+                    <field name="company" string="Sector" />
+                    <field name="weight" string="Weight(Kg)" />
+                    <field name="size" string="Size(feet)" />
+                    <field name="load_capacity" string="Load Capacity(cubic meter)" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="container_measurement_logic_form" model="ir.ui.view">
+            <field name="name">container_measurement_logic.form</field>
+            <field name="model">container_logic.container_measurement_logic_model</field>
+            <field name="arch" type="xml">
+                <form string="Containers">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group name="main_fields">
+                            <group name="sale_main_fields">
+                                <field name="company" string="Sector" />
+                                <field name="name" string="Container Type" />
+                                <field name="weight" string="Weight(Kg)" />
+                                <field name="size" string="Size(feet)" />
+                                <field name="load_capacity" string="Load Capacity(cubic meter)" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="action_container_measurement_logic" model="ir.actions.act_window">
+            <field name="name">Container Measurement Logic</field>
+            <field name="res_model">container_logic.container_measurement_logic_model</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_custom_sales_submenu_container"
+            name="Weight Of Container"
+            parent="sale.menu_sale_config"
+            groups="container_logic.group_weight_of_container"
+            action="action_container_measurement_logic"
+            sequence="23" />
+    </data>
+</odoo>

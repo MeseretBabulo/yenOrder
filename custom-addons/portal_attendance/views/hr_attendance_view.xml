@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit Form View -->
+    <record id="hr_attendance_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.form.inherit</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <notebook>
+                    <page string="Location Information" name="location_info">
+                        <group>
+                            <group string="Location Details">
+                                <field name="location_name"/>
+                                <field name="latitude"/>
+                                <field name="longitude"/>
+                            </group>
+                            <group string="Mode Information">
+                                <field name="check_in_mode"/>
+                                <field name="check_out_mode"/>
+                            </group>
+                        </group>
+                        <!-- Map Widget -->
+                        <field name="latitude" widget="attendance_map" class="o_map_container"/>
+                    </page>
+                    <page string="Device Information" name="device_info">
+                        <group>
+                            <group string="Device Details">
+                                <field name="device_info"/>
+                                <field name="browser_info"/>
+                                <field name="ip_address"/>
+                            </group>
+                            <group string="Hours Information">
+                                <field name="worked_hours" widget="float_time"/>
+                                <field name="extra_hours" widget="float_time"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Create new Tree View -->
+    <record id="view_attendance_tree" model="ir.ui.view">
+        <field name="name">hr.attendance.tree</field>
+        <field name="model">hr.attendance</field>
+        <field name="arch" type="xml">
+            <tree string="Attendances">
+                <field name="employee_id"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="location_name" optional="show"/>
+                <field name="check_in_mode" optional="show"/>
+                <field name="check_out_mode" optional="show"/>
+                <field name="worked_hours" widget="float_time" optional="show"/>
+                <field name="extra_hours" widget="float_time" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Inherit Search View -->
+    <record id="hr_attendance_view_search_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.search.inherit</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="location_name"/>
+                <field name="check_in_mode"/>
+                <field name="check_out_mode"/>
+                <separator/>
+                <filter string="Manual Check-in" name="manual_check_in" domain="[('check_in_mode', '=', 'manual')]"/>
+                <filter string="Portal Check-in" name="portal_check_in" domain="[('check_in_mode', '=', 'portal')]"/>
+                <filter string="Kiosk Check-in" name="kiosk_check_in" domain="[('check_in_mode', '=', 'kiosk')]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Create new action -->
+    <record id="action_hr_attendance_view" model="ir.actions.act_window">
+        <field name="name">Attendances</field>
+        <field name="res_model">hr.attendance</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_id" ref="view_attendance_tree"/>
+        <field name="search_view_id" ref="hr_attendance.hr_attendance_view_filter"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No attendance records found
+            </p>
+        </field>
+    </record>
+
+    <!-- Add menu item -->
+    <menuitem id="menu_hr_attendance_view"
+              name="Attendance Records"
+              parent="hr_attendance.menu_hr_attendance_root"
+              action="action_hr_attendance_view"
+              sequence="10"/>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="TimesheetCheckInOutButtons">
+    <t t-if="task_id">
+        <button 
+            type="button"
+            class="btn btn-success"
+            t-on-click="() => checkInOut('in')">
+            Check-In
+        </button>
+        <button 
+            type="button"
+            class="btn btn-danger"
+            t-on-click="() => checkInOut('out')">
+            Check-Out
+        </button>
+    </t>
+</t>
+
+    <t t-name="bista_timesheet_attendance.LocationLatLngCA" >
+        <div class="o_widget_lat_lng">
+            <div class="d-block">
+                <button
+                    t-attf-class="btn #{props.classList ? props.classList : 'btn-primary'} o_get_location"
+                    t-on-click="_onClickGetLocation"
+                    t-att-disabled="props.readonly">
+                <i class="fa fa-map-marker"/> <t t-esc="props.string"/>
+            </button>
+        </div>
+            <!-- <div t-if="state.showMap" class="d-block o_google_map">
+                <t t-if="state.latitude and state.longitude">
+                    <iframe t-attf-src="https://maps.google.com/maps?output=embed&amp;q={{state.latitude}},{{state.longitude}}"
+                            t-att-width="props.mapWidth" 
+                            t-att-height="props.mapHeight"
+                            style="border:0;"
+                            allowfullscreen="" 
+                            loading="lazy">
+                    </iframe>
+                </t>
+            </div> -->
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_drug_initials_form" model="ir.ui.view">
+        <field name="name">view.drug.initials.form</field>
+        <field name="model">drug.initials</field>
+        <field name="arch" type="xml">
+            <form string="Drug Initials">
+                <sheet>
+                    <group name="drug_doses_schedule_data">
+                        <group name="group_1">
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_drug_initials_tree" model="ir.ui.view">
+        <field name="name">view.drug.initials.tree</field>
+        <field name="model">drug.initials</field>
+        <field name="arch" type="xml">
+            <tree string="Drug Initials">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_drug_initials_search" model="ir.ui.view">
+        <field name="name">view.drug.initials.search</field>
+        <field name="model">drug.initials</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_drug_initials" model="ir.actions.act_window">
+        <field name="name">Drug Not Administered</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">drug.initials</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_drug_initials_tree"/>
+        <field name="search_view_id" ref="view_drug_initials_search"/>
+    </record>
+
+</odoo>

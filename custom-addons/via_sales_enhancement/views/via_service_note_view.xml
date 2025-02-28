@@ -1,0 +1,174 @@
+<odoo>
+
+    <record id="via_service_note_tree_view" model="ir.ui.view">
+        <field name="name">via.service.note.tree.view</field>
+        <field name="model">via.service.note</field>
+        <field name="arch" type="xml">
+            <tree string="VIA Service Note">
+                <field name="project_id"/>
+                <field name="task_id"/>
+                <field name="via_attendance_line_id" invisible="1"/>
+                <field name="partner_id"/>
+                <field name="company_id" invisible="1" force_save="1" readonly="1"/>
+                <field name="create_date" string="Date"/>
+                <field name="outcome_phrase" string="Description"/>
+                <field name="reason_for_outcome" invisible="1"/>
+                <field name="outcome_statement" invisible="1"/>
+                <field name="actions_taken" invisible="1"/>
+                <field name="progress_status" invisible="1"/>
+                <field name="survey_answer"/>
+                <field name="note"/>
+                <field name="employee_id"/>
+                <field name="isp_id" invisible="1"/>
+                <field name="user_id" invisible="1"/>
+                <field name="project_manager_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="via_service_note_form_view" model="ir.ui.view">
+        <field name="name">via.service.note.form.view</field>
+        <field name="model">via.service.note</field>
+        <field name="arch" type="xml">
+            <form string="VIA Service Note">
+                <header>
+                    <button 
+                        name="service_note_action_approve"
+                        invisible='state != "draft" or not is_current_manager_user'
+                        string='Approve'
+                        groups='via_sales_enhancement.group_service_note_admin'
+                        class='oe_highlight'
+                        type='object'/>
+                    
+                    <field name='state' widget='statusbar'/>
+                    <field name='project_manager_id' invisible='1'/>
+                    <field name='is_current_manager_user' invisible='1'/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name='project_id'/>
+                            <field name='task_id'/>
+                            <field name='via_attendance_line_id' invisible='1'/>
+                            <field name='partner_id' invisible='1'/>
+                            <field 
+                                name='company_id' 
+                                invisible='1' 
+                                force_save='1' 
+                                readonly='1'/>
+                            <field string='Date' name='create_date'/>
+                            <field string='Description' name='outcome_phrase'/>
+                            <field name='reason_for_outcome' invisible='1'/>
+                            <field name='outcome_statement' invisible='1'/>
+                            <field name='actions_taken' invisible='1'/>
+                            <field name='progress_status' invisible='1'/>
+                            <field name='survey_answer'/>
+                            <field name='note'/>
+                            <field name='employee_id'/>
+                            <field name='isp_id' invisible='1'/>
+                            <field name='user_id' invisible='1'/>
+                            <field name='is_current_manager_user' invisible='1'/>
+                        </group>
+                        <group>
+                            <field 
+                                name='partner_id' 
+                                string="Name of Person Supported"/>
+                            <field name='ma_number'/>
+                            <field name='mci_number'/>
+                            <field 
+                                name='service_delivery_date' 
+                                required='state == "draft"'/>
+                            
+                            <label for="start_time" string="Start/End Time"/>
+                            <div class="o_row">
+                                <field 
+                                    name='start_time' 
+                                    widget='float_time' 
+                                    required='state == "draft"'/>
+                                <field 
+                                    name='end_time' 
+                                    widget='float_time' 
+                                    required='state == "draft"'/>
+                            </div>
+                            
+                            <field 
+                                name='approved_date' 
+                                readonly='1' 
+                                force_save="1"/>
+                            <field 
+                                name='approved_by' 
+                                readonly='1' 
+                                force_save="1"/>
+                            
+                            <!-- Required fields based on state -->
+                            <field 
+                                name="location" 
+                                required="state == 'draft'"/>
+                            <field 
+                                name="score" 
+                                required="state == 'draft'"/>
+                            
+                            <!-- Optional fields -->
+                            <field name="identity_name"/>
+                            <field 
+                                name="signature" 
+                                widget="signature"/>
+                            
+                            <!-- Required fields based on state -->
+                            <field 
+                                name="description_of_activities" 
+                                required="state == 'draft'"/>
+                            <field 
+                                name="comment" 
+                                required="state == 'draft'"/>
+                            <field 
+                                name="billable" 
+                                required="state == 'draft'"/>
+                        </group>
+                    </group>
+                </sheet>
+                <!-- Chatter section for messages and followers -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_via_service_note_search" model="ir.ui.view">
+        <field name="name">view.via.service.note.search</field>
+        <field name="model">via.service.note</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="project_id"/>
+                <field name="task_id"/>
+                <field name="partner_id"/>
+                <field name="note"/>
+                <field name="outcome_phrase" string="Description"/>
+                <field name="user_id"/>
+                <field name="employee_id"/>
+                <group string="Group By">
+                    <filter name="group_by_partner_id" string="Patient's Name" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_by_employee_id" string="Employee's Name" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_by_task_id" string="Task" context="{'group_by': 'task_id'}"/>
+                    <filter name="group_by_project_id" string="Project" context="{'group_by': 'project_id'}"/>
+                    <filter name="group_by_outcome_phrase" string="Outcome Phrase" context="{'group_by': 'outcome_phrase'}"/>
+                    <filter name="group_by_create_date" string="Date" context="{'group_by': 'create_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_via_service_note" model="ir.actions.act_window">
+        <field name="name">Service Notes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">via.service.note</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_via_service_note_search"/>
+    </record>
+
+    <menuitem action="action_via_service_note" id="menu_via_service_note" name="Service Note" parent="project.menu_project_config" sequence="25"/>
+
+</odoo>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_container_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <t t-set="address">
+                        <div t-field="doc.partner_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                        <p t-if="doc.partner_id.vat">
+                            <t t-if="doc.company_id.account_fiscal_country_id.vat_label"
+                                t-out="doc.company_id.account_fiscal_country_id.vat_label" />
+                <t
+                                t-else="">Tax ID</t>: <span t-field="doc.partner_id.vat" />
+                        </p>
+                    </t>
+                    <div class="page">
+                        <div class="oe_structure" />
+                        <h2 class="mt-4">
+                            <span>All Container Costs for Sale Order # </span>
+                            <span t-field="doc.name">SO0000</span>
+                        </h2>
+                        <table class="table table-sm mt-4">
+                            <thead style="display: table-row-group; ">
+                                <tr style="border: none;">
+                                    <th name="th_description"
+                                        style="border: 1px solid white; border-top:2px solid #3e7157"
+                                        class="text-start"
+                                        >
+                                        <strong style="color:black">Product</strong>
+                                    </th>
+                                    <th name="th_price_unit"
+                                        style="border: 1px solid white; border-top:2px solid #3e7157"
+                                        class="text-start">
+                                        <strong style="color:black">Description</strong>
+                                    </th>
+                                    <th name="th_quantity"
+                                        style="border: 1px solid white; border-top:2px solid #3e7157"
+                                        class="text-end">
+                                        <strong style="color:black">Qty</strong>
+                                    </th>
+                                    <th name="th_quantity"
+                                        style="border: 1px solid white; border-top:2px solid #3e7157"
+                                        class="text-end">
+                                        <strong style="color:black">Unit Price</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tbody>
+                                    <t t-foreach="doc.sale_order_option_ids" t-as="line">
+
+                                        <tr
+                                            style="border-top:2px solid #3e7157 !important">
+
+                                            <td style="border: 1px solid white;"
+                                                id="product">
+
+                                                <span t-field="line.product_id" />
+                                            </td>
+                                            <td style="border: 1px solid white;"
+                                                id="product">
+
+                                                <span t-field="line.name" />
+                                            </td>
+                                            <td style="border: 1px solid white;"
+                                                class="text-end">
+                                                <span t-field="line.quantity">3</span>
+                                            </td>
+                                            <td style="border: 1px solid white;"
+                                                class="text-end">
+                                                <span t-field="line.price_unit" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <!-- Total Row -->
+                                    <tr style="border-top: 2px solid #3e7157; font-weight: bold;">
+                                        <td colspan="4" class="text-end"
+                                            style="border: 1px solid white;">
+                                            <strong>Total:</strong>
+                                        </td>
+                                        <td class="text-end" style="border: 1px solid white;">
+                                            <!-- Sum of all service product subtotals -->
+                                            <span
+                                                t-esc="sum(line.price_unit for line in doc.sale_order_option_ids)" />
+                                        </td>
+                                        <td style="border: 1px solid white;"></td> <!-- Empty cell
+                                        for alignment -->
+                                    </tr>
+                                </tbody>
+                            </tbody>
+                        </table>
+                        <h2 class="mt-4">
+                            <span>Individial Container Costs for Sale Order # </span>
+                            <span t-field="doc.name">SO0000</span>
+                        </h2>
+                        <table class="table table-sm mt-4">
+                            <thead style="display: table-row-group; ">
+                                <tr style="border: none;">
+                                    <th
+                                        style="border: 1px solid white; border-top:2px solid #3e7157"
+                                        name="th_product"
+                                        class="text-start">
+                                        <strong style="color:black">Product</strong>
+                                    </th>
+                                    <th
+                                        style="border: 1px solid white; border-top:2px solid #3e7157"
+                                        name="th_cntr_no"
+                                        class="text-end">
+                                        <strong style="color:black">Cntr No</strong>
+                                    </th>
+                                    <th
+                                        style="border: 1px solid white; border-top:2px solid #3e7157"
+                                        name="th_seal_no"
+                                        class="text-end">
+                                        <strong style="color:black">Seal No</strong>
+                                    </th>
+                                    <th
+                                        style="border: 1px solid white; border-top:2px solid #3e7157"
+                                        name="th_name"
+                                        class="text-end">
+                                        <strong style="color:black">Sz/Ty</strong>
+                                    </th>
+                                    
+                                    <th name="th_weight"
+                                        style="border: 1px solid white; border-top:2px solid #3e7157"
+                                        class="text-end">
+                                        <strong style="color:black">Packaging Qty</strong>
+                                    </th>
+                                    <th name="th_weight"
+                                        style="border: 1px solid white; border-top:2px solid #3e7157"
+                                        class="text-end">
+                                        <strong style="color:black">Packaging Type</strong>
+                                    </th>
+                                    <th name="th_weight"
+                                        style="border: 1px solid white; border-top:2px solid #3e7157"
+                                        class="text-end">
+                                        <strong style="color:black">Weight(Kg)</strong>
+                                    </th>
+                                    <th name="th_costs"
+                                        style="border: 1px solid white; border-top:2px solid #3e7157"
+                                        class="text-end">
+                                        <strong style="color:black">Cost</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tbody>
+                                    <t t-foreach="doc.container_line_ids" t-as="line">
+                                        <tr
+                                            style="border-top:2px solid #3e7157 !important"
+                                        >
+                                            <td class="text-start"
+                                                style="border: 1px solid white;">
+                                                <span t-field="line.product_id" />
+                                            </td>
+                                            <td class="text-end"
+                                                style="border: 1px solid white;">
+                                                <span t-field="line.cont_no" />
+                                            </td>
+                                            <td class="text-end"
+                                                style="border: 1px solid white;">
+                                                <span t-field="line.seal_no" />
+                                            </td>
+                                            <td style="border: 1px solid white;"
+                                                id="name">
+                                                <span t-field="line.name" />
+                                            </td>
+                                            
+                                            <td class="text-end" style="border: 1px solid white;">
+                                                <span t-field="line.package_quantity">-</span>
+                                            </td>
+                                            <td class="text-end" style="border: 1px solid white;">
+                                                <span t-field="line.packaging_uom">-</span>
+                                            </td>
+                                            
+                                            <td class="text-end" style="border: 1px solid white;">
+                                                <span t-field="line.product_weight">-</span>
+                                            </td>
+                                            <td style="border: 1px solid white;"
+                                                class="text-end">
+                                                <span t-field="line.costs" />
+                                            </td>
+
+                                        </tr>
+
+                                    </t>
+
+                                    <tr style="border-top: 2px solid #3e7157; font-weight: bold;"
+                                        class="text-end">
+                                        <td colspan="4" class="text-end"
+                                            style="border: 1px solid white;">
+                                            <strong>Total:</strong>
+                                        </td>
+                                        
+                                        <td class="text-end" style="border: 1px solid white;">
+                                            <!-- Sum of all costs -->
+                                            <span
+                                                t-esc="sum(line.package_quantity for line in doc.container_line_ids)" />
+                                        </td>
+                                        <td style="border: 1px solid white;"></td> <!-- Empty cell
+                                        for alignment -->
+                                        <td class="text-end" style="border: 1px solid white;">
+                                            <!-- Sum of all weights -->
+                                            <span
+                                                t-esc="sum(line.product_weight for line in doc.container_line_ids)" />
+                                        </td>
+                                        <td class="text-end" style="border: 1px solid white;">
+                                            <!-- Sum of all costs -->
+                                            <span
+                                                t-esc="sum(line.costs for line in doc.container_line_ids)" />
+                                        </td>
+                                        
+                                    </tr>
+                                </tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

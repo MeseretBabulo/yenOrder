@@ -1,0 +1,17 @@
+<odoo>
+
+     <record id="sales_setting_extend" model="ir.ui.view">
+            <field name="name">sales_approval_setting</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//setting[@id='proforma_configuration']" position="after">
+                    <setting id="sales_approval" help="Determine the amount of person that will approve a sale.">
+                        <field name="sales_approval"/>
+                    </setting>
+                </xpath>
+            </field>
+    </record>
+
+
+</odoo>

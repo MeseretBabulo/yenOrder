@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_delay_reason_wizard" model="ir.actions.act_window">
+        <field name="name">Delay Reason</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">delay.reason.wizard</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <record id="delay_reason_wizard_form_view" model="ir.ui.view">
+        <field name="name">delay.reason.wizard.form.view</field>
+        <field name="model">delay.reason.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Delay Reason">
+                <sheet>
+                    <group>
+                        <field name="delay_reason"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Save" name="save_delay_reason" type="object" class='btn-primary'/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

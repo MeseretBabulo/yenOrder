@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_attendance_confirm_message_wizard" model="ir.actions.act_window">
+        <field name="name">Attendance Confirm Message</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">attendance.confirm.message.wizard</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <record id="attendance_confirm_message_wizard_form_view" model="ir.ui.view">
+        <field name="name">attendance.confirm.message.form.view</field>
+        <field name="model">attendance.confirm.message.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Attendance Confirm Message Wizard">
+                <sheet>
+                    <group>
+                        <field name="msg_description" widget="html" readonly="1" force_save="1"/>
+<!--                        <field name="is_agree"/>-->
+                        <field name="via_atten_line_id" invisible="1"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="temperature"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Agree" name="confirm_with_term_condition" type="object" class='btn-primary pull-right'/>
+                    <button string="Disagree" name="disagree_term_condition" type="object" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

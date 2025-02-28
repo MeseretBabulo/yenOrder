@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="planning_slot_template_form_inherit" model="ir.ui.view">
+            <field name="name">planning_slot.form.inherit</field>
+            <field name="model">planning.slot.template</field>
+            <field name="inherit_id" ref="planning.planning_slot_template_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='role_id']" position="before">
+                    <field name="resource"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

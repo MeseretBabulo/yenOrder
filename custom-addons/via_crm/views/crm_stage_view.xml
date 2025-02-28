@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_crm_stage_inherit_extra_fields" model="ir.ui.view">
+        <field name="name">view.crm.stage.inherit.extra.fields</field>
+        <field name="model">crm.stage</field>
+        <field name="inherit_id" ref="crm.crm_stage_form" />
+        <field name="arch" type="xml">
+            <!-- Stage view fields-->
+
+            <xpath expr="//sheet/group/field[@name='team_count']" position="before">
+                <group name="field_visibility_condition">
+                    <field name="stage_type"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

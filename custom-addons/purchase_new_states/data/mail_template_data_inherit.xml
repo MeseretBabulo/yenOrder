@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- <data noupdate="0"> -->
+    <!-- Make the email template updatable -->
+    <function name="write" model="ir.model.data">
+        <function name="search" model="ir.model.data">
+            <value
+                eval="[('name', '=', 'email_template_edi_purchase_done'), ('module', '=', 'purchase')]" />
+        </function>
+        <value eval="{'noupdate': False}" />
+    </function>
+
+    <!-- Modify the email template -->
+    <record id="purchase.email_template_edi_purchase_done" model="mail.template">
+        <field name="name">Purchase: Sending</field>
+        <field name="model_id" ref="purchase.model_purchase_order" />
+        <field name="subject">Purchase Order (Ref {{ object.name or 'n/a' }}) Confirmation from {{object.company_id.name }}</field>
+
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;"> Dear <t
+                        t-out="object.partner_id.name or ''">Brandon Freeman</t>
+        <t
+                        t-if="object.partner_id.parent_id"> (<t
+                            t-out="object.partner_id.parent_id.name or ''">Azure Interior</t>) </t>
+        <br /><br />
+                    Attached is Purchase Order <span style="font-weight:bold;"
+                        t-out="object.name or ''">P00015</span>
+        <t t-if="object.partner_ref"> with
+                    reference: <t t-out="object.partner_ref or ''">REF_XXX</t>
+                    </t>
+                    amounting to <span style="font-weight:bold;"
+                        t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 10.00</span>
+                    from <t t-out="object.company_id.name or ''">YourCompany</t>. <br /><br /> This
+                    order has been initiated with a quantity of <t t-foreach="object.order_line"
+                        t-as="line">
+                        <span>
+                            <t
+                                t-if="line.id == object.order_line[-1].id">
+                                and
+                            </t>
+                        <t
+                                t-out="line.name"></t> for quantity <t t-out="line.product_qty"></t>
+                    <t
+                                t-if="line.id == object.order_line[-1].id">
+                                .
+                            </t><t
+                                t-else="">
+                                ,
+                            </t>
+                        </span>
+                    </t>
+                    <br></br>
+                    <t
+                        t-if="object.is_direct_purchase">
+                        <span> We kindly request your confirmation of receipt of this order.</span>
+                    </t>
+                        <t
+                        t-else=""> To facilitate the invoicing process, we kindly request you to
+                    provide the following required documents at your earliest convenience: <ul>
+                            <li>Certificate of Origin</li>
+                            <li>Packing List</li>
+                            <li>Shipping Manifest</li>
+                            <li>Bill of Lading</li>
+                        </ul>
+       <span>Please confirm
+                    receipt
+                            of this order and provide the necessary documents to proceed. Let us
+                    know if you
+                            require any further information.</span>
+                    </t>
+
+                    
+        <t
+                        t-if="not is_html_empty(object.user_id.signature)">
+                        <br />
+                        <br />
+
+
+                        <t t-out="object.user_id.signature or ''">--<br />Mitchell Admin</t>
+                    </t>
+        <br /><br />
+                </p>
+            </div>
+        </field>
+
+    </record>
+
+    <!-- Set the email template back to non-updatable -->
+    <function name="write" model="ir.model.data">
+        <function name="search" model="ir.model.data">
+            <value
+                eval="[('name', '=', 'email_template_edi_invoice'), ('module', '=', 'account')]" />
+        </function>
+        <value eval="{'noupdate': True}" />
+    </function>
+    <!-- </data> -->
+    <data>
+        <record id="purchase.action_report_purchase_order" model="ir.actions.report">
+            <field name="print_report_name">'Purchase Order - %s' % (object.name)</field>
+        </record>
+    </data>
+
+</odoo>

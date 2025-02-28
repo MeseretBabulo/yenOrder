@@ -1,0 +1,31 @@
+<odoo>
+    <record model="ir.ui.view" id="hr_payslip_run_inherit_form_view">
+        <field name="name">hr.payslip.run</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+        <field name="arch" type="xml">
+    
+            <xpath expr="//form/sheet" position="inside">
+            <notebook>
+                <page string="Responsible Person" name="responsible_person">
+                    <group>
+                        <group>
+                            <field name="to"/>
+                            <field name="subject"/>
+                        </group>
+                        <group>
+                            <field name="print_date"/>
+                            <field name="ref"/>
+                            <field name="perpared"/>
+                            <field name="checked"/>
+                            <field name="approved"/>
+                        </group>
+                        <field name="body" type="html" options="{'collaborative': true, 'resizable': false}" placeholder="Add details on the bank report..."/>
+                    </group>
+                </page>
+                </notebook>
+            </xpath>
+        
+        </field>
+    </record>
+</odoo>
