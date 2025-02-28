@@ -1,0 +1,117 @@
+name: Deploy to Remote Server
+
+on:
+  push:
+    branches:
+      - staging
+  pull_request:
+    types: [closed]
+    branches:
+      - staging
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true || github.event_name == 'push'
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.yen_order }}
+        name: id_rsa
+        known_hosts: '147.93.95.50'
+        if_key_exists: fail
+
+    - name: SSH and Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: '147.93.95.50'
+        username: root
+        key: ${{ secrets.yen_order }}
+        port: 22
+        debug: true
+        script: |
+          cd /opt/yenOrder
+          
+          echo "Checking for existing git processes..."
+          ps aux | grep git
+          
+          echo "Cleaning up git lock files..."
+          find .git -name "*.lock" -delete
+          
+          echo "Current git status:"
+          git status || true
+          
+          echo "Updating repository..."
+          git config pull.rebase false
+          
+          # Switch to staging branch
+          git checkout staging
+          
+          # Stash any local changes
+          git stash
+          
+          # Pull changes from staging branch
+          git pull origin staging
+          
+          # Reapply local changes if any
+          git stash pop || true
+          
+          # Ensure Docker daemon is running with longer timeout
+          if ! systemctl is-active --quiet docker; then
+            systemctl start docker
+            sleep 20
+          fi
+          
+          # Docker commands with improved error handling
+          if command -v docker-compose &> /staging/null; then
+            COMPOSE_CMD="docker-compose"
+          else
+            COMPOSE_CMD="docker compose"
+          fi
+          
+          echo "Stopping containers..."
+          $COMPOSE_CMD down --timeout 180 || true  # Increased timeout, continue on error
+          
+          # Docker cleanup and restart
+          # echo "Cleaning up Docker resources..."
+          # $COMPOSE_CMD down --timeout 180 --remove-orphans || true
+          
+          # More aggressive Docker network cleanup
+          echo "Cleaning up Docker networks..."
+          docker network ls | grep yenOrder | awk '{print $1}' | xargs -r docker network rm || true
+          docker network prune -f
+          
+          # Wait a moment for network cleanup
+          sleep 5
+          
+          echo "Listing current Docker networks..."
+          docker network ls
+          
+          echo "Starting containers..."
+          for i in {1..5}; do
+            echo "Attempt $i to start containers..."
+            if $COMPOSE_CMD up -d; then
+              echo "Containers started successfully"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 20
+            
+            # Additional cleanup between attempts
+            $COMPOSE_CMD down --timeout 180 --remove-orphans || true
+            docker network ls | grep yenOrder | awk '{print $1}' | xargs -r docker network rm || true
+            docker network prune -f
+            sleep 5
+            
+            if [ $i -eq 5 ]; then
+              echo "Failed to start containers after 5 attempts!"
+              docker ps -a
+              docker network ls
+              exit 1
+            fi
+          done
