@@ -103,12 +103,12 @@ jobs:
             sleep 20
             
             # Additional cleanup between attempts
-            $COMPOSE_CMD down --timeout 180 --remove-orphans || true
+            $COMPOSE_CMD down --remove-orphans || true
             docker network ls | grep yenOrder | awk '{print $1}' | xargs -r docker network rm || true
             docker network prune -f
             sleep 5
             
-            if [ $i -eq 5 ]; then
+            if [ $i -eq 5]; then
               echo "Failed to start containers after 5 attempts!"
               docker ps -a
               docker network ls
