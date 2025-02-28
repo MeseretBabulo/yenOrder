@@ -21,7 +21,7 @@ jobs:
     - name: Install SSH key
       uses: shimataro/ssh-key-action@v2
       with:
-        key: ${{ secrets.yen_order }}
+        key: ${{ secrets.YEN_ORDER }}
         name: id_rsa
         known_hosts: '147.93.95.50'
         if_key_exists: fail
@@ -31,7 +31,7 @@ jobs:
       with:
         host: '147.93.95.50'
         username: root
-        key: ${{ secrets.yen_order }}
+        key: ${{ secrets.YEN_ORDER }}
         port: 22
         debug: true
         script: |
